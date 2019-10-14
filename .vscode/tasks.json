@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build with CMake",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+			},
+			"command": "cmake",
+			"args": [
+				"--build",
+				".",
+				"--clean-first"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"focus": true,
+				"clear": true
+			}
+		}
+	]
+}

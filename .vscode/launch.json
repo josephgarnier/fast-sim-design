@@ -1,0 +1,29 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "(lldb) Launch",
+			"type": "cppdbg",
+			"request": "launch",
+			"preLaunchTask": "Build with CMake",
+			"program": "${workspaceFolder}/bin/fast-sim-design",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"avoidWindowsConsoleRedirection": false,
+			"MIMode": "lldb",
+			"logging": {
+				"exceptions": true,
+				"moduleLoad": true,
+				"programOutput": true,
+				"engineLogging": true,
+				"trace": true,
+				"traceResponse": true
+			},
+			"visualizerFile": "${workspaceFolder}/.vscode/default.natvis",
+			"showDisplayString": true
+		}
+	]
+}

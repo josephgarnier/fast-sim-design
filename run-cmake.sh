@@ -1,0 +1,59 @@
+# Copyright 2019-present, Joseph Garnier
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
+#!/bin/bash
+
+export PROJECT_NAME="fast-sim-design"
+export PROJECT_SUMMARY="A virtual environment for fast agent-based simulation design."
+export PROJECT_VENDOR_NAME="joseph-garnier"
+export PROJECT_VENDOR_CONTACT="garnjose@gmail.com"
+export PROJECT_VERSION_MAJOR="0"
+export PROJECT_VERSION_MINOR="1"
+export PROJECT_VERSION_PATCH="0"
+export GENERATOR="Unix Makefiles"
+export COMPILE_VERSION="17"
+export BUILD_TYPE="debug"
+export ASSERT_ENABLE="on"
+export BUILD_SHARED_LIBS="on"
+export BUILD_EXEC="on"
+export BUILD_TESTS="off"
+export BUILD_DOXYGEN_DOCS="off"
+
+declare -a CMAKE_FLAGS=()
+CMAKE_FLAGS+=("-DPARAM_PROJECT_NAME=${PROJECT_NAME}")
+CMAKE_FLAGS+=("-DPARAM_PROJECT_SUMMARY=${PROJECT_SUMMARY}")
+CMAKE_FLAGS+=("-DPARAM_PROJECT_VENDOR_NAME=${PROJECT_VENDOR_NAME}")
+CMAKE_FLAGS+=("-DPARAM_PROJECT_VENDOR_CONTACT=${PROJECT_VENDOR_CONTACT}")
+CMAKE_FLAGS+=("-DPARAM_PROJECT_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}")
+CMAKE_FLAGS+=("-DPARAM_PROJECT_VERSION_MINOR=${PROJECT_VERSION_MINOR}")
+CMAKE_FLAGS+=("-DPARAM_PROJECT_VERSION_PATCH=${PROJECT_VERSION_PATCH}")
+CMAKE_FLAGS+=("-DPARAM_GENERATOR=${GENERATOR}")
+CMAKE_FLAGS+=("-DPARAM_COMPILE_VERSION=${COMPILE_VERSION}")
+CMAKE_FLAGS+=("-DPARAM_BUILD_TYPE=${BUILD_TYPE}")
+CMAKE_FLAGS+=("-DPARAM_ASSERT_ENABLE=${ASSERT_ENABLE}")
+CMAKE_FLAGS+=("-DPARAM_BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}")
+CMAKE_FLAGS+=("-DPARAM_BUILD_EXEC=${BUILD_EXEC}")
+CMAKE_FLAGS+=("-DPARAM_BUILD_TESTS=${BUILD_TESTS}")
+CMAKE_FLAGS+=("-DPARAM_BUILD_DOXYGEN_DOCS=${BUILD_DOXYGEN_DOCS}")
+
+readonly WORKSPACE_PATH=`pwd`
+declare -r BUILD_PATH="${WORKSPACE_PATH}/build"
+declare -r CMAKE_PATH="${WORKSPACE_PATH}/cmake"
+declare -r SOLUTION_PATH="${BUILD_PATH}/${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}-${PROJECT_VERSION_MINOR}-${PROJECT_VERSION_PATCH}-linux"
+
+if [ ! -d ${SOLUTION_PATH} ]; then
+	mkdir "${SOLUTION_PATH}"
+fi
+
+cd "${SOLUTION_PATH}"
+cmake ${WORKSPACE_PATH} -G "${GENERATOR}" -DCMAKE_TOOLCHAIN_FILE="${CMAKE_PATH}/toolchains/Linux_clang.cmake" "${CMAKE_FLAGS[@]}"
+#cmake ${WORKSPACE_PATH} -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCOTIRE_VERBOSE=TRUE --trace-expand --debug-output -G "${GENERATOR}" -DCMAKE_TOOLCHAIN_FILE="${CMAKE_PATH}/toolchains/Linux_clang.cmake" "${CMAKE_FLAGS[@]}"
+if [ $? -eq 0 ]; then
+	echo -e "\nThe solution was successfully generated!"
+fi
+
+cd "${WORKSPACE_PATH}"
+exit $?
