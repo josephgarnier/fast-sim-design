@@ -2,10 +2,10 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(lldb) Launch",
+			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"preLaunchTask": "Build with CMake",
+			"preLaunchTask": "${defaultBuildTask}",
 			"program": "${workspaceFolder}/bin/fast-sim-design",
 			"args": [],
 			"stopAtEntry": false,
@@ -13,7 +13,7 @@
 			"environment": [],
 			"externalConsole": false,
 			"avoidWindowsConsoleRedirection": false,
-			"MIMode": "lldb",
+			"MIMode": "gdb",
 			"logging": {
 				"exceptions": true,
 				"moduleLoad": true,
