@@ -7,7 +7,7 @@
 ******************************************************************************/
 
 #include "main.h"
-#include "fast-sim-design_pch.h"
+#include "fast_sim_design_pch.h"
 #include "iostream"
 
 int main() {

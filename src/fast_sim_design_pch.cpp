@@ -6,4 +6,4 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast-sim-design_pch.h"
+#include "fast_sim_design_pch.h"
