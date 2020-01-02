@@ -1,0 +1,19 @@
+{
+	"files.associations": {
+		"qpoint": "cpp",
+		"qstack": "cpp",
+		"qstringbuilder": "cpp",
+		"qfileinfo": "cpp",
+		"qlatin1string": "cpp",
+		"stdexcept": "cpp",
+		"*.inc": "cpp",
+		"array": "cpp",
+		"string": "cpp",
+		"string_view": "cpp",
+		"any": "cpp",
+		"optional": "cpp",
+		"variant": "cpp",
+		"qmetaenum": "cpp",
+		"qtcore": "cpp"
+	}
+}

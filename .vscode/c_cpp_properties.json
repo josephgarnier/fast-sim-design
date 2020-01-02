@@ -3,14 +3,26 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/opt/Qt/5.12.6/Src/**",
+                "/opt/Qt/5.12.6/gcc_64/include/**",
+                "/opt/Qt/5.12.6/gcc_64/include"
             ],
-            "defines": [],
+            "defines": [
+                "clang"
+            ],
             "compilerPath": "/usr/bin/clang++",
             "cStandard": "c11",
             "intelliSenseMode": "clang-x64",
             "compileCommands": "",
-            "cppStandard": "c++17"
+            "cppStandard": "c++17",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "/opt/Qt/5.12.6/Src",
+                    "/opt/Qt/5.12.6/gcc_64/include"
+                ]
+            }
         }
     ],
     "version": 4
