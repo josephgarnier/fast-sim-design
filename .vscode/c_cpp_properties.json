@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/include/**",
                 "/opt/Qt/5.12.6/Src/**",
                 "/opt/Qt/5.12.6/gcc_64/include/**",
                 "/opt/Qt/5.12.6/gcc_64/include"
@@ -18,10 +19,12 @@
             "cppStandard": "c++17",
             "browse": {
                 "path": [
-                    "${workspaceFolder}",
+                    "${workspaceFolder}/src",
+                    "${workspaceFolder}/include",
                     "/opt/Qt/5.12.6/Src",
                     "/opt/Qt/5.12.6/gcc_64/include"
-                ]
+                ],
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
             }
         }
     ],

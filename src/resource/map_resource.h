@@ -12,7 +12,7 @@
 #define FAST_SIM_DESIGN_MAP_RESOURCE_H
 
 #include "resource.h"
-#include "maprenderer.h"
+#include "tield/maprenderer.h"
 
 namespace FastSimDesign {
 	class MapResource final : public Resource

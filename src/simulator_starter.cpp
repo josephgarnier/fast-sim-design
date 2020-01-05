@@ -91,7 +91,7 @@ int main(int argc, char const* argv[])
 
 	// --- Start the gui ---
 	QApplication a{argc, argv};
-	ExpTool::PlatformGui mainWindow{};
+	ExpTool::SimulatorGui mainWindow{};
 	mainWindow.show();
 	return a.exec();
 }

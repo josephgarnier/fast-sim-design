@@ -8,14 +8,14 @@
 
 #include "fast_sim_design_pch.h"
 #include "map_resource.h"
-#include "mapreader.h"
-#include "mapwriter.h"
-#include "objectgroup.h"
+#include "tield/mapreader.h"
+#include "tield/mapwriter.h"
+#include "tield/objectgroup.h"
 #include "resource_exception.h"
-#include "hexagonalrenderer.h"
-#include "isometricrenderer.h"
-#include "orthogonalrenderer.h"
-#include "staggeredrenderer.h"
+#include "tield/hexagonalrenderer.h"
+#include "tield/isometricrenderer.h"
+#include "tield/orthogonalrenderer.h"
+#include "tield/staggeredrenderer.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************

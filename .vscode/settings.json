@@ -14,6 +14,13 @@
 		"optional": "cpp",
 		"variant": "cpp",
 		"qmetaenum": "cpp",
-		"qtcore": "cpp"
+		"qtcore": "cpp",
+		"qvector2d": "cpp",
+		"qpointf": "cpp",
+		"qvector": "cpp",
+		"qsharedpointer": "cpp",
+		"cmath": "cpp",
+		"qrectf": "cpp",
+		"qobject": "cpp"
 	}
 }

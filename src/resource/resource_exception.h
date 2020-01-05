@@ -28,10 +28,9 @@ namespace FastSimDesign {
 
 		virtual char const* what() const noexcept override;
 
+	protected:
 	private:
 		char const* m_pWhatMessage;
-
-	protected:
 	};
 }
 #endif
