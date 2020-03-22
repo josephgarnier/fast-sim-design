@@ -1,61 +1,72 @@
-#! Function for debuging.
-#
-# Usage:
-#
-#	dump_variables(
-#		EXCLUDE_REGEX [ext1 [ext2 [ext3 ...]]])
-#
-#
-# Arguments:
-#
-#	\group:EXCLUDE_REGEX: specifies a regular expression that the file names
-#	(without path) must be excluded of displaying.
-#
-#
-# Requires these CMake modules:
-#
-#	None
-#
-# Requires CMake 3.12 or newer
-#
-#
-# Licence:
-#
 # Copyright 2019-present, Joseph Garnier
 # All rights reserved.
 #
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-cmake_minimum_required (VERSION 3.12)
+#[=======================================================================[.rst:
 
-macro(dump_variables)
-	set(options "")
-	set(oneValueArgs EXCLUDE_REGEX)
-	set(multiValueArgs "")
-	cmake_parse_arguments(DV "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-	if(DV_UNPARSED_ARGUMENTS)
-      message(FATAL_ERROR "Unrecognized arguments: \"${DV_UNPARSED_ARGUMENTS}\"")
+Debug
+-----
+Operations for helping with debug. It requires CMake 3.16 or newer.
+
+Synopsis
+^^^^^^^^
+.. parsed-literal::
+
+    debug(`DUMP_VARIABLES`_ [EXCLUDE_REGEX <regular-expression>])
+
+Usage
+^^^^^
+.. _DUMP_VARIABLES:
+.. code-block:: cmake
+
+  debug(DUMP_VARIABLES [EXCLUDE_REGEX <regular-expression>])
+
+Disaply all CMake variables except those that match with the optional 
+``<regular-expression>`` parameter.
+
+#]=======================================================================]
+cmake_minimum_required (VERSION 3.16)
+include(CMakePrintHelpers)
+
+#------------------------------------------------------------------------------
+# Public function of this module.
+function(debug)
+	set(options DUMP_VARIABLES)
+	set(one_value_args EXCLUDE_REGEX)
+	set(multi_value_args "")
+	cmake_parse_arguments(DB "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
+	if(DB_UNPARSED_ARGUMENTS)
+		message(FATAL_ERROR "Unrecognized arguments: \"${DB_UNPARSED_ARGUMENTS}\"")
 	endif()
 
-	get_cmake_property(variableNames VARIABLES)
-	list (SORT variableNames)
-	foreach (variableName ${variableNames})
-		if(NOT variableName MATCHES "${DV_EXCLUDE_REGEX}")
-			message(STATUS "${variableName}= ${${variableName}}")
-		endif()
-	endforeach()
-endmacro()
+	if(DEFINED DB_DUMP_VARIABLES)
+		get_cmake_property(variable_names VARIABLES)
+		list(SORT variable_names)
+		foreach (variable_name IN ITEMS ${variable_names})
+			if((NOT DB_EXCLUDE_REGEX) OR (NOT "${variable_name}" MATCHES "${DB_EXCLUDE_REGEX}"))
+				message(STATUS "${variable_name}= ${${variable_name}}")
+			endif()
+		endforeach()
+	else()
+		message(FATAL_ERROR "Operation argument is missing")
+	endif()
+endfunction()
 
-get_cmake_property(variableNames VARIABLES)
-list (SORT variableNames)
-foreach (variableName ${variableNames})
-	#if(NOT variableName MATCHES "CMAKE_")
-		message(STATUS "${variableName}= ${${variableName}}")
-	#endif()
-endforeach()
+#------------------------------------------------------------------------------
+# Some usefull cmake functions
+#------------------------------------------------------------------------------
 
-#include(CMakePrintHelpers)
-#cmake_print_variables(CMAKE_C_COMPILER CMAKE_MAJOR_VERSION DOES_NOT_EXIST)
+# For printing properties and variables (see https://cmake.org/cmake/help/latest/module/CMakePrintHelpers.html
+# and https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html)
+#cmake_print_properties([TARGETS target1 ..  targetN]
+#	[SOURCES source1 .. sourceN]
+#	[DIRECTORIES dir1 .. dirN]
+#	[TESTS test1 .. testN]
+#	[CACHE_ENTRIES entry1 .. entryN]
+#	PROPERTIES prop1 .. propN )
+#cmake_print_variables(var1 var2 ..  varN)
+
+# For printing system information (see https://cmake.org/cmake/help/latest/module/CMakePrintSystemInformation.html)
 #include(CMakePrintSystemInformation)
-#variable_watch(PROJECT_NAME)
