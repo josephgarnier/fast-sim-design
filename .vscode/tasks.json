@@ -10,15 +10,17 @@
 			"command": "./clean-cmake.sh && sleep 3s && ./run-cmake.sh",
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "Build",
 			"type": "shell",
 			"options": {
-				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+				"cwd": "${workspaceFolder}/build"
 			},
 			"command": "cmake --build . --clean-first",
 			"group": {
@@ -27,82 +29,94 @@
 			},
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "Install",
 			"type": "shell",
 			"options": {
-				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+				"cwd": "${workspaceFolder}/build"
 			},
 			"command": "sudo cmake --build . --target install",
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "Uninstall",
 			"type": "shell",
 			"options": {
-				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+				"cwd": "${workspaceFolder}/build"
 			},
 			"command": "sudo cmake --build . --target uninstall",
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "Documentation",
 			"type": "shell",
 			"options": {
-				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+				"cwd": "${workspaceFolder}/build"
 			},
 			"command": "cmake --build . --target docs",
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "CPack Binary",
 			"type": "shell",
 			"options": {
-				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+				"cwd": "${workspaceFolder}/build"
 			},
-			"command": "cpack --config CPackConfig.cmake && sleep 3s && rm -rf ../../bin/_CPack_Packages",
+			"command": "cpack --config CPackConfig.cmake && sleep 3s && rm -rf ../bin/_CPack_Packages",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		},
 		{
 			"label": "CPack Sources",
 			"type": "shell",
 			"options": {
-				"cwd": "${workspaceFolder}/build/fast-sim-design-0-1-0-linux"
+				"cwd": "${workspaceFolder}/build"
 			},
-			"command": "cpack --config CPackSourceConfig.cmake && sleep 3s && rm -rf ../../bin/_CPack_Packages",
+			"command": "cpack --config CPackSourceConfig.cmake && sleep 3s && rm -rf ../bin/_CPack_Packages",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
 			"presentation": {
 				"reveal": "always",
+				"panel": "dedicated",
 				"focus": true,
 				"clear": true
-			}
+			},
+			"problemMatcher": []
 		}
 	]
 }
