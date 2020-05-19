@@ -5,6 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/src/**",
                 "${workspaceFolder}/include/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/build/src",
+                "${workspaceFolder}/build/src/**",
                 "/opt/Qt/5.12.6/Src/**",
                 "/opt/Qt/5.12.6/gcc_64/include/**",
                 "/opt/Qt/5.12.6/gcc_64/include"
@@ -21,6 +24,7 @@
                 "path": [
                     "${workspaceFolder}/src",
                     "${workspaceFolder}/include",
+                    "${workspaceFolder}/build/src",
                     "/opt/Qt/5.12.6/Src",
                     "/opt/Qt/5.12.6/gcc_64/include"
                 ],
