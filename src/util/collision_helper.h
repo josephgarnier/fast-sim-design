@@ -24,9 +24,9 @@ namespace FastSimDesign {
 		explicit CollisionHelper() = delete; // Default constructor
 		explicit CollisionHelper(Tiled::TileLayer const* const pCollisionLayer) noexcept;
 		CollisionHelper(CollisionHelper const&) = delete; // Copy constructor
-		CollisionHelper(CollisionHelper&&) = default; // Move constructor
+		CollisionHelper(CollisionHelper&&) = delete; // Move constructor
 		CollisionHelper& operator=(CollisionHelper const&) = delete; // Copy assignment operator
-		CollisionHelper& operator=(CollisionHelper&&) = default; // Move assignment operator
+		CollisionHelper& operator=(CollisionHelper&&) = delete; // Move assignment operator
 		virtual ~CollisionHelper() = default; // Destructor
 
 		bool isWalkableTileDestination(AxisAlignedBB const& oBoundingBox, QVector2D const& oDistanceOffset) const noexcept;

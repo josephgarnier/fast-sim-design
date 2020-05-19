@@ -30,8 +30,8 @@ namespace FastSimDesign {
 		};
 
 		explicit WorldInfoModel(QObject* pParent = Q_NULLPTR) noexcept; // Default constructor
-		WorldInfoModel(WorldInfoModel&&) = default; // Move constructor
-		WorldInfoModel& operator=(WorldInfoModel&&) = default; // Move assignment operator
+		WorldInfoModel(WorldInfoModel&&) = delete; // Move constructor
+		WorldInfoModel& operator=(WorldInfoModel&&) = delete; // Move assignment operator
 		virtual ~WorldInfoModel() = default; // Destructor
 
 		virtual int rowCount(QModelIndex const& oParent = QModelIndex{}) const noexcept override;

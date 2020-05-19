@@ -35,8 +35,8 @@ namespace FastSimDesign {
 
 	public:
 		explicit World(Tiled::MapRenderer const* const pMapRenderer, Tiled::Map* const pMap, Tiled::TileLayer* const pCollisionLayer, QObject* pParent = Q_NULLPTR) noexcept;
-		World(World&&) = default; // Move constructor
-		World& operator=(World&&) = default; // Move assignment operator
+		World(World&&) = delete; // Move constructor
+		World& operator=(World&&) = delete; // Move assignment operator
 		virtual ~World() noexcept; // Destructor
 
 		void init() noexcept;

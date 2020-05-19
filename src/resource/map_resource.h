@@ -34,8 +34,8 @@ namespace FastSimDesign {
 		Q_ENUM(TiledObjectType)
 
 		explicit MapResource(QFileInfo oFilePath, QObject* pParent = Q_NULLPTR); // throw ResourceException
-		MapResource(MapResource&&) = default; // Move constructor
-		MapResource& operator=(MapResource&&) = default; // Move assignment operator
+		MapResource(MapResource&&) = delete; // Move constructor
+		MapResource& operator=(MapResource&&) = delete; // Move assignment operator
 		virtual ~MapResource() = default; // Destructor
 
 		inline Tiled::Map* getMap() const noexcept { return m_oMap.data(); }

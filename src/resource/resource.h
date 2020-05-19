@@ -30,8 +30,8 @@ namespace FastSimDesign {
 		};
 
 		explicit Resource(QFileInfo oPath, QObject* pParent = Q_NULLPTR) noexcept;
-		Resource(Resource&&) = default; // Move constructor
-		Resource& operator=(Resource&&) = default; // Move assignment operator
+		Resource(Resource&&) = delete; // Move constructor
+		Resource& operator=(Resource&&) = delete; // Move assignment operator
 		virtual ~Resource() = default; // Destructor
 
 		inline Resource::Status const& getStatus() const noexcept { return m_oStatus; }
