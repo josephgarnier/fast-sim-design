@@ -14,16 +14,20 @@ Synopsis
 ^^^^^^^^
 .. parsed-literal::
 
-    directory(`SCAN`_ <output_var> [LIST_DIRECTORIES on|off] RELATIVE <on|off> ROOT_DIR <path> <INCLUDE_REGEX|EXCLUDE_REGEX> <regular_expression>)
+    directory(`SCAN`_ <output_var> [LIST_DIRECTORIES <on|off>] RELATIVE <on|off> ROOT_DIR <directory_path> <INCLUDE_REGEX|EXCLUDE_REGEX> <regular_expression>)
 
 Usage
 ^^^^^
 .. _SCAN:
 .. code-block:: cmake
 
-  directory(SCAN <output_var> [LIST_DIRECTORIES on|off] RELATIVE <on|off> ROOT_DIR <path> <INCLUDE_REGEX|EXCLUDE_REGEX> <regular_expression>)
+  directory(SCAN <output_var> [LIST_DIRECTORIES <on|off>] RELATIVE <on|off> ROOT_DIR <directory_path> <INCLUDE_REGEX|EXCLUDE_REGEX> <regular_expression>)
 
-Generate a list of files that match the ``<regular_expressions>`` and store it into the ``<output_var>``. The results will be returned as absolute paths to the given path ``<path>`` if RELATIVE flag is set to off, else as relative path to ROOT_DIR. By default the function list directories from result list. Setting LIST_DIRECTORIES to off removes directories to result list.
+Generate a list of files that match the ``<regular_expressions>`` and store
+it into the ``<output_var>``. The results will be returned as absolute paths
+to the given path ``<directory_path>`` if RELATIVE flag is set to off, else as
+relative path to ROOT_DIR. By default the function list directories from result
+list. Setting LIST_DIRECTORIES to off removes directories to result list.
 
 #]=======================================================================]
 cmake_minimum_required (VERSION 3.16)
@@ -41,7 +45,7 @@ function(directory)
 	endif()
 
 	if(DEFINED DIR_SCAN)
-		directory_scan(SCAN ${DIR_SCAN} LIST_DIRECTORIES ${DIR_LIST_DIRECTORIES} RELATIVE ${DIR_RELATIVE} ROOT_DIR ${DIR_ROOT_DIR} INCLUDE_REGEX ${DIR_INCLUDE_REGEX} EXCLUDE_REGEX ${DIR_EXCLUDE_REGEX})
+		directory_scan(SCAN ${DIR_SCAN} LIST_DIRECTORIES ${DIR_LIST_DIRECTORIES} RELATIVE ${DIR_RELATIVE} ROOT_DIR "${DIR_ROOT_DIR}" INCLUDE_REGEX "${DIR_INCLUDE_REGEX}" EXCLUDE_REGEX "${DIR_EXCLUDE_REGEX}")
 	else()
 		message(FATAL_ERROR "Operation argument is missing")
 	endif()
@@ -61,12 +65,12 @@ macro(directory_scan)
 	if(NOT DEFINED DIRSCAN_SCAN)
 		message(FATAL_ERROR "SCAN arguments is missing")
 	endif()
-	if(DEFINED DIRSCAN_LIST_DIRECTORIES
+	if((DEFINED DIRSCAN_LIST_DIRECTORIES)
 		AND	((NOT ${DIRSCAN_LIST_DIRECTORIES} STREQUAL "on")
 		AND (NOT ${DIRSCAN_LIST_DIRECTORIES} STREQUAL "off")))
 		message(FATAL_ERROR "LIST_DIRECTORIES arguments is wrong")
 	endif()
-	if(NOT DEFINED DIRSCAN_RELATIVE
+	if((NOT DEFINED DIRSCAN_RELATIVE)
 		OR ((NOT ${DIRSCAN_RELATIVE} STREQUAL "on")
 		AND (NOT ${DIRSCAN_RELATIVE} STREQUAL "off")))
 		message(FATAL_ERROR "RELATIVE arguments is wrong")

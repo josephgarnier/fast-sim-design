@@ -11,10 +11,10 @@
 # `directory()` function will be automatically link, but to include their header
 # file, you have to add this function. For each directory in `include/`,
 # except for this containing your own headers, write the following instructions at
-# the end of file in remplacing `<library-name-directory>` by the name of dirictory
-# where your library is:
+# the end of this file in remplacing `<library-name-directory>` by the name of
+# directory where your library is:
 # 
-# list(APPEND ${PROJECT_NAME}_PUBLIC_HEADER_DIRS "${${PROJECT_NAME}_INCLUDE_DIR}/<library-name-directory>")
+# set(${PROJECT_NAME}_LIBRARY_HEADER_DIRS "${${PROJECT_NAME}_INCLUDE_DIR}/<library-name-directory>")
 #
 # On the contrary, if you want to use an external library (e.g Qt) in using
 # `find_package()` function, you don't need the previous code, but rather have
@@ -34,16 +34,21 @@
 include(Directory)
 include(FileManip)
 
-set(${PROJECT_NAME}_LIBRARIES_FILES "")
-directory(SCAN ${PROJECT_NAME}_LIBRARIES_FILES LIST_DIRECTORIES off RELATIVE off ROOT_DIR "${${PROJECT_NAME}_LIB_DIR}" INCLUDE_REGEX "(.*\\${CMAKE_SHARED_LIBRARY_SUFFIX}$)|(.*\\${CMAKE_STATIC_LIBRARY_SUFFIX}$)")
+set(${PROJECT_NAME}_LIBRARY_FILES "")
+directory(SCAN ${PROJECT_NAME}_LIBRARY_FILES
+	LIST_DIRECTORIES off
+	RELATIVE off
+	ROOT_DIR "${${PROJECT_NAME}_LIB_DIR}"
+	INCLUDE_REGEX "(.*\\${CMAKE_SHARED_LIBRARY_SUFFIX}$)|(.*\\${CMAKE_STATIC_LIBRARY_SUFFIX}$)"
+)
 
-# Append each include directories of your libraries in this list:
-#list(APPEND ${PROJECT_NAME}_PUBLIC_HEADER_DIRS "${${PROJECT_NAME}_INCLUDE_DIR}/<library-name-directory>")
-
-
-
-# Add your special instructions here
-
+# Append each include directories of your libraries in this list
+# (in this way `${${PROJECT_NAME}_INCLUDE_DIR}/<library-name-directory>`) or
+# let it empty. They will be added to include directories of target and copied
+# by `install()` command.
+#  ||
+#  V
+set(${PROJECT_NAME}_LIBRARY_HEADER_DIRS "")
 
 # Include Qt
 message("\n** Include Qt **")
@@ -64,11 +69,44 @@ if (${Qt5Widgets_VERSION} VERSION_LESS 5.12.6
 		message(FATAL_ERROR "Minimum supported Qt5 version is 5.12.6!")
 endif()
 
-set(QOBJECT_SOURCE_FILES "${${PROJECT_NAME}_SRC_DIR}/sub2/sub2.cpp")
-set(QOBJECT_HEADER_FILES "${${PROJECT_NAME}_SRC_DIR}/sub2/sub2.h")
-set(UI_FILES "${${PROJECT_NAME}_SRC_DIR}/gui/simulator_gui.ui")
+set(QOBJECT_SOURCE_FILES
+	"${${PROJECT_NAME}_SRC_DIR}/config/preferences.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/entity/entity.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/entity/npc.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/entity/object.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/dock/map/map_scene.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/dock/map/map_view.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/command_state_machine.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/simulator_gui.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/level/world_info_model.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/level/world.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/resource/file_resource.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/resource/map_resource.cpp"
+	"${${PROJECT_NAME}_SRC_DIR}/resource/resource.cpp"
+)
+set(QOBJECT_HEADER_FILES
+	"${${PROJECT_NAME}_SRC_DIR}/config/preferences.h"
+	"${${PROJECT_NAME}_SRC_DIR}/entity/entity.h"
+	"${${PROJECT_NAME}_SRC_DIR}/entity/npc.h"
+	"${${PROJECT_NAME}_SRC_DIR}/entity/object.h"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/dock/map/map_scene.h"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/dock/map/map_view.h"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/command_state_machine.h"
+	"${${PROJECT_NAME}_SRC_DIR}/gui/simulator_gui.h"
+	"${${PROJECT_NAME}_SRC_DIR}/level/world_info_model.h"
+	"${${PROJECT_NAME}_SRC_DIR}/level/world.h"
+	"${${PROJECT_NAME}_SRC_DIR}/resource/file_resource.h"
+	"${${PROJECT_NAME}_SRC_DIR}/resource/map_resource.h"
+	"${${PROJECT_NAME}_SRC_DIR}/resource/resource.h"
+	
+)
+set(UI_FILES 
+	"${${PROJECT_NAME}_SRC_DIR}/gui/simulator_gui.ui"
+)
 set(RESSOURCE_FILES "")
 
+# The directory where the files will be generated should be added to the
+# variable `${PROJECT_NAME}_HEADER_PUBLIC_DIRS` in `ProjectSrcFiles.cmake`.
 qt5_wrap_cpp(MOC_HEADER_FILES ${QOBJECT_HEADER_FILES})
 qt5_wrap_ui_custom(UI_SOURCE_FILES ${UI_FILES})
 qt5_add_resources_custom(RESSOURCE_SRCS ${RESSOURCE_FILES})
