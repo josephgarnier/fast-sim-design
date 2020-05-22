@@ -39,7 +39,7 @@ directory(SCAN ${PROJECT_NAME}_LIBRARY_FILES
 	LIST_DIRECTORIES off
 	RELATIVE off
 	ROOT_DIR "${${PROJECT_NAME}_LIB_DIR}"
-	INCLUDE_REGEX "(.*\\${CMAKE_SHARED_LIBRARY_SUFFIX}$)|(.*\\${CMAKE_STATIC_LIBRARY_SUFFIX}$)"
+	INCLUDE_REGEX ".*\\${CMAKE_SHARED_LIBRARY_SUFFIX}.*|.*\\${CMAKE_STATIC_LIBRARY_SUFFIX}.*"
 )
 
 # Append each include directories of your libraries in this list
@@ -198,12 +198,12 @@ target_link_libraries("${${PROJECT_NAME}_TARGET_NAME}"
 		"$<INSTALL_INTERFACE:${Qt5Widgets_location};${Qt5Gui_location};${Qt5Core_location};${Qt5Svg_location};${Qt5Concurrent_location}>"
 )
 if(${${PROJECT_NAME}_TARGET_IS_EXEC})
-	target_compile_options("${${PROJECT_NAME}_TARGET_NAME}"
-		PUBLIC
-			"$<BUILD_INTERFACE:-fPIC;-fPIE>"
-			"$<INSTALL_INTERFACE:-fPIC;-fPIE>"
-	)
-	set_target_properties("${${PROJECT_NAME}_TARGET_NAME}" PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
+	# target_compile_options("${${PROJECT_NAME}_TARGET_NAME}"
+	# 	PUBLIC
+	# 		"$<BUILD_INTERFACE:-fPIC;-fPIE>"
+	# 		"$<INSTALL_INTERFACE:-fPIC;-fPIE>"
+	# )
+	# set_target_properties("${${PROJECT_NAME}_TARGET_NAME}" PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 if(${PARAM_ASSERT_ENABLE})
