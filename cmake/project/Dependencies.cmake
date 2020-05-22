@@ -48,7 +48,7 @@ directory(SCAN ${PROJECT_NAME}_LIBRARY_FILES
 # by `install()` command.
 #  ||
 #  V
-set(${PROJECT_NAME}_LIBRARY_HEADER_DIRS "")
+set(${PROJECT_NAME}_LIBRARY_HEADER_DIRS "${${PROJECT_NAME}_INCLUDE_DIR}/tiled" "${${PROJECT_NAME}_INCLUDE_DIR}/zlib")
 
 # Include Qt
 message("\n** Include Qt **")
