@@ -38,6 +38,13 @@
 
 using namespace Tiled;
 
+static QString colorToString(const QColor &color)
+{
+    if (color.alpha() != 255)
+        return color.name(QColor::HexArgb);
+    return color.name();
+}
+
 QVariant MapToVariantConverter::toVariant(const Map &map, const QDir &mapDir)
 {
     mDir = mapDir;
