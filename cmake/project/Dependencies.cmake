@@ -16,6 +16,9 @@
 # 
 # set(${PROJECT_NAME}_LIBRARY_HEADER_DIRS "${${PROJECT_NAME}_INCLUDE_DIR}/<library-name-directory>")
 #
+# Warning: according to the soname policy on Linux (https://en.wikipedia.org/wiki/Soname),
+# don't forget to create a link for each library in `lib\`.
+#
 # On the contrary, if you want to use an external library (e.g Qt) in using
 # `find_package()` function, you don't need the previous code, but rather have
 # to add your special instructions like `find_package()`, `target_sources()`,
