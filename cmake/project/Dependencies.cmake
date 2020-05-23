@@ -200,19 +200,31 @@ target_link_libraries("${${PROJECT_NAME}_TARGET_NAME}"
 		"$<BUILD_INTERFACE:Qt5::Widgets;Qt5::Gui;Qt5::Core;Qt5::Svg;Qt5::Concurrent>"
 		"$<INSTALL_INTERFACE:${Qt5Widgets_location};${Qt5Gui_location};${Qt5Core_location};${Qt5Svg_location};${Qt5Concurrent_location}>"
 )
+
+# Set Qt as a position-independent target
+set_target_properties("${${PROJECT_NAME}_TARGET_NAME}" PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
 if(${${PROJECT_NAME}_TARGET_IS_EXEC})
-	# target_compile_options("${${PROJECT_NAME}_TARGET_NAME}"
-	# 	PUBLIC
-	# 		"$<BUILD_INTERFACE:-fPIC;-fPIE>"
-	# 		"$<INSTALL_INTERFACE:-fPIC;-fPIE>"
-	# )
-	# set_target_properties("${${PROJECT_NAME}_TARGET_NAME}" PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
+	target_compile_options("${${PROJECT_NAME}_TARGET_NAME}"
+		PUBLIC
+			"$<BUILD_INTERFACE:-fPIE>"
+			"$<INSTALL_INTERFACE:-fPIE>"
+		PRIVATE
+			"-fPIE"
+	)
+elseif(${${PROJECT_NAME}_TARGET_IS_STATIC} OR ${${PROJECT_NAME}_TARGET_IS_SHARED})
+	target_compile_options("${${PROJECT_NAME}_TARGET_NAME}"
+	PUBLIC
+		"$<BUILD_INTERFACE:-fPIC>"
+		"$<INSTALL_INTERFACE:-fPIC>"
+	PRIVATE
+		"-fPIC"
+	)
 endif()
 
+# Add Qt assert definitions to target if needed
 if(${PARAM_ASSERT_ENABLE})
 	message(STATUS "QtAssert enabled\n")
 else()
-	# Add Qt assert definitions to target
 	message(STATUS "Add Qt assert definitions to target")
 	target_compile_definitions("${${PROJECT_NAME}_TARGET_NAME}"
 		PUBLIC
