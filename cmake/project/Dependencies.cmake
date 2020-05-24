@@ -106,7 +106,9 @@ set(QOBJECT_HEADER_FILES
 set(UI_FILES 
 	"${${PROJECT_NAME}_SRC_DIR}/gui/simulator_gui.ui"
 )
-set(RESSOURCE_FILES "")
+set(RESSOURCE_FILES
+	"${${PROJECT_NAME}_RESOURCES_DIR}/resources.qrc"
+)
 
 # The directory where the files will be generated should be added to the
 # variable `${PROJECT_NAME}_HEADER_PUBLIC_DIRS` in `ProjectSrcFiles.cmake`.

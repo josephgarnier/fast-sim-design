@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="FastSimDesign">
+    <file>images/nextMulti.png</file>
+    <file>images/nextOne.png</file>
+    <file>images/pause.png</file>
+    <file>images/start.png</file>
+    <file>images/stop.png</file>
+  </qresource>
+</RCC>
