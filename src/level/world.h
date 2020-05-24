@@ -11,7 +11,7 @@
 #ifndef FAST_SIM_DESIGN_WORLD_H
 #define FAST_SIM_DESIGN_WORLD_H
 
-#include "tield/map.h"
+#include "tiled/map.h"
 #include "entity/entity.h"
 #include "pathfinding/path.h"
 #include "world_populator.h"
@@ -35,8 +35,6 @@ namespace FastSimDesign {
 
 	public:
 		explicit World(Tiled::MapRenderer const* const pMapRenderer, Tiled::Map* const pMap, Tiled::TileLayer* const pCollisionLayer, QObject* pParent = Q_NULLPTR) noexcept;
-		World(World&&) = delete; // Move constructor
-		World& operator=(World&&) = delete; // Move assignment operator
 		virtual ~World() noexcept; // Destructor
 
 		void init() noexcept;

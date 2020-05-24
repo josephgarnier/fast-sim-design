@@ -19,8 +19,6 @@ namespace FastSimDesign {
 		Q_OBJECT
 	public:
 		explicit MapView(QWidget* pParent = Q_NULLPTR) noexcept;
-		MapView(MapView&&) = default; // Move constructor
-		MapView& operator=(MapView&&) = default; // Move assignment operator
 		virtual ~MapView() = default; // Destructor
 	protected:
 	private:

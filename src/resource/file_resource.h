@@ -19,8 +19,6 @@ namespace FastSimDesign {
 		Q_OBJECT
 	public:
 		explicit FileResource(QFileInfo oFilePath, QObject* pParent = Q_NULLPTR); // throw ResourceException
-		FileResource(FileResource&&) = default; // Move constructor
-		FileResource& operator=(FileResource&&) = default; // Move assignment operator
 		virtual ~FileResource() = default; // Destructor
 
 		inline QSharedPointer<QFile> const getFile() const noexcept { return m_oFile; }

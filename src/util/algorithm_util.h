@@ -20,13 +20,13 @@ namespace FastSimDesign {
 	 * Concatenates two numbers. For a comparison of different methods.
 	 * @see https://stackoverflow.com/questions/12700497/how-to-concatenate-two-integers-in-c
 	 */
-	unsigned int concatenate(unsigned int x, unsigned int y)
-	{
-		unsigned int pow = 10;
-		while (y >= pow)
-			pow *= 10;
-		return x * pow + y;
-	}
+	// unsigned int concatenate(unsigned int x, unsigned int y)
+	// {
+	// 	unsigned int pow = 10;
+	// 	while (y >= pow)
+	// 		pow *= 10;
+	// 	return x * pow + y;
+	// }
 
 	template<typename InputIt, typename T>
 	bool contains_if_shared_value(InputIt first, InputIt last, QSharedPointer<T> const& tElement) noexcept

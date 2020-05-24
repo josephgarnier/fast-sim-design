@@ -12,7 +12,7 @@
 namespace FastSimDesign {
 
 	VectorLoc::VectorLoc(QWeakPointer<World const> oWorld, double dXCoord, double dYCoord) noexcept
-		: Parent{dXCoord, dYCoord}
+		: Parent{static_cast<float>(dXCoord), static_cast<float>(dYCoord)}
 		, m_oWorld{std::move(oWorld)}
 	{
 	}
@@ -24,14 +24,14 @@ namespace FastSimDesign {
 	}
 
 	VectorLoc::VectorLoc(QWeakPointer<World const> oWorld, Location const& oLoc) noexcept
-		: Parent{oLoc.getCoordX(), oLoc.getCoordY()}
+		: Parent{static_cast<float>(oLoc.getCoordX()), static_cast<float>(oLoc.getCoordY())}
 		, m_oWorld{std::move(oWorld)}
 	{
 	}
 
 	bool VectorLoc::isValid() const noexcept
 	{
-		return Parent::x() >= 0 && Parent::x() < m_oWorld.lock()->getWidth() && Parent::y() >= 0 && Parent::y() < m_oWorld.lock()->GetHeight();
+		return Parent::x() >= 0 && Parent::x() < m_oWorld.lock()->getWidth() && Parent::y() >= 0 && Parent::y() < m_oWorld.lock()->getHeight();
 	}
 
 	Location VectorLoc::toLocation() const noexcept

@@ -8,7 +8,7 @@
 
 #include "fast_sim_design_pch.h"
 #include "world_populator.h"
-#include "objectgroup.h"
+#include "tiled/objectgroup.h"
 #include "entity/npc.h"
 #include "entity/object.h"
 #include "world_exception.h"
@@ -53,7 +53,7 @@ namespace FastSimDesign {
 			QSharedPointer<Npc> newNpc = QSharedPointer<Npc>::create(m_oWorld, npcSprite, m_oWorld.data());
 			newNpc->setWalkSpeed(walkSpeed);
 			m_oWorld->addEntity(newNpc);
-			qInfo().nospace() << "Npc \"" << newNpc->GetId() << "\" added.";
+			qInfo().nospace() << "Npc \"" << newNpc->getId() << "\" added.";
 		}
 	}
 
@@ -72,7 +72,7 @@ namespace FastSimDesign {
 		for (Tiled::MapObject* slotSprite : slotSprites)
 		{
 			int relatedObject = slotSprite->property(QStringLiteral("related_object_id")).toInt();
-			QSharedPointer<Object> entity = m_oWorld->GetEntityById<Object>(relatedObject);
+			QSharedPointer<Object> entity = m_oWorld->getEntityById<Object>(relatedObject);
 			entity->createSlot(slotSprite);
 		}
 	}

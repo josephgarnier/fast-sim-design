@@ -26,7 +26,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Experimentation Tool</string>
+   <string>Fast Sim Design</string>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
@@ -61,7 +61,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="ExpTool::MapView" name="mapView">
+     <widget class="FastSimDesign::MapView" name="mapView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
         <horstretch>0</horstretch>
@@ -125,7 +125,7 @@
    <addaction name="simulationMenu"/>
    <addaction name="viewMenu"/>
   </widget>
-  <widget class="QDockWidget" name="knowledgesDock">
+  <widget class="QDockWidget" name="treeExampleDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -145,12 +145,12 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Knowledges</string>
+    <string>Tree Example</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
+   <widget class="QWidget" name="dockWidgetContents_1">
     <property name="sizePolicy">
      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
       <horstretch>0</horstretch>
@@ -174,7 +174,7 @@
       <number>5</number>
      </property>
      <item>
-      <widget class="QTreeView" name="knowledgesView">
+      <widget class="QTreeView" name="treeExampleView">
        <property name="sizeAdjustPolicy">
         <enum>QAbstractScrollArea::AdjustToContents</enum>
        </property>
@@ -201,7 +201,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="episodicMemoryDock">
+  <widget class="QDockWidget" name="emptyExampleDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -218,7 +218,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Episodic Memory</string>
+    <string>Empty Example</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
@@ -247,7 +247,7 @@
       <number>5</number>
      </property>
      <item>
-      <widget class="ExpTool::EpisodicMemoryView" name="episodicMemoryView">
+      <widget class="QGraphicsView" name="emptyExampleView">
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOn</enum>
        </property>
@@ -265,7 +265,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="cpmDock">
+  <widget class="QDockWidget" name="tabsExampleDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -285,7 +285,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Component Process Model</string>
+    <string>Tabs Example</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -314,11 +314,11 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QTabWidget" name="cpmTabWidget">
+      <widget class="QTabWidget" name="tabGroupWidget">
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="currentAfTab">
+       <widget class="QWidget" name="firstTabWidgetContents">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -326,7 +326,7 @@
          </sizepolicy>
         </property>
         <attribute name="title">
-         <string>Current AF</string>
+         <string>First Tab</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="spacing">
@@ -345,7 +345,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QTableView" name="currentAfView">
+          <widget class="QTableView" name="firstTabExampleView">
            <property name="sizeAdjustPolicy">
             <enum>QAbstractScrollArea::AdjustToContents</enum>
            </property>
@@ -370,23 +370,23 @@
            <property name="wordWrap">
             <bool>false</bool>
            </property>
-           <attribute name="horizontalHeaderDefaultSectionSize">
-            <number>55</number>
-           </attribute>
            <attribute name="horizontalHeaderMinimumSectionSize">
             <number>55</number>
            </attribute>
-           <attribute name="verticalHeaderDefaultSectionSize">
-            <number>25</number>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>55</number>
            </attribute>
            <attribute name="verticalHeaderMinimumSectionSize">
+            <number>25</number>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
             <number>25</number>
            </attribute>
           </widget>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="familiarityTab">
+       <widget class="QWidget" name="secondTabWidgetContents">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -394,7 +394,7 @@
          </sizepolicy>
         </property>
         <attribute name="title">
-         <string>Familiarity</string>
+         <string>Second Tab</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="spacing">
@@ -412,22 +412,6 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item>
-          <widget class="ExpTool::FamiliarityPlotView" name="familiarityPlotView">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </widget>
@@ -435,7 +419,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="goalsDock">
+  <widget class="QDockWidget" name="tableExampleDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -455,7 +439,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Goals</string>
+    <string>Table Example</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -484,7 +468,7 @@
       <number>5</number>
      </property>
      <item>
-      <widget class="QTableView" name="goalsView">
+      <widget class="QTableView" name="tableExampleView">
        <property name="sizeAdjustPolicy">
         <enum>QAbstractScrollArea::AdjustToContents</enum>
        </property>
@@ -520,7 +504,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="homeostaticDock">
+  <widget class="QDockWidget" name="graphicExampleDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -537,7 +521,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Homeostatic</string>
+    <string>Graphic Example</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -566,7 +550,7 @@
       <number>5</number>
      </property>
      <item>
-      <widget class="QTableView" name="homeostaticView">
+      <widget class="QTableView" name="graphicExampleView">
        <property name="sizeAdjustPolicy">
         <enum>QAbstractScrollArea::AdjustToContents</enum>
        </property>
@@ -608,7 +592,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="timelineDock">
+  <widget class="QDockWidget" name="timelineExampleDock">
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
      <horstretch>0</horstretch>
@@ -625,7 +609,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Timeline</string>
+    <string>Timeline Example</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
@@ -654,7 +638,7 @@
       <number>5</number>
      </property>
      <item>
-      <widget class="QTableView" name="timelineView">
+      <widget class="QTableView" name="timelineExampleView">
        <property name="sizeAdjustPolicy">
         <enum>QAbstractScrollArea::AdjustToContents</enum>
        </property>
@@ -735,7 +719,7 @@
   <action name="startSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/ExperimentationTool/images/start.png</normaloff>:/ExperimentationTool/images/start.png</iconset>
+     <normaloff>:/FastSimDesign/images/start.png</normaloff>:/FastSimDesign/images/start.png</iconset>
    </property>
    <property name="text">
     <string>Start</string>
@@ -747,7 +731,7 @@
   <action name="pauseSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/ExperimentationTool/images/pause.png</normaloff>:/ExperimentationTool/images/pause.png</iconset>
+     <normaloff>:/FastSimDesign/images/pause.png</normaloff>:/FastSimDesign/images/pause.png</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -759,7 +743,7 @@
   <action name="oneStickSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/ExperimentationTool/images/nextOne.png</normaloff>:/ExperimentationTool/images/nextOne.png</iconset>
+     <normaloff>:/FastSimDesign/images/nextOne.png</normaloff>:/FastSimDesign/images/nextOne.png</iconset>
    </property>
    <property name="text">
     <string>One tick</string>
@@ -771,7 +755,7 @@
   <action name="stopSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/ExperimentationTool/images/stop.png</normaloff>:/ExperimentationTool/images/stop.png</iconset>
+     <normaloff>:/FastSimDesign/images/stop.png</normaloff>:/FastSimDesign/images/stop.png</iconset>
    </property>
    <property name="text">
     <string>Stop</string>
@@ -820,7 +804,7 @@
   <action name="multiTickSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/ExperimentationTool/images/nextMulti.png</normaloff>:/ExperimentationTool/images/nextMulti.png</iconset>
+     <normaloff>:/FastSimDesign/images/nextMulti.png</normaloff>:/FastSimDesign/images/nextMulti.png</iconset>
    </property>
    <property name="text">
     <string>Next multiple ticks</string>
@@ -833,20 +817,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ExpTool::FamiliarityPlotView</class>
-   <extends>QFrame</extends>
-   <header>gui/dock/emotion/FamiliarityPlotView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ExpTool::MapView</class>
+   <class>FastSimDesign::MapView</class>
    <extends>QGraphicsView</extends>
-   <header>gui/dock/map/MapView.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ExpTool::EpisodicMemoryView</class>
-   <extends>QGraphicsView</extends>
-   <header>gui/dock/episodic/EpisodicMemoryView.h</header>
+   <header>gui/dock/map/map_view.h</header>
   </customwidget>
  </customwidgets>
  <resources>

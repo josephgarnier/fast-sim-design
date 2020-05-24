@@ -8,9 +8,9 @@
 
 #include "fast_sim_design_pch.h"
 #include "collision_helper.h"
-#include "tield/objectgroup.h"
+#include "tiled/objectgroup.h"
 #include "QVector2D"
-#include "tield/map.h"
+#include "tiled/map.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************

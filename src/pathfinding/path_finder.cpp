@@ -28,7 +28,7 @@ namespace FastSimDesign {
 	Path PathFinder::createEntityPathToPoint(Entity const & oFrom, Location const & oTo) noexcept
 	{
 		Q_ASSERT_X(oFrom.getBoundingBoxTile().area() <= 1, "", "Path finding works only with bounding box with an area lower than 1");
-		return aStar(oFrom.GgetLocation(), oTo);
+		return aStar(oFrom.getLocation(), oTo);
 	}
 
 	Path PathFinder::aStar(Location const & oStartTile, Location const & oEndTile) noexcept

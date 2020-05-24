@@ -12,7 +12,7 @@
 #define FAST_SIM_DESIGN_AXIS_ALIGNED_BB_H
 
 #include "QRectF"
-#include "tield/mapobject.h"
+#include "tiled/mapobject.h"
 
 namespace FastSimDesign {
 	class AxisAlignedBB final : private QRectF

@@ -27,7 +27,7 @@ namespace FastSimDesign {
 	}
 
 	Location::Location(QWeakPointer<World const> oWorld, int dXTile, int dYTile, double dYawDegrees /*= 0.0*/) noexcept
-		: Parent{dXTile * oWorld.lock()->getTileWidth() + (signNotNull(dXTile) * oWorld.lock()->getTileWidth() / 2), dYTile * oWorld.lock()->getTileHeight() + (signNotNull(dYTile) * oWorld.lock()->getTileHeight() / 2)}
+		: Parent{static_cast<qreal>(dXTile * oWorld.lock()->getTileWidth() + (signNotNull(dXTile) * oWorld.lock()->getTileWidth() / 2)), static_cast<qreal>(dYTile * oWorld.lock()->getTileHeight() + (signNotNull(dYTile) * oWorld.lock()->getTileHeight() / 2))}
 		, m_oWorld{std::move(oWorld)}
 		, m_dYaw{fmod(360.0 + (fmod(dYawDegrees, 360.0)), 360.0)}
 	{

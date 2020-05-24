@@ -8,13 +8,13 @@
 
 #include "fast_sim_design_pch.h"
 #include "map_scene.h"
-#include "layer.h"
+#include "tiled/layer.h"
 #include "tile_layer_view.h"
-#include "tield/objectgroup.h"
+#include "tiled/objectgroup.h"
 #include "sprite_layer_view.h"
 #include "QGraphicsSceneMouseEvent"
 #include "sprite_view.h"
-#include "tield/mapobject.h"
+#include "tiled/mapobject.h"
 #include "config/preferences.h"
 
 namespace FastSimDesign {
@@ -146,7 +146,7 @@ namespace FastSimDesign {
 
 	void MapScene::updateSceneRect() noexcept
 	{
-		QSize mapSize = m_pRenderer->mapSize();
+		QSize mapSize = m_pRenderer->mapBoundingRect().size();
 		QRectF sceneRect{0.0f, 0.0f, static_cast<float>(mapSize.width()), static_cast<float>(mapSize.height())};
 		setSceneRect(sceneRect);
 	}
@@ -187,9 +187,9 @@ namespace FastSimDesign {
 		int viewIndex = 0;
 		for (QSharedPointer<SpriteView const> const& spriteView : m_oSpriteViews)
 		{
-			QSharedPointer<SpriteLabelView> spritelabelView = QSharedPointer<SpriteLabelView>::create(spriteView->GetSprite(), m_pRenderer, layerView);
+			QSharedPointer<SpriteLabelView> spritelabelView = QSharedPointer<SpriteLabelView>::create(spriteView->getSprite(), m_pRenderer, layerView);
 			spritelabelView->setZValue(viewIndex);
-			spritelabelView->setVisible(spriteView->GetSprite()->isVisible());
+			spritelabelView->setVisible(spriteView->getSprite()->isVisible());
 			m_oSpriteLabelViews.push_back(spritelabelView);
 		}
 		Q_ASSERT_X(layerView, "", "Layer cannot be null");

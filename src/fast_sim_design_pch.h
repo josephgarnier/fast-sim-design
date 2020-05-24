@@ -18,7 +18,7 @@
 #include "QDebug"
 #include "QGlobalStatic"
 
-#include "gui/ui_simulator_gui.h"
+#include "ui_simulator_gui.h"
 #include "level/world.h"
 
 #endif

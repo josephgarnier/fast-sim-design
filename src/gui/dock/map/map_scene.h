@@ -27,8 +27,6 @@ namespace FastSimDesign {
 
 	public:
 		explicit MapScene(World* const pWorld, Tiled::MapRenderer const* const pRenderer, QObject* pParent = Q_NULLPTR); // Default constructor
-		MapScene(MapScene&&) = default; // Move constructor
-		MapScene& operator=(MapScene&&) = default; // Move assignment operator
 		virtual ~MapScene() = default; // Destructor
 	protected:
 		virtual void drawForeground(QPainter* pPainter, QRectF const& oRect) noexcept override;

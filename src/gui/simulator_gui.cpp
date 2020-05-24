@@ -10,15 +10,13 @@
 #include "iostream"
 #include "QMessageBox"
 #include "QCloseEvent"
-#include "gui/dock/map/MapScene.h"
-// #include "gui/dock/homeostatic/HomeostaticDelegate.h"
+#include "gui/dock/map/map_scene.h"
 #include "command_state_machine.h"
 #include "level/world_exception.h"
 #include "config/preferences.h"
 #include "QLabel"
 #include "QElapsedTimer"
 #include "QIntValidator"
-// #include "gui/dock/episodic/EpisodicMemoryScene.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************
@@ -31,13 +29,13 @@ namespace FastSimDesign {
 		{
 			// --- Step 1: load and initialize the world ---
 			qInfo() << "*** (1/4) Loading world" << worldName << "***";
-			m_pWorld = World::Load(worldName);
+			m_pWorld = World::load(worldName);
 			QObject::connect(m_pWorld.data(), &World::selectedEntityChanged, this, &SimulatorGui::onSelectedEntityChanged);
 			qInfo() << "World loaded and initialized.";
 
 			// --- Step 2: initialize the map viewer ---
 			qInfo() << "*** (2/4) Initializing map viewer ***";
-			MapScene* scene = new MapScene{m_pWorld.data(), m_pWorld->GetMapRender(), m_pUi->mapView};
+			MapScene* scene = new MapScene{m_pWorld.data(), m_pWorld->getMapRender(), m_pUi->mapView};
 			m_pUi->mapView->setScene(scene);
 			m_pUi->mapView->centerOn(0, 0);
 			qInfo() << "Map viewer initialized.";
@@ -47,8 +45,8 @@ namespace FastSimDesign {
 			m_pTickTimer.reset(new QTimer{this});
 			m_pTickTimer->setSingleShot(false);
 			m_pTickTimer->setInterval(Time::toMilliseconds(TIME_PER_FRAME));
-			QObject::connect(this, &SimulatorGui::StopTick, m_pTickTimer.data(), &QTimer::stop);
-			QObject::connect<void (SimulatorGui::*)(), void (QTimer::*)()>(this, &SimulatorGui::StartTick, m_pTickTimer.data(), &QTimer::start);
+			QObject::connect(this, &SimulatorGui::stopTick, m_pTickTimer.data(), &QTimer::stop);
+			QObject::connect<void (SimulatorGui::*)(), void (QTimer::*)()>(this, &SimulatorGui::startTick, m_pTickTimer.data(), &QTimer::start);
 			QObject::connect(m_pTickTimer.data(), &QTimer::timeout, this, [this]() {
 				qInfo() << "***** Previous frame render duration is" << m_pRenderFrameDuration->elapsed() << "ms *****";
 				qInfo() << "***** Start frame" << m_pWorld->getWorldInfoModel()->getCurrentTick() << "*****";
@@ -64,7 +62,7 @@ namespace FastSimDesign {
 			// --- Step 4: initialize the status in the tool bar ---
 			qInfo() << "*** (4/4) Initializing gui status ***";
 			m_pWorldInfoView->setOrientation(Qt::Vertical);
-			m_pWorldInfoView->setModel(m_pWorld->GetWorldInfoModel());
+			m_pWorldInfoView->setModel(m_pWorld->getWorldInfoModel());
 			m_pWorldInfoView->addMapping(m_pCurrentTickValue.data(), toUnderlyingType(WorldInfoModel::Label::CURRENT_TICK), "text");
 			m_pWorldInfoView->addMapping(m_pTotalTimeValue.data(), toUnderlyingType(WorldInfoModel::Label::TOTAL_TIME), "text");
 			m_pWorldInfoView->addMapping(m_pWorldTimeValue.data(), toUnderlyingType(WorldInfoModel::Label::WORLD_TIME), "text");
@@ -86,7 +84,7 @@ namespace FastSimDesign {
 		m_pWorldInfoView->clearMapping();
 		m_pTickTimer.reset();
 		m_pWorld->term();
-		delete m_pUi->episodicMemoryView->scene();
+		delete m_pUi->emptyExampleView->scene();
 		delete m_pUi->mapView->scene();
 		m_pWorld.reset();
 		emit simulationUnloaded();
@@ -110,8 +108,9 @@ namespace FastSimDesign {
 		emit stopTick();
 		QSharedPointer<QMetaObject::Connection> connection = QSharedPointer<QMetaObject::Connection>::create();
 		*connection = QObject::connect(
-			this, &SimulatorGui::FrameEnded, this, [this, connection]() // control if the tick to reach is achieve at the end of each frame, it stops the timer if currentTick is equals to tick to reach
+			this, &SimulatorGui::frameEnded, this, [this, connection]()
 			{
+				// control if the tick to reach is achieve at the end of each frame, it stops the timer if currentTick is equals to tick to reach
 				emit stopTick();
 				emit simulationPaused();
 				QObject::disconnect(*connection.data());
@@ -129,8 +128,9 @@ namespace FastSimDesign {
 		unsigned long int tickToReach = currentTick + m_pMultiTickValue->text().toInt();
 		QSharedPointer<QMetaObject::Connection> connection = QSharedPointer<QMetaObject::Connection>::create();
 		*connection = QObject::connect(
-			this, &SimulatorGui::FrameEnded, this, [this, tickToReach, connection]() // control if the tick to reach is achieve at the end of each frame, it stops the timer if currentTick is equals to tick to reach
+			this, &SimulatorGui::frameEnded, this, [this, tickToReach, connection]()
 			{
+				// control if the tick to reach is achieve at the end of each frame, it stops the timer if currentTick is equals to tick to reach
 				if (m_pWorld->getWorldInfoModel()->getCurrentTick() >= tickToReach)
 				{
 					emit stopTick();
@@ -153,14 +153,14 @@ namespace FastSimDesign {
 	void SimulatorGui::onStopOneTick() noexcept
 	{
 		emit stopTick();
-		QObject::disconnect(this, &SimulatorGui::FrameEnded, this, Q_NULLPTR);
+		QObject::disconnect(this, &SimulatorGui::frameEnded, this, Q_NULLPTR);
 		emit simulationStopped();
 	}
 
 	void SimulatorGui::onStopMultiTick() noexcept
 	{
 		emit stopTick();
-		QObject::disconnect(this, &SimulatorGui::FrameEnded, this, Q_NULLPTR);
+		QObject::disconnect(this, &SimulatorGui::frameEnded, this, Q_NULLPTR);
 		emit simulationStopped();
 	}
 
@@ -204,42 +204,6 @@ namespace FastSimDesign {
 
 	void SimulatorGui::onSelectedEntityChanged(Entity const& oSelectedEntity) noexcept
 	{
-		m_pUi->knowledgesView->setModel(oSelectedEntity.getKnowledgeModel());
-		m_pUi->knowledgesView->expandAll();
-
-		m_pUi->homeostaticView->setModel(oSelectedEntity.getHomeostaticModel());
-		m_pUi->homeostaticView->setColumnHidden(2, true);
-		m_pUi->homeostaticView->setColumnHidden(3, true);
-		m_pUi->homeostaticView->horizontalHeader()->setStretchLastSection(true);
-		m_pUi->homeostaticView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
-		m_pUi->homeostaticView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-		m_pUi->homeostaticView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
-		m_pUi->homeostaticView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-		m_pUi->homeostaticView->verticalHeader()->resizeSections(QHeaderView::ResizeToContents);
-
-		m_pUi->currentAfView->setModel(oSelectedEntity.getAppraisalFrameModel());
-		m_pUi->familiarityPlotView->setModel(oSelectedEntity.getAppraisalVariableModel());
-
-		m_pUi->goalsView->setModel(oSelectedEntity.getGoalModel());
-		m_pUi->goalsView->horizontalHeader()->setStretchLastSection(false);
-		m_pUi->goalsView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-		m_pUi->goalsView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-		m_pUi->goalsView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-		m_pUi->goalsView->verticalHeader()->resizeSections(QHeaderView::ResizeToContents);
-
-		m_pUi->timelineView->setModel(oSelectedEntity.getTimelineModel());
-		m_pUi->timelineView->horizontalHeader()->setStretchLastSection(false);
-		m_pUi->timelineView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-		m_pUi->timelineView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
-		m_pUi->timelineView->verticalHeader()->setStretchLastSection(false);
-		m_pUi->timelineView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-		m_pUi->timelineView->verticalHeader()->resizeSections(QHeaderView::ResizeToContents);
-
-		if (m_pUi->episodicMemoryView->scene() != Q_NULLPTR)
-			delete m_pUi->episodicMemoryView->scene();
-		EpisodicMemoryScene* scene = new EpisodicMemoryScene{oSelectedEntity.getEpisodicMemoryModel(), m_pUi->episodicMemoryView};
-		m_pUi->episodicMemoryView->setScene(scene);
-		m_pUi->episodicMemoryView->centerOn(0, 0);
 	}
 
 	/*****************************************************************************
@@ -283,7 +247,6 @@ namespace FastSimDesign {
 	void SimulatorGui::setupUi() noexcept
 	{
 		m_pUi->setupUi(this);
-		m_pUi->homeostaticView->setItemDelegate(new HomeostaticDelegate{this});
 	}
 
 	void SimulatorGui::setupToolbar() noexcept
@@ -306,19 +269,19 @@ namespace FastSimDesign {
 		m_pTimeScaleOneAction->setObjectName(QStringLiteral("timeScaleAction"));
 		m_pTimeScaleOneAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x1", Q_NULLPTR));
 		m_pUi->toolBar->addAction(m_pTimeScaleOneAction.data());
-		QObject::connect(m_pTimeScaleOneAction.data(), &QAction::triggered, this, &SimulatorGui::OnTimeScaledOne);
+		QObject::connect(m_pTimeScaleOneAction.data(), &QAction::triggered, this, &SimulatorGui::onTimeScaledOne);
 
 		m_pTimeScaleTwoAction->setText(QApplication::translate("SimulatorGui", "x2", Q_NULLPTR));
 		m_pTimeScaleTwoAction->setObjectName(QStringLiteral("timeScaleAction"));
 		m_pTimeScaleTwoAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x2", Q_NULLPTR));
 		m_pUi->toolBar->addAction(m_pTimeScaleTwoAction.data());
-		QObject::connect(m_pTimeScaleTwoAction.data(), &QAction::triggered, this, &SimulatorGui::OnTimeScaledTwo);
+		QObject::connect(m_pTimeScaleTwoAction.data(), &QAction::triggered, this, &SimulatorGui::onTimeScaledTwo);
 
 		m_pTimeScaleFiveAction->setText(QApplication::translate("SimulatorGui", "x5", Q_NULLPTR));
 		m_pTimeScaleFiveAction->setObjectName(QStringLiteral("timeScaleAction"));
 		m_pTimeScaleFiveAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x5", Q_NULLPTR));
 		m_pUi->toolBar->addAction(m_pTimeScaleFiveAction.data());
-		QObject::connect(m_pTimeScaleFiveAction.data(), &QAction::triggered, this, &SimulatorGui::OnTimeScaledFive);
+		QObject::connect(m_pTimeScaleFiveAction.data(), &QAction::triggered, this, &SimulatorGui::onTimeScaledFive);
 
 		m_pUi->toolBar->addSeparator();
 
@@ -355,12 +318,12 @@ namespace FastSimDesign {
 
 	void SimulatorGui::setupMenuBar() noexcept
 	{
-		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->knowledgesDock->toggleViewAction());
-		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->homeostaticDock->toggleViewAction());
-		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->cpmDock->toggleViewAction());
-		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->goalsDock->toggleViewAction());
-		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->episodicMemoryDock->toggleViewAction());
-		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->timelineDock->toggleViewAction());
+		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->treeExampleDock->toggleViewAction());
+		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->graphicExampleDock->toggleViewAction());
+		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->tabsExampleDock->toggleViewAction());
+		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->tableExampleDock->toggleViewAction());
+		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->emptyExampleDock->toggleViewAction());
+		m_pUi->viewMenu->insertAction(m_pUi->saveLayoutAction, m_pUi->timelineExampleDock->toggleViewAction());
 		m_pUi->viewMenu->insertSeparator(m_pUi->saveLayoutAction);
 	}
 
@@ -378,11 +341,11 @@ namespace FastSimDesign {
 		restoreState(preference.userLayoutState());
 
 		// --- Connect models ---
-		QObject::connect(m_pUi->showGridAction, &QAction::toggled, &preference, &Preferences::SetShowGrid);
-		QObject::connect(m_pUi->showCollisionLayerAction, &QAction::toggled, &preference, &Preferences::SetShowCollisionLayer);
-		QObject::connect(m_pUi->showEntityLabelsAction, &QAction::toggled, &preference, &Preferences::SetShowEntityLabels);
-		QObject::connect(m_pUi->defaultLayoutAction, &QAction::triggered, this, &SimulatorGui::OnRestoreDefaultLayout);
-		QObject::connect(m_pUi->saveLayoutAction, &QAction::triggered, this, &SimulatorGui::OnSaveLayout);
+		QObject::connect(m_pUi->showGridAction, &QAction::toggled, &preference, &Preferences::setShowGrid);
+		QObject::connect(m_pUi->showCollisionLayerAction, &QAction::toggled, &preference, &Preferences::setShowCollisionLayer);
+		QObject::connect(m_pUi->showEntityLabelsAction, &QAction::toggled, &preference, &Preferences::setShowEntityLabels);
+		QObject::connect(m_pUi->defaultLayoutAction, &QAction::triggered, this, &SimulatorGui::onRestoreDefaultLayout);
+		QObject::connect(m_pUi->saveLayoutAction, &QAction::triggered, this, &SimulatorGui::onSaveLayout);
 	}
 
 	void SimulatorGui::setupStateMachine() noexcept

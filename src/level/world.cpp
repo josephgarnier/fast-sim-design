@@ -28,10 +28,10 @@ namespace FastSimDesign {
 			qInfo() << "Map loaded successfully!";
 
 			// --- Create and add the entities ---
-			qInfo().nospace() << "Creating the world from map " << oWorldName << " and from Being project " << beingProjectName << "...";
+			qInfo().nospace() << "Creating the world from map " << oWorldName << "...";
 			QSharedPointer<World> oWorld = QSharedPointer<World>::create(mapResource.getMapRender(), mapResource.getMap(), mapResource.getCollisionLayer());
 			qInfo() << "World created successfully!";
-			WorldPopulator worldPopulator{mapResource.getTiledObjects(), beingResource.getEntityAssetBundle()};
+			WorldPopulator worldPopulator{mapResource.getTiledObjects()};
 			qInfo() << "Populating world from being entities...";
 			worldPopulator.populateWorld(oWorld);
 			qInfo() << "World has been populated with" << oWorld->getEntities().size() << "entities.";
@@ -98,8 +98,6 @@ namespace FastSimDesign {
 		{
 			qInfo().nospace() << "Initializing entity \"" << entity->getId() << "\"...";
 			entity->init();
-			entity->initBeingEntity();
-			entity->initModels();
 			qInfo().nospace() << "Entity \"" << entity->getId() << "\" initialized successfully!";
 		}
 	}
@@ -144,7 +142,6 @@ namespace FastSimDesign {
 		for (QSharedPointer<Entity>& entity : m_oEntities)
 		{
 			qInfo().nospace() << "Terminating entity \"" << entity->getId() << "\"...";
-			entity->termModels();
 			entity->term();
 			qInfo().nospace() << "Entity \"" << entity->getId() << "\" terminated successfully!";
 		}
@@ -185,13 +182,13 @@ namespace FastSimDesign {
 		return helper.isWalkableTileLocation(oLocation.toTilePoint());
 	}
 
-	bool World::IsWalkableTileLocation(Entity const& oEntity) const noexcept
+	bool World::isWalkableTileLocation(Entity const& oEntity) const noexcept
 	{
 		CollisionHelper helper{m_pCollisionLayer};
 		return helper.isWalkableTileLocation(oEntity.getBoundingBox());
 	}
 
-	bool World::IsWalkableTileDestination(Location const& oLocation, VectorLoc const& oDistanceOffset) const noexcept
+	bool World::isWalkableTileDestination(Location const& oLocation, VectorLoc const& oDistanceOffset) const noexcept
 	{
 		CollisionHelper helper{m_pCollisionLayer};
 		return helper.isWalkableTileDestination(oLocation.toTilePoint(), oDistanceOffset.toVector());

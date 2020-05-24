@@ -94,6 +94,8 @@ namespace FastSimDesign {
 				return m_oWorldTime.toString("hh:mm:ss''zzz");
 			case WorldInfoModel::Label::CURRENT_TICK:
 				return static_cast<qulonglong>(m_lCurrentTick);
+			default:
+				break;
 		}
 		return QVariant{};
 	}

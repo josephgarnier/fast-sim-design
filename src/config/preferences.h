@@ -50,13 +50,11 @@ namespace FastSimDesign {
 		template<typename T>
 		T valueOf(QString sKey, T&& oDefaultValue) const noexcept
 		{
-			return m_oSettings->value(std::move(sKey), std::forward<T>(oDefaultValue)).value<T>();
+			return m_oSettings->value(std::move(sKey), std::forward<T>(oDefaultValue)).template value<T>();
 		}
 
 	private:
 		explicit Preferences(QObject* pParent = Q_NULLPTR) noexcept;
-		Preferences(Preferences&&) = default; // Move constructor
-		Preferences& operator=(Preferences&&) = default; // Move assignment operator
 		virtual ~Preferences() = default; // Destructor
 	protected:
 		QScopedPointer<QSettings> m_oSettings;

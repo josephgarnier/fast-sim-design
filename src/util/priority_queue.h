@@ -19,7 +19,7 @@ namespace FastSimDesign {
 	class PriorityQueue final : private QVector<T>
 	{
 	private:
-		using Parent = QVector;
+		using Parent = QVector<T>;
 		using value_type = T;
 
 	public:

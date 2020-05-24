@@ -19,6 +19,8 @@
 #include "QLabel"
 #include "QLineEdit"
 
+#include "entity/entity.h"
+
 namespace FastSimDesign {
 	class SimulatorGui : public QMainWindow
 	{
@@ -60,8 +62,6 @@ namespace FastSimDesign {
 
 	public:
 		explicit SimulatorGui(QWidget* pParent = Q_NULLPTR) noexcept;
-		SimulatorGui(SimulatorGui&&) = default; // Move constructor
-		SimulatorGui& operator=(SimulatorGui&&) = default; // Move assignment operator
 		virtual ~SimulatorGui() = default; // Destructor
 	protected:
 		friend class UnloadedState;

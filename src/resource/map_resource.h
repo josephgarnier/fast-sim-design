@@ -12,7 +12,7 @@
 #define FAST_SIM_DESIGN_MAP_RESOURCE_H
 
 #include "resource.h"
-#include "tield/maprenderer.h"
+#include "tiled/maprenderer.h"
 
 namespace FastSimDesign {
 	class MapResource final : public Resource
@@ -34,8 +34,6 @@ namespace FastSimDesign {
 		Q_ENUM(TiledObjectType)
 
 		explicit MapResource(QFileInfo oFilePath, QObject* pParent = Q_NULLPTR); // throw ResourceException
-		MapResource(MapResource&&) = delete; // Move constructor
-		MapResource& operator=(MapResource&&) = delete; // Move assignment operator
 		virtual ~MapResource() = default; // Destructor
 
 		inline Tiled::Map* getMap() const noexcept { return m_oMap.data(); }

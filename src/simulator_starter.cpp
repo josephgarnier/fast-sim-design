@@ -7,6 +7,7 @@
 ******************************************************************************/
 
 #include "fast_sim_design_pch.h"
+#include "gui/simulator_gui.h"
 
 #if defined(_MSC_VER)
 	#include "windows.h"
@@ -16,12 +17,13 @@ namespace FastSimDesign {
 	Q_DECLARE_LOGGING_CATEGORY(World)
 	Q_LOGGING_CATEGORY(World, "World")
 
-	QString CurrentTime()
+	QString currentTime()
 	{
-		return ExpTool::World::GetTotalTime().toString("hh:mm:ss''zzz");
+		// return ExpTool::World::GetTotalTime().toString("hh:mm:ss''zzz");
+		return "";
 	}
 
-	QString MsgTypeToString(QtMsgType const& oType)
+	QString msgTypeToString(QtMsgType const& oType)
 	{
 		switch (oType)
 		{
@@ -40,7 +42,7 @@ namespace FastSimDesign {
 		}
 	}
 
-	QString FormatFunctionContext(char const* oFunction)
+	QString formatFunctionContext(char const* oFunction)
 	{
 		QRegExp expr{"__cdecl (ExpTool::)?([^:<]*)"};
 		expr.setMinimal(false);
@@ -56,18 +58,18 @@ namespace FastSimDesign {
 		return QLatin1String{"ExpTool::"} % className.replace(exprSplitWord, "\\1-\\2");
 	}
 
-	QString FormatLog(QtMsgType oType, QMessageLogContext const& oContext, QString const& sMsg)
+	QString formatLog(QtMsgType oType, QMessageLogContext const& oContext, QString const& sMsg)
 	{
 		// Time|MsgType|Method|Category|Message
 		return QString{"%1|%2|%3|%5"}
-			.arg(CurrentTime())
-			.arg(MsgTypeToString(oType), -10)
-			.arg(FormatFunctionContext(oContext.function), -45)
+			.arg(currentTime())
+			.arg(msgTypeToString(oType), -10)
+			.arg(formatFunctionContext(oContext.function), -45)
 			//.arg(oContext.category, -16)
 			.arg(sMsg);
 	}
 
-	void MessageHandler(QtMsgType oType, QMessageLogContext const& oContext, QString const& sMsg)
+	void messageHandler(QtMsgType oType, QMessageLogContext const& oContext, QString const& sMsg)
 	{
 #if defined(_MSC_VER) && defined(_DEBUG)
 		if (IsDebuggerPresent())
@@ -79,19 +81,19 @@ namespace FastSimDesign {
 			fprintf(stderr, "%s\n", FormatLog(oType, oContext, sMsg).toUtf8().constData());
 		}
 #else
-		fprintf(stderr, "%s\n", FormatLog(oType, oContext, sMsg).toUtf8().constData());
+		fprintf(stderr, "%s\n", formatLog(oType, oContext, sMsg).toUtf8().constData());
 #endif
 	}
 }
 
-int main(int argc, char const* argv[])
+int main(int argc, char* argv[])
 {
 	// --- Configure the logging ---
-	qInstallMessageHandler(MessageHandler);
+	qInstallMessageHandler(FastSimDesign::messageHandler);
 
 	// --- Start the gui ---
 	QApplication a{argc, argv};
-	ExpTool::SimulatorGui mainWindow{};
+	FastSimDesign::SimulatorGui mainWindow{};
 	mainWindow.show();
 	return a.exec();
 }
