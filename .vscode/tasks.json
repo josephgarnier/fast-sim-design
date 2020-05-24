@@ -66,6 +66,21 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "Execute",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/bin"
+			},
+			"command": "./fast-sim-design",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
 			"label": "Install",
 			"type": "shell",
 			"options": {
