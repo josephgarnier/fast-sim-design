@@ -3,31 +3,37 @@
         {
             "name": "Linux",
             "includePath": [
+                "${workspaceFolder}/src",
                 "${workspaceFolder}/src/**",
-                "${workspaceFolder}/include/**",
                 "${workspaceFolder}/include",
+                "${workspaceFolder}/include/**",
                 "${workspaceFolder}/build/src",
                 "${workspaceFolder}/build/src/**",
-                "/opt/Qt/5.12.6/Src/**",
+                "/opt/Qt/5.12.6/gcc_64/include",
                 "/opt/Qt/5.12.6/gcc_64/include/**",
-                "/opt/Qt/5.12.6/gcc_64/include"
+                "/opt/Qt/5.12.6/gcc_64/include/QtCore",
+                "/opt/Qt/5.12.6/gcc_64/include/QtWidgets",
+                "/opt/Qt/5.12.6/gcc_64/include/QtGui"
             ],
             "defines": [
                 "clang"
             ],
             "compilerPath": "/usr/bin/clang++",
-            "cStandard": "c11",
+            "cStandard": "c18",
+            "cppStandard": "c++17",
             "intelliSenseMode": "clang-x64",
             "compileCommands": "",
-            "cppStandard": "c++17",
             "browse": {
                 "path": [
                     "${workspaceFolder}/src",
                     "${workspaceFolder}/include",
                     "${workspaceFolder}/build/src",
-                    "/opt/Qt/5.12.6/Src",
-                    "/opt/Qt/5.12.6/gcc_64/include"
+										"/opt/Qt/5.12.6/gcc_64/include",
+										"/opt/Qt/5.12.6/gcc_64/include/QtCore",
+                		"/opt/Qt/5.12.6/gcc_64/include/QtWidgets",
+                		"/opt/Qt/5.12.6/gcc_64/include/QtGui"
                 ],
+                "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
             }
         }
