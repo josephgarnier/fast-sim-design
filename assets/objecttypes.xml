@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="OBJECT" color="#0008a4"/>
+ <objecttype name="NPC" color="#fff705"/>
+ <objecttype name="SLOT" color="#a0a0a4">
+  <property name="related_object_id" type="int"/>
+ </objecttype>
+</objecttypes>
