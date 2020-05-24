@@ -1,5 +1,6 @@
 {
 	"files.associations": {
+		"*.cmake.in": "cmake",
 		"qpoint": "cpp",
 		"qstack": "cpp",
 		"qstringbuilder": "cpp",
@@ -21,6 +22,7 @@
 		"qsharedpointer": "cpp",
 		"cmath": "cpp",
 		"qrectf": "cpp",
-		"qobject": "cpp"
+		"qobject": "cpp",
+		"qmainwindow": "cpp"
 	}
 }

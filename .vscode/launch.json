@@ -16,11 +16,11 @@
 			"MIMode": "gdb",
 			"logging": {
 				"exceptions": true,
-				"moduleLoad": true,
+				"moduleLoad": false,
 				"programOutput": true,
-				"engineLogging": true,
-				"trace": true,
-				"traceResponse": true
+				"engineLogging": false,
+				"trace": false,
+				"traceResponse": false
 			},
 			"visualizerFile": "${workspaceFolder}/.vscode/default.natvis",
 			"showDisplayString": true
