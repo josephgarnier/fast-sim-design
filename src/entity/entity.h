@@ -18,7 +18,7 @@
 #include "pathfinding/path.h"
 
 namespace FastSimDesign {
-	class FAST_SIM_DESIGN_API Entity : public QObject
+	class Entity : public QObject
 	{
 		Q_OBJECT
 	public:
