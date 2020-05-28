@@ -12,6 +12,7 @@
 #define FAST_SIM_DESIGN_WORLD_INFO_MODEL_H
 
 #include "util/algorithm_util.h"
+#include "QAbstractListModel"
 
 namespace FastSimDesign {
 	class WorldInfoModel final : public QAbstractListModel

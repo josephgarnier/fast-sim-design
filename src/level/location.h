@@ -15,6 +15,8 @@
 #include "QPointF"
 #include "vector_loc.h"
 #include "QStringBuilder"
+#include "QSharedPointer"
+#include "QDebug"
 
 namespace FastSimDesign {
 	class World;
