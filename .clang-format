@@ -1,7 +1,7 @@
 ﻿---
 Language: Cpp
 # BasedOnStyle:  Microsoft
-AccessModifierOffset: '-4'
+AccessModifierOffset: '-2'
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: 'false'
 AlignConsecutiveDeclarations: 'false'
@@ -52,8 +52,8 @@ ColumnLimit: '0'
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: 'false'
 ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
-ConstructorInitializerIndentWidth: '4'
-ContinuationIndentWidth: '4'
+ConstructorInitializerIndentWidth: '2'
+ContinuationIndentWidth: '2'
 Cpp11BracedListStyle: 'true'
 #DeriveLineEnding: 'false' # clang 10
 DerivePointerAlignment: 'false'
@@ -75,8 +75,8 @@ IncludeCategories:
 IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: 'true'
 #IndentGotoLabels: 'true' # clang 10
-IndentPPDirectives: BeforeHash
-IndentWidth: '4'
+IndentPPDirectives: None
+IndentWidth: '2'
 IndentWrappedFunctionNames: 'true'
 JavaImportGroups: ['com.example', 'com', 'org']
 JavaScriptQuotes: Leave
@@ -88,7 +88,7 @@ MaxEmptyLinesToKeep: '1'
 NamespaceIndentation: All
 #NamespaceMacros: ''
 ObjCBinPackProtocolList: Auto
-ObjCBlockIndentWidth: '4'
+ObjCBlockIndentWidth: '2'
 ObjCSpaceAfterProperty: 'false'
 ObjCSpaceBeforeProtocolList: 'true'
 PenaltyBreakAssignment: '4'
@@ -127,7 +127,7 @@ Standard: Cpp11
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
-TabWidth: '4'
+TabWidth: '2'
 #TypenameMacros: ''
 #UseCRLF: 'false' # clang 10
 UseTab: Always
