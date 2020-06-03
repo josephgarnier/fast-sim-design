@@ -12,7 +12,7 @@
 #define FAST_SIM_DESIGN_VECTOR_LOC_H
 
 #include "QVector2D"
-#include "QSharedPointer"
+#include "QWeakPointer"
 
 namespace FastSimDesign {
 	class World;

@@ -6,18 +6,17 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "world_exception.h"
 
 namespace FastSimDesign {
 	WorldException::WorldException(QString const& sWhat)
-		: std::exception{}
+		: Parent{}
 		, m_pWhatMessage{sWhat.toUtf8().constData()}
 	{
 	}
 
 	WorldException::WorldException(QLatin1String sWhat)
-		: std::exception{}
+		: Parent{}
 		, m_pWhatMessage{sWhat.data()}
 	{
 	}

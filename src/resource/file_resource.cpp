@@ -6,13 +6,13 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "file_resource.h"
 #include "resource_exception.h"
+#include "QDebug"
 
 namespace FastSimDesign {
 	FileResource::FileResource(QFileInfo oFilePath, QObject* pParent /*= 0*/)
-		: Resource{std::move(oFilePath), pParent}
+		: Parent{std::move(oFilePath), pParent}
 		, m_oFile{Q_NULLPTR}
 	{
 		try

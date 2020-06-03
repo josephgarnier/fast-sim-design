@@ -16,6 +16,9 @@
 namespace FastSimDesign {
 	class ResourceException final : public std::exception
 	{
+	private:
+		using Parent = std::exception;
+
 	public:
 		explicit ResourceException() = default; // Default constructor
 		explicit ResourceException(QString const& sWhat) noexcept;

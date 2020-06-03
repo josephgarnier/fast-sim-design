@@ -6,10 +6,7 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "sprite_layer_view.h"
-#include "tiled/objectgroup.h"
-#include "sprite_view.h"
 
 namespace FastSimDesign {
 	SpriteLayerView::SpriteLayerView(Tiled::ObjectGroup const* const pLayer, Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent /*= 0*/) noexcept

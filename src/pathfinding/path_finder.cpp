@@ -6,8 +6,9 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "path_finder.h"
+#include "level/world.h"
+#include "path_point.h"
 
 namespace FastSimDesign {
 	PathFinder::PathFinder(QWeakPointer<World const> oWorld) noexcept

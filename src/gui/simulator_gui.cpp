@@ -6,17 +6,18 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
+#include "simulator_gui.h"
+
 #include "iostream"
 #include "QMessageBox"
 #include "QCloseEvent"
-#include "gui/dock/map/map_scene.h"
-#include "command_state_machine.h"
-#include "level/world_exception.h"
-#include "config/preferences.h"
-#include "QLabel"
-#include "QElapsedTimer"
 #include "QIntValidator"
+#include "QDebug"
+#include "level/world.h"
+#include "level/world_exception.h"
+#include "gui/dock/map/map_scene.h"
+#include "config/preferences.h"
+#include "command_state_machine.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************
@@ -108,8 +109,7 @@ namespace FastSimDesign {
 		emit stopTick();
 		QSharedPointer<QMetaObject::Connection> connection = QSharedPointer<QMetaObject::Connection>::create();
 		*connection = QObject::connect(
-			this, &SimulatorGui::frameEnded, this, [this, connection]()
-			{
+			this, &SimulatorGui::frameEnded, this, [this, connection]() {
 				// control if the tick to reach is achieve at the end of each frame, it stops the timer if currentTick is equals to tick to reach
 				emit stopTick();
 				emit simulationPaused();
@@ -128,8 +128,7 @@ namespace FastSimDesign {
 		unsigned long int tickToReach = currentTick + m_pMultiTickValue->text().toInt();
 		QSharedPointer<QMetaObject::Connection> connection = QSharedPointer<QMetaObject::Connection>::create();
 		*connection = QObject::connect(
-			this, &SimulatorGui::frameEnded, this, [this, tickToReach, connection]()
-			{
+			this, &SimulatorGui::frameEnded, this, [this, tickToReach, connection]() {
 				// control if the tick to reach is achieve at the end of each frame, it stops the timer if currentTick is equals to tick to reach
 				if (m_pWorld->getWorldInfoModel()->getCurrentTick() >= tickToReach)
 				{
@@ -239,7 +238,7 @@ namespace FastSimDesign {
 		setupUi();
 		setupToolbar();
 		setupMenuBar();
-		setupModel();
+		setupModels();
 		setupStateMachine();
 		qInfo() << "SimulatorGui created successfully!\n";
 	}
@@ -327,7 +326,7 @@ namespace FastSimDesign {
 		m_pUi->viewMenu->insertSeparator(m_pUi->saveLayoutAction);
 	}
 
-	void SimulatorGui::setupModel() noexcept
+	void SimulatorGui::setupModels() noexcept
 	{
 		// --- Retrieve preferences ---
 		Preferences& preference = Preferences::instance();

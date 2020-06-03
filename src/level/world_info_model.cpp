@@ -6,8 +6,8 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "world_info_model.h"
+#include "QFont"
 
 namespace FastSimDesign {
 	WorldInfoModel::WorldInfoModel(QObject* pParent /*= Q_NULLPTR*/) noexcept

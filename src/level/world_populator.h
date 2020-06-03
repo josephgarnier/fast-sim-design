@@ -14,6 +14,7 @@
 #include "resource/map_resource.h"
 
 namespace FastSimDesign {
+	class World;
 	class WorldPopulator final
 	{
 	public:

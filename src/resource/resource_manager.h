@@ -11,7 +11,6 @@
 #ifndef FAST_SIM_DESIGN_RESOURCE_MANAGER_H
 #define FAST_SIM_DESIGN_RESOURCE_MANAGER_H
 
-#include "resource.h"
 #include "map_resource.h"
 #include "file_resource.h"
 

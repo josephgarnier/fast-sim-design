@@ -12,7 +12,7 @@
 #define FAST_SIM_DESIGN_SPRITE_LABEL_LAYER_VIEW_H
 
 #include "QGraphicsItem"
-#include "sprite_view.h"
+#include "tiled/maprenderer.h"
 
 namespace FastSimDesign {
 	class SpriteLabelLayerView final : public QGraphicsItem

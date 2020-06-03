@@ -11,9 +11,11 @@
 #ifndef FAST_SIM_DESIGN_COLLISION_HELPER_H
 #define FAST_SIM_DESIGN_COLLISION_HELPER_H
 
-#include "axis_aligned_bb.h"
+#include "QVector2D"
+#include "tiled/mapobject.h"
 
 namespace FastSimDesign {
+	class AxisAlignedBB;
 	class CollisionHelper final
 	{
 	public:

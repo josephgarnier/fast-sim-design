@@ -6,12 +6,15 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "map_resource.h"
+#include "QDebug"
+#include "QMetaEnum"
+#include "resource_exception.h"
+#include "QStringBuilder"
+
 #include "tiled/mapreader.h"
 #include "tiled/mapwriter.h"
 #include "tiled/objectgroup.h"
-#include "resource_exception.h"
 #include "tiled/hexagonalrenderer.h"
 #include "tiled/isometricrenderer.h"
 #include "tiled/orthogonalrenderer.h"
@@ -33,7 +36,7 @@ namespace FastSimDesign {
 	Methods
 	*****************************************************************************/
 	MapResource::MapResource(QFileInfo oFilePath, QObject* pParent /*= 0*/)
-		: Resource{std::move(oFilePath), pParent}
+		: Parent{std::move(oFilePath), pParent}
 		, m_oMap{Q_NULLPTR}
 		, m_pCollisionLayer{Q_NULLPTR}
 		, m_oTiledObjects{}

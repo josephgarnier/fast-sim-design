@@ -13,6 +13,7 @@
 
 #include "algorithm"
 #include "QVector"
+#include "QSharedPointer"
 
 namespace FastSimDesign {
 	template<typename T>

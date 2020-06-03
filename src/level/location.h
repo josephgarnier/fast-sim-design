@@ -11,12 +11,10 @@
 #ifndef FAST_SIM_DESIGN_LOCATION_H
 #define FAST_SIM_DESIGN_LOCATION_H
 
-#include "ostream"
-#include "QPointF"
+#include "QWeakPointer"
 #include "vector_loc.h"
-#include "QStringBuilder"
-#include "QSharedPointer"
 #include "QDebug"
+#include "fstream"
 
 namespace FastSimDesign {
 	class World;

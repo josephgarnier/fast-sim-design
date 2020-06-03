@@ -18,8 +18,8 @@
 include(Directory)
 
 # The precompiled files are set here. If you don't need them, set the variables to empty string
-set(${PROJECT_NAME}_PRECOMPILED_HEADER_FILE "${${PROJECT_NAME}_SRC_DIR}/fast_sim_design_pch.h")
-set(${PROJECT_NAME}_PRECOMPILED_SOURCE_FILE "${${PROJECT_NAME}_SRC_DIR}/fast_sim_design_pch.cpp")
+set(${PROJECT_NAME}_PRECOMPILED_HEADER_FILE "")
+set(${PROJECT_NAME}_PRECOMPILED_SOURCE_FILE "")
 
 # Only private source files (.cpp) go here, they will not be exported or installed.
 set(${PROJECT_NAME}_SOURCE_PRIVATE_FILES "")

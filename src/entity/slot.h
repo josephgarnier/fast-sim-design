@@ -11,8 +11,13 @@
 #ifndef FAST_SIM_DESIGN_SLOT_H
 #define FAST_SIM_DESIGN_SLOT_H
 
+#include "util/axis_aligned_bb.h"
+#include "level/location.h"
+
 namespace FastSimDesign {
-	class FAST_SIM_DESIGN_API Slot final
+	class World;
+	class Entity;
+	class Slot final
 	{
 	public:
 		explicit Slot(); // Default constructor
@@ -24,7 +29,7 @@ namespace FastSimDesign {
 		virtual ~Slot() = default; // Destructor
 
 		inline int getId() const noexcept { return m_pArea->id(); }
-		inline Tiled::MapObject const* const getArea() const noexcept { return m_pArea; }
+		inline Tiled::MapObject const* getArea() const noexcept { return m_pArea; }
 		inline AxisAlignedBB getAreaBoundingBox() const noexcept { return AxisAlignedBB::getBoundingBox(m_pArea); }
 		Location getLocation() const noexcept;
 

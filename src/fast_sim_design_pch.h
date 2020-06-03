@@ -13,12 +13,4 @@
 
 #include "dll_config.h"
 
-#include "QtCore"
-#include "QtGlobal"
-#include "QDebug"
-#include "QGlobalStatic"
-
-#include "ui_simulator_gui.h"
-#include "level/world.h"
-
 #endif

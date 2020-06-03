@@ -12,16 +12,19 @@
 #define FAST_SIM_DESIGN_SIMULATOR_GUI_H
 
 #include "QMainWindow"
-
+#include "QElapsedTimer"
 #include "QTimer"
 #include "QStateMachine"
 #include "QDataWidgetMapper"
 #include "QLabel"
 #include "QLineEdit"
 
-#include "entity/entity.h"
+#include "ui_simulator_gui.h"
+#include "util/algorithm_util.h"
 
 namespace FastSimDesign {
+	class Entity;
+	class World;
 	class SimulatorGui : public QMainWindow
 	{
 		Q_OBJECT
@@ -63,6 +66,7 @@ namespace FastSimDesign {
 	public:
 		explicit SimulatorGui(QWidget* pParent = Q_NULLPTR) noexcept;
 		virtual ~SimulatorGui() = default; // Destructor
+
 	protected:
 		friend class UnloadedState;
 		friend class LoadingState;
@@ -86,7 +90,7 @@ namespace FastSimDesign {
 		void setupUi() noexcept;
 		void setupToolbar() noexcept;
 		void setupMenuBar() noexcept;
-		void setupModel() noexcept;
+		void setupModels() noexcept;
 		void setupStateMachine() noexcept;
 
 		virtual void closeEvent(QCloseEvent* pEvent) noexcept override;

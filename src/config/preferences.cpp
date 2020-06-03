@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "preferences.h"
 
 namespace FastSimDesign {
@@ -97,7 +96,7 @@ namespace FastSimDesign {
 	*****************************************************************************/
 	Preferences::Preferences(QObject* pParent /*= Q_NULLPTR*/) noexcept
 		: QObject{pParent}
-		, m_oSettings{new QSettings{QSettings::IniFormat, QSettings::UserScope, QLatin1String{"Artefacts Studio"}, QLatin1String{"ExperimentationTool"}, this}}
+		, m_oSettings{new QSettings{"../config/preferences.ini", QSettings::IniFormat, this}}
 	{
 		// --- Retrieve interface settings ---
 		m_oSettings->beginGroup(QLatin1String{"Interface"});

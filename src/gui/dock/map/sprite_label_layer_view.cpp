@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "sprite_label_layer_view.h"
 
 namespace FastSimDesign {

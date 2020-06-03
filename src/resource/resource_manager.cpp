@@ -6,8 +6,8 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "resource_manager.h"
+#include "QStringBuilder"
 
 namespace FastSimDesign {
 	/*****************************************************************************

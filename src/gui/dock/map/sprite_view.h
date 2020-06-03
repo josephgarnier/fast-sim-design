@@ -11,8 +11,6 @@
 #ifndef FAST_SIM_DESIGN_SPRITE_VIEW_H
 #define FAST_SIM_DESIGN_SPRITE_VIEW_H
 
-#include "QGraphicsItem"
-// #include "tiled/mapobject.h"
 #include "sprite_layer_view.h"
 
 namespace FastSimDesign {

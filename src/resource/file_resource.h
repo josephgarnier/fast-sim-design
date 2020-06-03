@@ -12,11 +12,16 @@
 #define FAST_SIM_DESIGN_FILE_RESOURCE_H
 
 #include "resource.h"
+#include "QFile"
+#include "QSharedPointer"
 
 namespace FastSimDesign {
 	class FileResource final : public Resource
 	{
 		Q_OBJECT
+	private:
+		using Parent = Resource;
+
 	public:
 		explicit FileResource(QFileInfo oFilePath, QObject* pParent = Q_NULLPTR); // throw ResourceException
 		virtual ~FileResource() = default; // Destructor

@@ -12,12 +12,16 @@
 #define FAST_SIM_DESIGN_MAP_RESOURCE_H
 
 #include "resource.h"
+#include "tiled/map.h"
 #include "tiled/maprenderer.h"
 
 namespace FastSimDesign {
 	class MapResource final : public Resource
 	{
 		Q_OBJECT
+	private:
+		using Parent = Resource;
+
 	public:
 		static QMetaEnum getMetaEnum(QString const& oName) noexcept;
 

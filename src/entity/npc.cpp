@@ -6,12 +6,15 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "npc.h"
+#include "util/collision_helper.h"
+#include "util/algorithm_util.h"
+#include "level/vector_loc.h"
+#include "level/world.h"
 
 namespace FastSimDesign {
 	Npc::Npc(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= 0*/) noexcept
-		: Entity{std::move(oWorld), pSpriteEntity, pParent}
+		: Parent{std::move(oWorld), pSpriteEntity, pParent}
 		, m_dWalkSpeed{128.0}
 		, m_dPixWalkedSinceLastDisplay{0.0}
 		, m_oTargetLocation{getLocation()}

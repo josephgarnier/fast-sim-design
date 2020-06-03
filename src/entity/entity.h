@@ -11,13 +11,14 @@
 #ifndef FAST_SIM_DESIGN_ENTITY_H
 #define FAST_SIM_DESIGN_ENTITY_H
 
+#include "QObject"
 #include "tiled/mapobject.h"
 #include "util/axis_aligned_bb.h"
-#include "util/collision_helper.h"
 #include "level/location.h"
 #include "pathfinding/path.h"
 
 namespace FastSimDesign {
+	class Word;
 	class Entity : public QObject
 	{
 		Q_OBJECT

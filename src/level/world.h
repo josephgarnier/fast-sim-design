@@ -11,16 +11,16 @@
 #ifndef FAST_SIM_DESIGN_WORLD_H
 #define FAST_SIM_DESIGN_WORLD_H
 
+#include "QEnableSharedFromThis"
+#include "entity/object.h"
+#include "entity/npc.h"
+#include "level/world_info_model.h"
 #include "tiled/map.h"
-#include "entity/entity.h"
 #include "pathfinding/path.h"
-#include "world_populator.h"
-#include "world_info_model.h"
 
 namespace FastSimDesign {
-	class Object;
-	class Npc;
-	class World final : public QObject, public QEnableSharedFromThis<World>
+	class World final : public QObject
+		, public QEnableSharedFromThis<World>
 	{
 		Q_OBJECT
 	Q_SIGNALS:
@@ -42,14 +42,14 @@ namespace FastSimDesign {
 		void term() noexcept;
 
 		inline WorldInfoModel* getWorldInfoModel() const noexcept { return m_oWorldInfoModel.data(); }
-		inline Tiled::MapRenderer const* const getMapRender() const noexcept { return m_pMapRenderer; }
-		inline Tiled::Map const* const getMap() const noexcept { return m_pMap; }
+		inline Tiled::MapRenderer const* getMapRender() const noexcept { return m_pMapRenderer; }
+		inline Tiled::Map const* getMap() const noexcept { return m_pMap; }
 		inline int getHeight() const noexcept { return m_pMap->height() * m_pMap->tileHeight(); }
 		inline int getWidth() const noexcept { return m_pMap->width() * m_pMap->tileWidth(); }
 		inline int getTileHeight() const noexcept { return m_pMap->tileHeight(); }
 		inline int getTileWidth() const noexcept { return m_pMap->tileWidth(); }
 
-		inline Tiled::TileLayer const* const getCollisionLayer() const noexcept { return m_pCollisionLayer; }
+		inline Tiled::TileLayer const* getCollisionLayer() const noexcept { return m_pCollisionLayer; }
 		inline void setVisibleCollisionLayer(bool bVisible) noexcept { m_pCollisionLayer->setVisible(bVisible); }
 
 		bool isCoordExists(Location const& oCoord) const noexcept;

@@ -6,16 +6,12 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "map_scene.h"
-#include "tiled/layer.h"
+#include "QGraphicsView"
 #include "tile_layer_view.h"
-#include "tiled/objectgroup.h"
-#include "sprite_layer_view.h"
 #include "QGraphicsSceneMouseEvent"
-#include "sprite_view.h"
-#include "tiled/mapobject.h"
 #include "config/preferences.h"
+#include "level/world.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************

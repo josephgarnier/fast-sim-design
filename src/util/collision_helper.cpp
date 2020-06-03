@@ -6,10 +6,9 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "collision_helper.h"
+#include "axis_aligned_bb.h"
 #include "tiled/objectgroup.h"
-#include "QVector2D"
 #include "tiled/map.h"
 
 namespace FastSimDesign {

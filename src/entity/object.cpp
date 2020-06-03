@@ -6,12 +6,13 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "object.h"
+#include "util/collision_helper.h"
+#include "level/world.h"
 
 namespace FastSimDesign {
 	Object::Object(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= Q_NULLPTR*/) noexcept
-		: Entity{std::move(oWorld), pSpriteEntity, pParent}
+		: Parent{std::move(oWorld), pSpriteEntity, pParent}
 		, m_oSlots{}
 	{
 	}

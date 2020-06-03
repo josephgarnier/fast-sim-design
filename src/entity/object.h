@@ -11,13 +11,16 @@
 #ifndef FAST_SIM_DESIGN_OBJECT_H
 #define FAST_SIM_DESIGN_OBJECT_H
 
-#include "slot.h"
 #include "entity.h"
+#include "slot.h"
 
 namespace FastSimDesign {
 	class Object final : public Entity
 	{
 		Q_OBJECT
+	private:
+		using Parent = Entity;
+
 	public:
 		explicit Object(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent = Q_NULLPTR) noexcept;
 		virtual ~Object() = default; // Destructor

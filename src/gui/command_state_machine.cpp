@@ -6,9 +6,9 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "command_state_machine.h"
 #include "util/views_util.h"
+#include "simulator_gui.h"
 
 namespace FastSimDesign {
 	/************************************************************************/

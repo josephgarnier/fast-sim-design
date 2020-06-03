@@ -14,12 +14,12 @@
 #include "QState"
 #include "QSignalTransition"
 #include "QFinalState"
-#include "simulator_gui.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************
 	States
 	*****************************************************************************/
+	class SimulatorGui;
 	class SimulationState : public QState
 	{
 		Q_OBJECT

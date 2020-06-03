@@ -12,7 +12,8 @@
 #define FAST_SIM_DESIGN_TILE_LAYER_VIEW_H
 
 #include "QGraphicsItem"
-// #include "tiled/mapobject.h"
+#include "tiled/tilelayer.h"
+#include "tiled/maprenderer.h"
 
 namespace FastSimDesign {
 	/*!

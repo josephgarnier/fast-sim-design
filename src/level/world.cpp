@@ -6,13 +6,13 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
 #include "world.h"
-#include "pathfinding/path_finder.h"
-#include "util/collision_helper.h"
 #include "resource/resource_manager.h"
+#include "world_populator.h"
 #include "resource/resource_exception.h"
 #include "world_exception.h"
+#include "util/collision_helper.h"
+#include "pathfinding/path_finder.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************

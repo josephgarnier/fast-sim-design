@@ -12,6 +12,7 @@
 #define FAST_SIM_DESIGN_PREFERENCES_H
 
 #include "QObject"
+#include "QSettings"
 
 namespace FastSimDesign {
 	class Preferences : public QObject
@@ -56,6 +57,7 @@ namespace FastSimDesign {
 	private:
 		explicit Preferences(QObject* pParent = Q_NULLPTR) noexcept;
 		virtual ~Preferences() = default; // Destructor
+
 	protected:
 		QScopedPointer<QSettings> m_oSettings;
 

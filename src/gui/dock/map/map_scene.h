@@ -11,11 +11,13 @@
 #ifndef FAST_SIM_DESIGN_MAP_SCENE_H
 #define FAST_SIM_DESIGN_MAP_SCENE_H
 
+#include "QGraphicsScene"
 #include "sprite_view.h"
 #include "sprite_label_layer_view.h"
 #include "sprite_label_view.h"
 
 namespace FastSimDesign {
+	class World;
 	class MapScene final : public QGraphicsScene
 	{
 		Q_OBJECT

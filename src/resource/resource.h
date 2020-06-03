@@ -11,6 +11,7 @@
 #ifndef FAST_SIM_DESIGN_RESOURCE_H
 #define FAST_SIM_DESIGN_RESOURCE_H
 
+#include "QObject"
 #include "QFileInfo"
 
 namespace FastSimDesign {

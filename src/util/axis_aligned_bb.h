@@ -12,6 +12,7 @@
 #define FAST_SIM_DESIGN_AXIS_ALIGNED_BB_H
 
 #include "QRectF"
+#include "QtMath"
 #include "tiled/mapobject.h"
 
 namespace FastSimDesign {

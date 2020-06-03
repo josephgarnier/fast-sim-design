@@ -16,6 +16,9 @@
 namespace FastSimDesign {
 	class WorldException final : public std::exception
 	{
+	private:
+		using Parent = std::exception;
+
 	public:
 		explicit WorldException() = default; // Default constructor
 		explicit WorldException(QString const& sWhat);

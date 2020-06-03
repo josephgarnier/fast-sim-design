@@ -14,9 +14,12 @@
 #include "entity.h"
 
 namespace FastSimDesign {
-	class FAST_SIM_DESIGN_API Npc final : public Entity
+	class Npc final : public Entity
 	{
 		Q_OBJECT
+	private:
+		using Parent = Entity;
+
 	public:
 		explicit Npc(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent = Q_NULLPTR) noexcept;
 		virtual ~Npc() = default; // Destructor

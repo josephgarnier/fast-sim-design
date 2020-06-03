@@ -12,6 +12,9 @@
 #define FAST_SIM_DESIGN_PATH_POINT_H
 
 #include "QPoint"
+#include "QSharedPointer"
+#include "QDebug"
+#include "fstream"
 
 namespace FastSimDesign {
 	class PathPoint final : private QPoint

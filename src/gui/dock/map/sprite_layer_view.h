@@ -12,7 +12,8 @@
 #define FAST_SIM_DESIGN_SPRITE_LAYER_VIEW_H
 
 #include "QGraphicsItem"
-// #include "tiled/mapobject.h"
+#include "tiled/objectgroup.h"
+#include "tiled/maprenderer.h"
 
 namespace FastSimDesign {
 	class SpriteLayerView final : public QGraphicsItem

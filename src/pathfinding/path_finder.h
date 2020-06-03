@@ -12,12 +12,14 @@
 #define FAST_SIM_DESIGN_PATH_FINDER_H
 
 #include "path.h"
-#include "entity/entity.h"
-#include "path_point.h"
 #include "util/priority_queue.h"
 #include "QQueue"
 
 namespace FastSimDesign {
+	class World;
+	class PathPoint;
+	class Entity;
+	class Location;
 	class PathFinder final
 	{
 	public:

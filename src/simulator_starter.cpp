@@ -6,7 +6,9 @@
 * LICENSE file in the root directory of this source tree.
 ******************************************************************************/
 
-#include "fast_sim_design_pch.h"
+#include "QStringBuilder"
+#include "QLoggingCategory"
+#include "level/world.h"
 #include "gui/simulator_gui.h"
 
 #if defined(_MSC_VER)
