@@ -23,6 +23,7 @@
 		"cmath": "cpp",
 		"qrectf": "cpp",
 		"qobject": "cpp",
-		"qmainwindow": "cpp"
+		"qmainwindow": "cpp",
+		"qloggingcategory": "cpp"
 	}
 }
