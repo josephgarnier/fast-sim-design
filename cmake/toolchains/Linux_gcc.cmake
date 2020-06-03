@@ -15,9 +15,9 @@ set(CMAKE_SYSTEM "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_VERSION}")
 set(triple x86_64-pc-linux-gnu)
 
 # specify the cross compiler
-set(CMAKE_C_COMPILER clang-9)
+set(CMAKE_C_COMPILER gcc-10)
 set(CMAKE_C_COMPILER_TARGET ${triple})
-set(CMAKE_CXX_COMPILER clang++-9)
+set(CMAKE_CXX_COMPILER g++-10)
 set(CMAKE_CXX_COMPILER_TARGET ${triple})
 
 # where is the target environment
@@ -33,8 +33,6 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 # compile flags
 add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-g>")
 add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-ggdb3>")
-add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-fdebug-macro>")
 add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wall>")
 add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wextra>")
-add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-fstandalone-debug>")
-add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-stdlib=libc++>")
+add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-O1>")
