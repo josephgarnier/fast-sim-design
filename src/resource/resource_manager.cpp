@@ -26,7 +26,7 @@ namespace FastSimDesign {
 	{
 		try
 		{
-			QFileInfo absoluteFilePath{QLatin1String{"assets/maps/"} % oFileName};
+			QFileInfo absoluteFilePath{QLatin1String{"../assets/maps/"} % oFileName};
 			absoluteFilePath.makeAbsolute();
 			QLatin1String mapExtension{"tmx"};
 			if (absoluteFilePath.suffix() != mapExtension)
