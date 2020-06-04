@@ -44,7 +44,6 @@ namespace FastSimDesign {
 		inline Tiled::TileLayer* getCollisionLayer() const noexcept { return m_pCollisionLayer; }
 		inline QMultiMap<MapResource::TiledObjectType, Tiled::MapObject*> const& getTiledObjects() const noexcept { return m_oTiledObjects; }
 		inline Tiled::MapRenderer const* getMapRender() const noexcept { return m_oRenderer.data(); }
-		inline QString getBeingProjectName() const noexcept { return m_sBeingProjectName; }
 
 		void saveMapFile() const; // throw ResourceException
 	protected:
@@ -58,7 +57,6 @@ namespace FastSimDesign {
 		Tiled::TileLayer* m_pCollisionLayer;
 		QMultiMap<MapResource::TiledObjectType, Tiled::MapObject*> m_oTiledObjects;
 		QScopedPointer<Tiled::MapRenderer> m_oRenderer;
-		QString m_sBeingProjectName;
 
 	private:
 	};

@@ -41,7 +41,6 @@ namespace FastSimDesign {
 		, m_pCollisionLayer{Q_NULLPTR}
 		, m_oTiledObjects{}
 		, m_oRenderer{Q_NULLPTR}
-		, m_sBeingProjectName{}
 	{
 		try
 		{
@@ -91,20 +90,13 @@ namespace FastSimDesign {
 		}
 
 		Tiled::MapReader reader;
-		m_oMap.reset(reader.readMap(m_oAbsoluteFilePath.filePath()).get());
+		m_oMap.reset(reader.readMap(m_oAbsoluteFilePath.filePath()).release());
 		if (m_oMap.isNull())
 		{
 			setStatus(Resource::Status::Error);
 			qCritical() << "Failed to read the map file:" << reader.errorString() << "!";
 			throw ResourceException{QLatin1String{"Failed to read the map file: "} % reader.errorString()};
 		}
-		if (m_oMap->property(QStringLiteral("being_project_name")).isNull())
-		{
-			setStatus(Resource::Status::Error);
-			qCritical() << "The property 'being_project_name' is missing!";
-			throw ResourceException{QLatin1String{"The property 'being_project_name' is missing"}};
-		}
-		m_sBeingProjectName = m_oMap->property(QStringLiteral("being_project_name")).toString();
 	}
 
 	void MapResource::loadCollisionLayer()
