@@ -17,7 +17,6 @@ namespace FastSimDesign {
 		, m_oTiledObjects{std::move(oTiledObjects)}
 		, m_bIsWorldPopulated{false}
 	{
-		Q_ASSERT_X(!m_oTiledObjects.empty(), "", "No tiled object to add in the world");
 	}
 
 	void WorldPopulator::populateWorld(QSharedPointer<World> oWorld)

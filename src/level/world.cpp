@@ -90,7 +90,6 @@ namespace FastSimDesign {
 
 	void World::init() noexcept
 	{
-		Q_ASSERT_X(!m_oEntities.empty(), "", "No entities in the world. It has to be populated");
 		m_oWorldInfoModel->setTotalTime(World::getTotalTime());
 		m_oWorldInfoModel->setWorldTime(World::getWorldTime());
 		m_oWorldInfoModel->setCurrentTick(0);
