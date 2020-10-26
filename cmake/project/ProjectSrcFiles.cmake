@@ -17,7 +17,7 @@
 
 include(Directory)
 
-# The precompiled files are set here. If you don't need them, set the variables to empty string
+# The precompiled files are set here. If you don't need them, set the variables to empty string.
 set(${PROJECT_NAME}_PRECOMPILED_HEADER_FILE "")
 set(${PROJECT_NAME}_PRECOMPILED_SOURCE_FILE "")
 

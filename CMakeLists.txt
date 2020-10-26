@@ -119,7 +119,7 @@ project("${PARAM_PROJECT_NAME}"
 message(STATUS "Set projet version with ${${PROJECT_NAME}_VERSION}")
 
 #------------------------------------------------------------------------------
-# Check project structure
+# Check project structure.
 #------------------------------------------------------------------------------
 message("\n== Check project structure ==")
 set(${PROJECT_NAME}_PROJECT_DIR                 "${CMAKE_SOURCE_DIR}")
@@ -167,7 +167,7 @@ foreach(folder IN ITEMS ${${PROJECT_NAME}_PROJECT_DIRS})
 	endif()
 endforeach()
 
-# build path should be in /build directory
+# Build path should be in /build directory.
 get_filename_component(build_directory "${${PROJECT_NAME}_BUILD_DIR}" DIRECTORY)
 if((NOT "${${PROJECT_NAME}_BUILD_DIR}" STREQUAL "${${PROJECT_NAME}_PROJECT_DIR}/build")
 	AND (NOT "${build_directory}" STREQUAL "${${PROJECT_NAME}_PROJECT_DIR}/build"))
@@ -175,7 +175,7 @@ if((NOT "${${PROJECT_NAME}_BUILD_DIR}" STREQUAL "${${PROJECT_NAME}_PROJECT_DIR}/
 endif()
 
 #------------------------------------------------------------------------------
-# Set output names, output directories and global variables
+# Set output names, output directories and global variables.
 #------------------------------------------------------------------------------
 message("\n== Set output names and output directories ==")
 include(StringManip)
@@ -183,7 +183,7 @@ if(NOT CMAKE_SYSTEM_PROCESSOR)
 	set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_HOST_SYSTEM_PROCESSOR})
 endif()
 
-# Set utility variables
+# Set utility variables.
 set(${PROJECT_NAME}_TARGET_IS_STATIC off)
 set(${PROJECT_NAME}_TARGET_IS_SHARED off)
 set(${PROJECT_NAME}_TARGET_IS_EXEC   off)
@@ -195,7 +195,7 @@ elseif("${PARAM_BUILD_TARGET}" STREQUAL "exec")
 	set(${PROJECT_NAME}_TARGET_IS_EXEC   on)
 endif()
 
-# Set directories and names for build
+# Set directories and names for build.
 set(SYSTEM_NAME "${CMAKE_SYSTEM_NAME}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_SYSTEM_PROCESSOR}")
 string(TOLOWER ${SYSTEM_NAME} SYSTEM_NAME)
 if(${${PROJECT_NAME}_TARGET_IS_STATIC} OR ${${PROJECT_NAME}_TARGET_IS_SHARED})
@@ -222,11 +222,11 @@ set(CMAKE_SHARED_LIBRARY_PREFIX            "")
 
 set(${PROJECT_NAME}_COMPILE_DEFINITIONS    "${PARAM_COMPILE_DEFINITIONS}")
 
-# Set directories and names for documentation
+# Set directories and names for documentation.
 set(${PROJECT_NAME}_DOXYGEN_TEMPLATE_CONFIG_FILE    "${${PROJECT_NAME}_DOC_DIR}/doxyfile.in")
 set(${PROJECT_NAME}_DOXYGEN_CONFIG_FILE             "${${PROJECT_NAME}_DOC_DIR}/doxyfile")
 
-# Set directories and names for packaging and exporting commands
+# Set directories and names for packaging and exporting commands.
 set(${PROJECT_NAME}_PACKAGE_NAME                    "${PROJECT_NAME}")
 string_manip(TRANSFORM ${PROJECT_NAME}_PACKAGE_NAME START_CASE)
 set(${PROJECT_NAME}_PACKAGE_TEMPLATE_CONFIG_FILE    "${${PROJECT_NAME}_CMAKE_PROJECT_DIR}/PackageConfig.cmake.in")
@@ -238,7 +238,7 @@ set(${PROJECT_NAME}_EXPORT_NAMESPACE                "${PARAM_EXPORT_NAMESPACE}")
 set(${PROJECT_NAME}_EXPORT_TARGET_FILE_NAME         "${${PROJECT_NAME}_EXPORT_NAME}Targets.cmake")
 set(${PROJECT_NAME}_EXPORT_TARGET_FILE              "${${PROJECT_NAME}_BUILD_DIR}/${${PROJECT_NAME}_EXPORT_TARGET_FILE_NAME}")
 
-# Set directories and names for install/uninstall commands
+# Set directories and names for install/uninstall commands.
 if(DEFINED PARAM_INSTALL_DIRECTORY AND IS_DIRECTORY "${PARAM_INSTALL_DIRECTORY}")
 	set(CMAKE_INSTALL_PREFIX "${PARAM_INSTALL_DIRECTORY}")
 	message(STATUS "Set the install directory to \"${CMAKE_INSTALL_PREFIX}\"")
@@ -254,14 +254,14 @@ set(${PROJECT_NAME}_INSTALL_CMAKE_DIR               "${CMAKE_INSTALL_FULL_LIBDIR
 set(${PROJECT_NAME}_UNINSTALL_TEMPLATE_CONFIG_FILE  "${${PROJECT_NAME}_CMAKE_HELPERS_DIR}/Uninstall.cmake.in")
 set(${PROJECT_NAME}_UNINSTALL_CONFIG_FILE           "${${PROJECT_NAME}_BUILD_DIR}/Uninstall.cmake")
 
-# Set directories and names for package installers
+# Set directories and names for package installers.
 set(${PROJECT_NAME}_CPACK_CONFIG_FILE               "${${PROJECT_NAME}_BUILD_DIR}/CPackConfig.cmake")
 set(${PROJECT_NAME}_CPACK_SOURCE_CONFIG_FILE        "${${PROJECT_NAME}_BUILD_DIR}/CPackSourceConfig.cmake")
 set(${PROJECT_NAME}_CPACK_TEMPLATE_OPTIONS_FILE     "${${PROJECT_NAME}_CMAKE_PROJECT_DIR}/CPackInstallerOptions.cmake.in")
 set(${PROJECT_NAME}_CPACK_OPTIONS_FILE              "${${PROJECT_NAME}_BUILD_DIR}/CMakeCPackOptions.cmake")
 
 #------------------------------------------------------------------------------
-# Build project
+# Build project.
 #------------------------------------------------------------------------------
 message("\n== Build project ==")
 include(ProjectSrcFiles)

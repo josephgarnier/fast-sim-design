@@ -16,7 +16,7 @@
 # to keep default values or you will get an error.
 
 #------------------------------------------------------------------------------
-# General packaging setup
+# General packaging setup.
 #------------------------------------------------------------------------------
 set(CPACK_PACKAGE_DESCRIPTION           "${${PROJECT_NAME}_SUMMARY}")
 set(CPACK_PACKAGE_DESCRIPTION_FILE      "${${PROJECT_NAME}_PROJECT_DIR}/README.md")
@@ -39,20 +39,20 @@ set(CPACK_RESOURCE_FILE_LICENSE         "${${PROJECT_NAME}_PROJECT_DIR}/LICENSE.
 set(CPACK_RESOURCE_FILE_README          "${${PROJECT_NAME}_PROJECT_DIR}/README.md")
 
 #------------------------------------------------------------------------------
-# Source package settings
+# Source package settings.
 #------------------------------------------------------------------------------
 set(CPACK_SOURCE_IGNORE_FILES           "")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME      "${CPACK_PACKAGE_NAME}-source")
-if(WIN32)
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
 	set(CPACK_SOURCE_GENERATOR          "WIX")
-elseif(UNIX)
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
 	set(CPACK_SOURCE_GENERATOR          "ZIP")
-elseif(APPLE)
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
 	set(CPACK_SOURCE_GENERATOR          "ZIP")
 endif()
 
 #------------------------------------------------------------------------------
-# Binary package settings
+# Binary package settings.
 #------------------------------------------------------------------------------
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY    OFF)
 set(CPACK_PACKAGE_DIRECTORY             "${${PROJECT_NAME}_BIN_DIR}")
@@ -62,10 +62,10 @@ set(CPACK_PACKAGE_RELOCATABLE           ON)
 set(CPACK_SYSTEM_NAME                   "${SYSTEM_NAME}")
 set(CPACK_TOPLEVEL_TAG                  "")
 
-if(WIN32)
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
 	set(CPACK_GENERATOR                 "WIX")
-elseif(UNIX)
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
 	set(CPACK_GENERATOR                 "ZIP")
-elseif(APPLE)
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
 	set(CPACK_GENERATOR                 "ZIP")
 endif()
