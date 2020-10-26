@@ -7,20 +7,20 @@
 			"${workspaceFolder}/include/**",
 			"${workspaceFolder}/build/src",
 			"${workspaceFolder}/build/src/**",
-			"/opt/Qt/5.12.6/gcc_64/include",
-			"/opt/Qt/5.12.6/gcc_64/include/**",
-			"/opt/Qt/5.12.6/gcc_64/include/QtCore",
-			"/opt/Qt/5.12.6/gcc_64/include/QtWidgets",
-			"/opt/Qt/5.12.6/gcc_64/include/QtGui"
+			"/opt/Qt/5.15.1/gcc_64/include",
+			"/opt/Qt/5.15.1/gcc_64/include/**",
+			"/opt/Qt/5.15.1/gcc_64/include/QtCore",
+			"/opt/Qt/5.15.1/gcc_64/include/QtWidgets",
+			"/opt/Qt/5.15.1/gcc_64/include/QtGui"
 		],
 		"linuxBrowsePath": [
 			"${workspaceFolder}/src",
 			"${workspaceFolder}/include",
 			"${workspaceFolder}/build/src",
-			"/opt/Qt/5.12.6/gcc_64/include",
-			"/opt/Qt/5.12.6/gcc_64/include/QtCore",
-			"/opt/Qt/5.12.6/gcc_64/include/QtWidgets",
-			"/opt/Qt/5.12.6/gcc_64/include/QtGui"
+			"/opt/Qt/5.15.1/gcc_64/include",
+			"/opt/Qt/5.15.1/gcc_64/include/QtCore",
+			"/opt/Qt/5.15.1/gcc_64/include/QtWidgets",
+			"/opt/Qt/5.15.1/gcc_64/include/QtGui"
 		]
 	},
 	"configurations": [
@@ -33,7 +33,7 @@
 				"clang"
 			],
 			"compilerPath": "/usr/bin/clang++",
-			"cStandard": "c18",
+			"cStandard": "c17",
 			"cppStandard": "c++17",
 			"intelliSenseMode": "clang-x64",
 			"compileCommands": "",
@@ -53,7 +53,7 @@
 			"defines": [
 			],
 			"compilerPath": "/usr/bin/g++",
-			"cStandard": "c18",
+			"cStandard": "c17",
 			"cppStandard": "c++17",
 			"intelliSenseMode": "gcc-x64",
 			"compileCommands": "",

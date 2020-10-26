@@ -58,18 +58,18 @@ message("\n** Include Qt **")
 if(DEFINED ENV{Qt5_DIR}) 
 	set(Qt5_DIR "$ENV{Qt5_DIR}")
 else()
-	set(Qt5_DIR "/opt/Qt/5.12.6/gcc_64/lib/cmake/Qt5")
+	set(Qt5_DIR "/opt/Qt/5.15.1/gcc_64/lib/cmake/Qt5")
 endif()
 find_package(Qt5 COMPONENTS Widgets Gui Core Svg Concurrent REQUIRED)
 find_package(Qt5CoreMacrosCustom REQUIRED)
 find_package(Qt5WidgetsMacrosCustom REQUIRED)
 
-if (${Qt5Widgets_VERSION} VERSION_LESS 5.12.6
-	OR ${Qt5Gui_VERSION} VERSION_LESS 5.12.6
-	OR ${Qt5Core_VERSION} VERSION_LESS 5.12.6
-	OR ${Qt5Svg_VERSION} VERSION_LESS 5.12.6
-	OR ${Qt5Concurrent_VERSION} VERSION_LESS 5.12.6)
-		message(FATAL_ERROR "Minimum supported Qt5 version is 5.12.6!")
+if (${Qt5Widgets_VERSION} VERSION_LESS 5.15.1
+	OR ${Qt5Gui_VERSION} VERSION_LESS 5.15.1
+	OR ${Qt5Core_VERSION} VERSION_LESS 5.15.1
+	OR ${Qt5Svg_VERSION} VERSION_LESS 5.15.1
+	OR ${Qt5Concurrent_VERSION} VERSION_LESS 5.15.1)
+		message(FATAL_ERROR "Minimum supported Qt5 version is 5.15.1!")
 endif()
 
 set(QOBJECT_SOURCE_FILES
