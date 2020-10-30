@@ -21,6 +21,28 @@
 			"/opt/Qt/5.15.1/gcc_64/include/QtCore",
 			"/opt/Qt/5.15.1/gcc_64/include/QtWidgets",
 			"/opt/Qt/5.15.1/gcc_64/include/QtGui"
+		],
+		"windowsIncludePath": [
+			"${workspaceFolder}/src",
+			"${workspaceFolder}/src/**",
+			"${workspaceFolder}/include",
+			"${workspaceFolder}/include/**",
+			"${workspaceFolder}/build/src",
+			"${workspaceFolder}/build/src/**",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/**",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/QtCore",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/QtWidgets",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/QtGui"
+		],
+		"windowsBrowsePath": [
+			"${workspaceFolder}/src",
+			"${workspaceFolder}/include",
+			"${workspaceFolder}/build/src",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/includeQtCore",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/includeQtWidgets",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/includeQtGui"
 		]
 	},
 	"configurations": [
@@ -53,6 +75,26 @@
 			"defines": [
 			],
 			"compilerPath": "/usr/bin/g++",
+			"cStandard": "c17",
+			"cppStandard": "c++17",
+			"intelliSenseMode": "gcc-x64",
+			"compileCommands": "",
+			"browse": {
+				"path": [
+					"${linuxBrowsePath}"
+				],
+				"limitSymbolsToIncludedHeaders": false,
+				"databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+			}
+		},
+		{
+			"name": "(gcc-windows) IntelliSense",
+			"includePath": [
+				"${linuxIncludePath}"
+			],
+			"defines": [
+			],
+			"compilerPath": "C:/msys64/usr/bin/g++",
 			"cStandard": "c17",
 			"cppStandard": "c++17",
 			"intelliSenseMode": "gcc-x64",
