@@ -24,6 +24,7 @@
 		"qrectf": "cpp",
 		"qobject": "cpp",
 		"qmainwindow": "cpp",
-		"qloggingcategory": "cpp"
+		"qloggingcategory": "cpp",
+		"qabstractlistmodel": "cpp"
 	}
 }
