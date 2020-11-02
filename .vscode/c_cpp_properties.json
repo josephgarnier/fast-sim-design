@@ -40,9 +40,9 @@
 			"${workspaceFolder}/include",
 			"${workspaceFolder}/build/src",
 			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include",
-			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/includeQtCore",
-			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/includeQtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/includeQtGui"
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/QtCore",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/QtWidgets",
+			"D:/Documents/Travail/Libraries/Qt/5.15.1/mingw81_64/include/QtGui"
 		]
 	},
 	"configurations": [
@@ -90,18 +90,18 @@
 		{
 			"name": "(gcc-windows) IntelliSense",
 			"includePath": [
-				"${linuxIncludePath}"
+				"${windowsIncludePath}"
 			],
 			"defines": [
 			],
-			"compilerPath": "C:/msys64/usr/bin/g++",
+			"compilerPath": "C:/msys64/mingw64/bin/g++",
 			"cStandard": "c17",
 			"cppStandard": "c++17",
 			"intelliSenseMode": "gcc-x64",
 			"compileCommands": "",
 			"browse": {
 				"path": [
-					"${linuxBrowsePath}"
+					"${windowsBrowsePath}"
 				],
 				"limitSymbolsToIncludedHeaders": false,
 				"databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
