@@ -25,7 +25,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 #------------------------------------------------------------------------------
-# Set parameters
+# Set parameters.
 #------------------------------------------------------------------------------
 message("=============================================")
 message("      Build project ${PARAM_PROJECT_NAME}    ")
@@ -53,7 +53,7 @@ message(" - Install directory: \"${PARAM_INSTALL_DIRECTORY}\"")
 message("")
 
 #------------------------------------------------------------------------------
-# Check options
+# Check options.
 #------------------------------------------------------------------------------
 message("== Check options ==")
 
@@ -71,7 +71,7 @@ if((NOT "${PARAM_BUILD_TARGET}" STREQUAL "static")
 	AND (NOT "${PARAM_BUILD_TARGET}" STREQUAL "exec"))
 	message(FATAL_ERROR "Compile version must be \"static\" or \"shared\" or \"exec\"!")
 elseif("${PARAM_BUILD_TARGET}" STREQUAL "shared")
-	# All libraries will be built shared unless the library was explicitly added as a static library
+	# All libraries will be built shared unless the library was explicitly added as a static library.
 	set(BUILD_SHARED_LIBS on)
 	message(STATUS "All libraries will be built as shared")
 endif()
@@ -87,7 +87,7 @@ else()
 	message(FATAL_ERROR "Build type should be \"debug\" or \"release\"!")
 endif()
 
-# Set compiler version flag
+# Set compiler version flag.
 if(("${PARAM_COMPILE_VERSION}" STREQUAL "11")
 	OR ("${PARAM_COMPILE_VERSION}" STREQUAL "14")
 	OR ("${PARAM_COMPILE_VERSION}" STREQUAL "17")
@@ -99,7 +99,7 @@ else()
 endif()
 
 #------------------------------------------------------------------------------
-# Project settings
+# Project settings.
 #------------------------------------------------------------------------------
 message("\n== Project settings ==")
 set(PROJECT_NAME                    "${PARAM_PROJECT_NAME}")
@@ -288,11 +288,24 @@ if(NOT DEFINED ${PROJECT_NAME}_HEADER_PRIVATE_FILES)
 	message(FATAL_ERROR "${PROJECT_NAME}_HEADER_PRIVATE_FILES must be specified!")
 endif()
 
-# Create a relative precompiled header file for `target_precompile_headers()` command.
+# Create a relative precompiled header file for PRIVATE of `target_precompile_headers()` command.
 set(${PROJECT_NAME}_PRECOMPILED_HEADER_RELATIVE_FILE "")
 file_manip(RELATIVE_PATH ${PROJECT_NAME}_PRECOMPILED_HEADER_FILE
 	BASE_DIR "${${PROJECT_NAME}_PROJECT_DIR}"
 	OUTPUT_VARIABLE ${PROJECT_NAME}_PRECOMPILED_HEADER_RELATIVE_FILE
+)
+
+# Create an absolute precompiled header file for INSTALL_INTERFACE of `target_precompile_headers()`
+# command (for some unknown reason the command `install(EXPORT...)` does not add a
+# suffix to the relative path).
+set(${PROJECT_NAME}_INSTALL_PRECOMPILED_HEADER_FILE ${${PROJECT_NAME}_PRECOMPILED_HEADER_FILE})
+foreach(header_directory IN ITEMS ${${PROJECT_NAME}_HEADER_PUBLIC_DIRS})
+	file_manip(STRIP_PATH ${PROJECT_NAME}_INSTALL_PRECOMPILED_HEADER_FILE
+		BASE_DIR "${header_directory}"
+	)
+endforeach()
+file_manip(ABSOLUTE_PATH ${PROJECT_NAME}_INSTALL_PRECOMPILED_HEADER_FILE
+	BASE_DIR "${${PROJECT_NAME}_INSTALL_INCLUDE_DIR}"
 )
 
 # Create a list of private relative source files for PRIVATE of `target_sources()` command.
@@ -302,7 +315,7 @@ file_manip(RELATIVE_PATH ${PROJECT_NAME}_SOURCE_PRIVATE_FILES
 	OUTPUT_VARIABLE ${PROJECT_NAME}_SOURCE_PRIVATE_RELATIVE_FILES
 )
 
-# Create a list of public relative header files for BUILD_INTERFACE of `target_sources()` command.
+# Create a list of public relative header files for PRIVATE of `target_sources()` command.
 set(${PROJECT_NAME}_HEADER_PUBLIC_RELATIVE_FILES "")
 file_manip(RELATIVE_PATH ${PROJECT_NAME}_HEADER_PUBLIC_FILES
 	BASE_DIR "${${PROJECT_NAME}_PROJECT_DIR}"
@@ -316,58 +329,62 @@ file_manip(RELATIVE_PATH ${PROJECT_NAME}_HEADER_PRIVATE_FILES
 	OUTPUT_VARIABLE ${PROJECT_NAME}_HEADER_PRIVATE_RELATIVE_FILES
 )
 
-# Create a list of header files for INSTALL_INTERFACE of `target_sources()` command.
-set(${PROJECT_NAME}_INSTALL_HEADER_FILES ${${PROJECT_NAME}_HEADER_PUBLIC_FILES})
+# Create a list of relative header files for INSTALL_INTERFACE of `target_sources()` command.
+set(${PROJECT_NAME}_INSTALL_HEADER_RELATIVE_FILES ${${PROJECT_NAME}_HEADER_PUBLIC_FILES})
 foreach(header_directory IN ITEMS ${${PROJECT_NAME}_HEADER_PUBLIC_DIRS})
-	file_manip(STRIP_PATH ${PROJECT_NAME}_INSTALL_HEADER_FILES
+	file_manip(STRIP_PATH ${PROJECT_NAME}_INSTALL_HEADER_RELATIVE_FILES
 		BASE_DIR "${header_directory}"
 	)
 endforeach()
-file_manip(ABSOLUTE_PATH ${PROJECT_NAME}_INSTALL_HEADER_FILES
+file_manip(ABSOLUTE_PATH ${PROJECT_NAME}_INSTALL_HEADER_RELATIVE_FILES
 	BASE_DIR "${${PROJECT_NAME}_INSTALL_RELATIVE_INCLUDE_DIR}"
 )
 
-# Build as library or as executable
+# Build as library or as executable.
 if(${${PROJECT_NAME}_TARGET_IS_STATIC})
-	# Build static library
+	# Build static library.
 	message("")
 	message(STATUS "Build as a static library")
 	add_library("${${PROJECT_NAME}_TARGET_NAME}" STATIC)
 elseif(${${PROJECT_NAME}_TARGET_IS_SHARED})
-	# Build shared library
+	# Build shared library.
 	message("")
 	message(STATUS "Build as a shared library")
 	add_library("${${PROJECT_NAME}_TARGET_NAME}" SHARED)
 elseif(${${PROJECT_NAME}_TARGET_IS_EXEC})
-	# Build executable
+	# Build executable.
 	message("")
 	message(STATUS "Build as an executable")
 	add_executable("${${PROJECT_NAME}_TARGET_NAME}")
 endif()
 
-# Add sources to target
+# Add sources to target.
 message(STATUS "Add private and public sources files to target")
 target_sources("${${PROJECT_NAME}_TARGET_NAME}"
 	PUBLIC
-		"$<BUILD_INTERFACE:${${PROJECT_NAME}_HEADER_PUBLIC_RELATIVE_FILES}>"
-		"$<INSTALL_INTERFACE:${${PROJECT_NAME}_INSTALL_HEADER_FILES}>"
+		"$<BUILD_INTERFACE:${${PROJECT_NAME}_HEADER_PUBLIC_FILES}>"
+		"$<INSTALL_INTERFACE:${${PROJECT_NAME}_INSTALL_HEADER_RELATIVE_FILES}>"
 	PRIVATE
 		"${${PROJECT_NAME}_SOURCE_PRIVATE_RELATIVE_FILES}"
 		"${${PROJECT_NAME}_HEADER_PRIVATE_RELATIVE_FILES}"
+		"${${PROJECT_NAME}_HEADER_PUBLIC_RELATIVE_FILES}"
 )
 
-# Add precompiled header to target
+# Add precompiled header to target.
 if(${PROJECT_NAME}_PRECOMPILED_HEADER_FILE)
 	message(STATUS "Add precompiled header to target")
 	target_precompile_headers("${${PROJECT_NAME}_TARGET_NAME}"
 		PUBLIC
+			"$<BUILD_INTERFACE:${${PROJECT_NAME}_PRECOMPILED_HEADER_FILE}>"
+			"$<INSTALL_INTERFACE:${${PROJECT_NAME}_INSTALL_PRECOMPILED_HEADER_FILE}>"
+		PRIVATE
 			"${${PROJECT_NAME}_PRECOMPILED_HEADER_RELATIVE_FILE}"
 	)
 else()
 	message(STATUS "Precompiled header disabled for target")
 endif()
 
-# Set compiler version to target
+# Set compiler version to target.
 message(STATUS "Set compiler version to target")
 target_compile_features("${${PROJECT_NAME}_TARGET_NAME}"
 	PUBLIC
@@ -377,12 +394,12 @@ target_compile_features("${${PROJECT_NAME}_TARGET_NAME}"
 		"cxx_std_${CMAKE_CXX_STANDARD}"
 )
 
-# Add header directories to incude directories to target
+# Add header directories to incude directories to target.
 message(STATUS "Add private and public header directories to include directories of target")
 target_include_directories("${${PROJECT_NAME}_TARGET_NAME}"
 	# see https://cmake.org/cmake/help/v3.0/manual/cmake-buildsystem.7.html#build-specification-and-usage-requirements
 	# and https://stackoverflow.com/questions/26243169/cmake-target-include-directories-meaning-of-scope
-	# and https://cmake.org/pipermail/cmake/2017-October/066457.html
+	# and https://cmake.org/pipermail/cmake/2017-October/066457.html.
 	# If PRIVATE is specified for a certain option/property, then that option/property will only impact
 	# the current target. If PUBLIC is specified, then the option/property impacts both the current
 	# target and any others that link to it. If INTERFACE is specified, then the option/property does
@@ -391,14 +408,14 @@ target_include_directories("${${PROJECT_NAME}_TARGET_NAME}"
 		# Used when the property is exported using export(), or when building the target,
 		# or when it is used by another target in the same buildsystem.
 		"$<BUILD_INTERFACE:${${PROJECT_NAME}_HEADER_PUBLIC_DIRS}>"
-		# Used when installing use install(EXPORT)
+		# Used when installing use install(EXPORT).
 		"$<INSTALL_INTERFACE:${${PROJECT_NAME}_INSTALL_INCLUDE_DIR}>"
 	PRIVATE
-		# Used only when building the target
+		# Used only when building the target.
 		"$<$<BOOL:${${PROJECT_NAME}_HEADER_PRIVATE_DIRS}>:${${PROJECT_NAME}_HEADER_PRIVATE_DIRS}>"
 )
 
-# Add compile definitions to target
+# Add compile definitions to target.
 message(STATUS "Add compile definitions to target")
 target_compile_definitions("${${PROJECT_NAME}_TARGET_NAME}"
 	PUBLIC
@@ -409,7 +426,7 @@ target_compile_definitions("${${PROJECT_NAME}_TARGET_NAME}"
 )
 
 #------------------------------------------------------------------------------
-# Add project dependencies
+# Add project dependencies.
 #------------------------------------------------------------------------------
 message("\n== Add project dependencies ==")
 include(Dependencies)
@@ -430,7 +447,7 @@ file_manip(ABSOLUTE_PATH ${PROJECT_NAME}_INSTALL_LIBRARY_FILES
 	BASE_DIR "${${PROJECT_NAME}_INSTALL_LIBRARY_DIR}"
 )
 
-# Link external libraries to target
+# Link external libraries to target.
 message(STATUS "Link external libraries of \"lib/\" directory to project target")
 target_link_libraries("${${PROJECT_NAME}_TARGET_NAME}"
 	PUBLIC
@@ -442,7 +459,7 @@ target_link_libraries("${${PROJECT_NAME}_TARGET_NAME}"
 
 # Add external header directories to incude directories to target
 # (INSTALL_INTERFACE and PRIVATE doesn't need to be defined here, because they are
-# already defined in the previous call to `target_include_directories()`)
+# already defined in the previous call to `target_include_directories()`).
 message(STATUS "Add \"include/\" directory (containing external header directories) to include directories of target")
 target_include_directories("${${PROJECT_NAME}_TARGET_NAME}"
 	PUBLIC
@@ -450,7 +467,7 @@ target_include_directories("${${PROJECT_NAME}_TARGET_NAME}"
 )
 
 #------------------------------------------------------------------------------
-# Build documentation
+# Build documentation.
 #------------------------------------------------------------------------------
 if(${PARAM_BUILD_DOXYGEN_DOCS})
 	message("\n== Build documentation ==")
@@ -471,7 +488,7 @@ if(${PARAM_BUILD_DOXYGEN_DOCS})
 		message(FATAL_ERROR "Doxygen config file can't be generate")
 	endif()
 
-	# Add `make docs` command
+	# Add `make docs` command.
 	add_custom_target(docs ALL
 		COMMAND ${DOXYGEN_EXECUTABLE} "${${PROJECT_NAME}_DOXYGEN_CONFIG_FILE}"
 		SOURCES "${${PROJECT_NAME}_DOXYGEN_CONFIG_FILE}"
@@ -480,7 +497,7 @@ if(${PARAM_BUILD_DOXYGEN_DOCS})
 		VERBATIM
 	)
 	
-	# Add the generated documentation files to `make clean` command
+	# Add the generated documentation files to `make clean` command.
 	set_property(DIRECTORY "${${PROJECT_NAME}_PROJECT_DIR}"
 		APPEND
 		PROPERTY ADDITIONAL_CLEAN_FILES
@@ -491,7 +508,7 @@ if(${PARAM_BUILD_DOXYGEN_DOCS})
 endif()
 
 #------------------------------------------------------------------------------
-# Build tests
+# Build tests.
 #------------------------------------------------------------------------------
 if(${PARAM_BUILD_TESTS})
 	message("\n== Build tests ==")
@@ -502,12 +519,12 @@ if(${PARAM_BUILD_TESTS})
 endif()
 
 #------------------------------------------------------------------------------
-# Generate files for packaging and exporting
+# Generate files for packaging and exporting.
 #------------------------------------------------------------------------------
 message("\n== Generates files for packaging and exporting ==")
 include(CMakePackageConfigHelpers)
 
-# Generate a package config-file)
+# Generate a package config-file.
 set(LOCAL_TARGET_NAME                  "${${PROJECT_NAME}_TARGET_NAME}")
 set(LOCAL_EXPORT_TARGET_FILE_NAME      "${${PROJECT_NAME}_EXPORT_TARGET_FILE_NAME}")
 set(LOCAL_PACKAGE_NAME                 "${${PROJECT_NAME}_PACKAGE_NAME}")
@@ -527,7 +544,7 @@ else()
 	message(FATAL_ERROR "Package config-file can't be generate")
 endif()
 
-# Generate a package version-file
+# Generate a package version-file.
 write_basic_package_version_file(
 	"${${PROJECT_NAME}_PACKAGE_VERSION_FILE}"
 	VERSION "${${PROJECT_NAME}_VERSION}"
@@ -541,7 +558,7 @@ else()
 endif()
 
 # Generate the target file for exporting the library from the build tree (warning: it should never be installed).
-# See: https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/Exporting-and-Importing-Targets
+# See: https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/Exporting-and-Importing-Targets.
 export(TARGETS "${${PROJECT_NAME}_TARGET_NAME}"
 	FILE "${${PROJECT_NAME}_EXPORT_TARGET_FILE}"
 	NAMESPACE "${${PROJECT_NAME}_EXPORT_NAMESPACE}::"
@@ -551,14 +568,14 @@ file(RELATIVE_PATH relative_path "${${PROJECT_NAME}_PROJECT_DIR}" "${${PROJECT_N
 message(STATUS "Export target file for the project library generated into \"${relative_path}\"")
 
 #------------------------------------------------------------------------------
-# Make install/uninstall rules and exporting
+# Make install/uninstall rules and exporting.
 #------------------------------------------------------------------------------
 message("\n== Generates make install/uninstall rules ==")
 
-# Rename export name of target
+# Rename export name of target.
 set_target_properties ("${${PROJECT_NAME}_TARGET_NAME}" PROPERTIES EXPORT_NAME "${${PROJECT_NAME}_EXPORT_NAME}")
 
-# Install the target and defined an export group
+# Install the target and defined an export group.
 install(TARGETS "${${PROJECT_NAME}_TARGET_NAME}"
 	EXPORT "${${PROJECT_NAME}_EXPORT_NAME}"
 	ARCHIVE DESTINATION "${${PROJECT_NAME}_INSTALL_ARCHIVE_DIR}"
@@ -566,7 +583,7 @@ install(TARGETS "${${PROJECT_NAME}_TARGET_NAME}"
 	RUNTIME DESTINATION "${${PROJECT_NAME}_INSTALL_RUNTIME_DIR}"
 )
 
-# Install public header files in include directory
+# Install public header files in include directory.
 foreach(directory IN ITEMS ${${PROJECT_NAME}_HEADER_PUBLIC_DIRS})
 	install(DIRECTORY "${directory}/"
 		DESTINATION "${${PROJECT_NAME}_INSTALL_INCLUDE_DIR}"
@@ -574,7 +591,7 @@ foreach(directory IN ITEMS ${${PROJECT_NAME}_HEADER_PUBLIC_DIRS})
 	)
 endforeach()
 
-# Install library public header files in include directory
+# Install library public header files in include directory.
 foreach(directory IN ITEMS ${${PROJECT_NAME}_LIBRARY_HEADER_DIRS})
 	install(DIRECTORY "${directory}"
 		DESTINATION "${${PROJECT_NAME}_INSTALL_INCLUDE_DIR}"
@@ -582,19 +599,20 @@ foreach(directory IN ITEMS ${${PROJECT_NAME}_LIBRARY_HEADER_DIRS})
 	)
 endforeach()
 
-# Install externals libraries in lib directory
+# Install externals libraries in lib directory.
 install(FILES ${${PROJECT_NAME}_LIBRARY_FILES}
 	DESTINATION "${${PROJECT_NAME}_INSTALL_LIBRARY_DIR}"
 )
 
-# Install the config-file and the config-version-file in cmake directory
+# Install the config-file and the config-version-file in cmake directory.
 install(FILES
 	"${${PROJECT_NAME}_PACKAGE_CONFIG_FILE}"
 	"${${PROJECT_NAME}_PACKAGE_VERSION_FILE}"
 	DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKE_DIR}"
 )
 
-# Generate a target file for exporting from the install tree and install it
+# Generate and install a target file for exporting that will be use in the
+# install tree.
 install(EXPORT "${${PROJECT_NAME}_EXPORT_NAME}"
 	NAMESPACE "${${PROJECT_NAME}_EXPORT_NAMESPACE}::"
 	DESTINATION "${${PROJECT_NAME}_INSTALL_CMAKE_DIR}"
@@ -602,7 +620,7 @@ install(EXPORT "${${PROJECT_NAME}_EXPORT_NAME}"
 )
 
 if(NOT TARGET uninstall)
-	# Add uninstall rules
+	# Add uninstall rules.
 	set(LOCAL_BUILD_DIR "${${PROJECT_NAME}_BUILD_DIR}")
 	set(LOCAL_INSTALL_INCLUDE_DIR "${${PROJECT_NAME}_INSTALL_INCLUDE_DIR}")
 	set(LOCAL_INSTALL_LIBRARY_DIR "${${PROJECT_NAME}_INSTALL_LIBRARY_DIR}")
@@ -615,23 +633,23 @@ if(NOT TARGET uninstall)
 	unset(LOCAL_INSTALL_INCLUDE_DIR)
 	unset(LOCAL_INSTALL_LIBRARY_DIR)
 
-	# Add `make uninstall` command
+	# Add `make uninstall` command.
 	add_custom_target(uninstall
 		COMMAND ${CMAKE_COMMAND} -P "${${PROJECT_NAME}_UNINSTALL_CONFIG_FILE}"
 	)
 
-	# Add uninstall target in a folder for IDE project generation
+	# Add uninstall target in a folder for IDE project generation.
 	get_cmake_property(target_folder PREDEFINED_TARGETS_FOLDER)
 	set_target_properties(uninstall PROPERTIES FOLDER "${target_folder}")
 endif()
 
 #------------------------------------------------------------------------------
-# Generate binary and source package installers
+# Generate binary and source package installers.
 #------------------------------------------------------------------------------
 message("\n== Generate binary and source package installers ==")
 include(CPackInstallerConfig)
 
-# Add the generated installers files to `make clean` command
+# Add the generated installers files to `make clean` command.
 set_property(DIRECTORY "${${PROJECT_NAME}_PROJECT_DIR}"
 	APPEND
 	PROPERTY ADDITIONAL_CLEAN_FILES
@@ -643,7 +661,7 @@ set_property(DIRECTORY "${${PROJECT_NAME}_PROJECT_DIR}"
 	"${CPACK_PACKAGE_DIRECTORY}/${CPACK_SOURCE_PACKAGE_FILE_NAME}.nsi"
 )
 
-# Fill the generator config file loaded at the beginning of cpack time
+# Fill the generator config file loaded at the beginning of cpack time.
 configure_file(
 	"${${PROJECT_NAME}_CPACK_TEMPLATE_OPTIONS_FILE}"
 	"${${PROJECT_NAME}_CPACK_OPTIONS_FILE}"
@@ -651,7 +669,7 @@ configure_file(
 )
 set(CPACK_PROJECT_CONFIG_FILE "${${PROJECT_NAME}_CPACK_OPTIONS_FILE}")
 
-# Generate installers
+# Generate installers.
 include(CPack)
 if(EXISTS "${${PROJECT_NAME}_CPACK_CONFIG_FILE}")
 	file(RELATIVE_PATH relative_path "${${PROJECT_NAME}_PROJECT_DIR}" "${${PROJECT_NAME}_CPACK_CONFIG_FILE}")
@@ -667,32 +685,32 @@ else()
 endif()
 
 #------------------------------------------------------------------------------
-# Customize the solution explorer structure for IDE project generation
+# Customize the solution explorer structure for IDE project generation.
 #------------------------------------------------------------------------------
 message("\n== Customize the solution explorer structure for IDE project generation ==")
 
-# Get content of of SOURCES property
+# Get content of of SOURCES property.
 get_target_property(sources_target_property "${${PROJECT_NAME}_TARGET_NAME}" SOURCES)
 
-# Get content of BUILD_INTERFACE generator expression of SOURCES property
+# Get content of BUILD_INTERFACE generator expression of SOURCES property.
 string(REGEX MATCHALL "\\$<BUILD_INTERFACE\\:[^\\>]*" build_interface_sources_target_property "${sources_target_property}")
 string(REPLACE "$<BUILD_INTERFACE:" "" build_interface_sources_target_property "${build_interface_sources_target_property}")
 
-# Get content of INSTALL_INTERFACE generator expression of SOURCES property
+# Get content of INSTALL_INTERFACE generator expression of SOURCES property.
 string(REGEX MATCHALL "\\$<INSTALL_INTERFACE\\:[^\\>]*" install_interface_sources_target_property "${sources_target_property}")
 string(REPLACE "$<INSTALL_INTERFACE:" "" install_interface_sources_target_property "${install_interface_sources_target_property}")
 
-# Get content of private SOURCE property
+# Get content of PRIVATE of SOURCE property.
 string(GENEX_STRIP "${sources_target_property}" private_sources_target_property)
 
-# Concatenate previous lists, remove duplicated items and group them
+# Concatenate previous lists, remove duplicated items and group them.
 set(sources_target_property "${private_sources_target_property}")
 list(APPEND sources_target_property ${build_interface_sources_target_property})
 list(APPEND sources_target_property ${install_interface_sources_target_property})
 list(REMOVE_DUPLICATES sources_target_property)
 source_group(TREE "${${PROJECT_NAME}_PROJECT_DIR}" FILES ${sources_target_property})
 
-# Group other source files
+# Group other source files.
 set(project_all_files "")
 directory(SCAN project_all_files
 	LIST_DIRECTORIES off

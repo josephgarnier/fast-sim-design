@@ -5,13 +5,15 @@
 # LICENSE file in the root directory of this source tree.
 
 # CMAKE_SYSTEM_NAME - on unix use command "uname -s", for windows write "Windows" OR use command "cmake --system-information".
-set(CMAKE_SYSTEM_NAME Windows)
+set(CMAKE_SYSTEM_NAME "Windows")
 # CMAKE_SYSTEM_VERSION - on unix use command "uname -r", for windows use command "cmake --system-information".
-set(CMAKE_SYSTEM_VERSION 10.0)
+set(CMAKE_SYSTEM_VERSION "10.0")
 # CMAKE_SYSTEM - see https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM.html.
 set(CMAKE_SYSTEM "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_VERSION}")
+# CMAKE_GENERATOR_PLATFORM - see https://cmake.org/cmake/help/latest/variable/CMAKE_GENERATOR_PLATFORM.html.
+set(CMAKE_GENERATOR_PLATFORM "x64")
 
-# Write cl command on a windows terminal.
+# Write "cl" in a terminal.
 set(triple 19)
 
 # Specify the cross compiler.

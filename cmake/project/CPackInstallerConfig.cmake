@@ -33,7 +33,7 @@ set(CPACK_PACKAGE_VERSION_MINOR         "${${PROJECT_NAME}_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH         "${${PROJECT_NAME}_VERSION_PATCH}")
 
 #------------------------------------------------------------------------------
-# Resource files
+# Resource files.
 #------------------------------------------------------------------------------
 set(CPACK_RESOURCE_FILE_LICENSE         "${${PROJECT_NAME}_PROJECT_DIR}/LICENSE.md")
 set(CPACK_RESOURCE_FILE_README          "${${PROJECT_NAME}_PROJECT_DIR}/README.md")
