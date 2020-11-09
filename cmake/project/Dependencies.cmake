@@ -45,6 +45,7 @@ directory(SCAN ${PROJECT_NAME}_LIBRARY_FILES
 	INCLUDE_REGEX ".*\\${CMAKE_SHARED_LIBRARY_SUFFIX}.*|.*\\${CMAKE_STATIC_LIBRARY_SUFFIX}.*"
 )
 
+# First use case: you want to use the internal and automatic mechanism of library integration.
 # Append each include directories of your libraries in this list
 # (in this way `${${PROJECT_NAME}_INCLUDE_DIR}/<library-name-directory>`) or
 # let it empty. They will be added to include directories of target and copied
@@ -53,6 +54,11 @@ directory(SCAN ${PROJECT_NAME}_LIBRARY_FILES
 #  V
 set(${PROJECT_NAME}_LIBRARY_HEADER_DIRS "${${PROJECT_NAME}_INCLUDE_DIR}/tiled" "${${PROJECT_NAME}_INCLUDE_DIR}/zlib")
 
+
+# Second use case : you want to link a library installed in another folder than the one of your project.
+# Add your special instructions here.
+#  ||
+#  V
 # Include Qt
 message("\n** Include Qt **")
 if(DEFINED ENV{Qt5_DIR}) 
