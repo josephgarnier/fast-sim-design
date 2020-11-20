@@ -71,7 +71,7 @@ namespace FastSimDesign {
 
 	void MapResource::saveMapFile() const
 	{
-		Q_ASSERT_X(m_oAbsoluteFilePath.exists() && m_oAbsoluteFilePath.isReadable(), "", "Filepath does not exists or is unreadable");
+		Q_ASSERT_X(m_oAbsoluteFilePath.exists() && m_oAbsoluteFilePath.isReadable(), "MapResource::saveMapFile", "Filepath does not exists or is unreadable");
 		Tiled::MapWriter writer;
 		if (!writer.writeMap(m_oMap.data(), m_oAbsoluteFilePath.filePath()))
 		{
@@ -101,7 +101,7 @@ namespace FastSimDesign {
 
 	void MapResource::loadCollisionLayer()
 	{
-		Q_ASSERT_X(!m_oMap.isNull(), "", "Map is null");
+		Q_ASSERT_X(!m_oMap.isNull(), "MapResource::loadCollisionLayer", "Map is null");
 		int collisionLayerIndex = m_oMap->indexOfLayer(QStringLiteral("collision"));
 		if (collisionLayerIndex == -1)
 		{
@@ -114,7 +114,7 @@ namespace FastSimDesign {
 
 	void MapResource::loadEntitiesLayer()
 	{
-		Q_ASSERT_X(!m_oMap.isNull(), "", "Map is null");
+		Q_ASSERT_X(!m_oMap.isNull(), "MapResource::loadEntitiesLayer", "Map is null");
 		int entityLayerIndex = m_oMap->indexOfLayer(QStringLiteral("entity"));
 		if (entityLayerIndex == -1)
 		{
@@ -133,7 +133,7 @@ namespace FastSimDesign {
 
 	void MapResource::createMapRender() noexcept
 	{
-		Q_ASSERT_X(!m_oMap.isNull(), "", "Map is null");
+		Q_ASSERT_X(!m_oMap.isNull(), "MapResource::createMapRender", "Map is null");
 		switch (m_oMap->orientation())
 		{
 			case Tiled::Map::Isometric:

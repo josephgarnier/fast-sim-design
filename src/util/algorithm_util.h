@@ -31,16 +31,16 @@ namespace FastSimDesign {
 	template<typename InputIt, typename T>
 	bool contains_if_shared_value(InputIt first, InputIt last, QSharedPointer<T> const& tElement) noexcept
 	{
-		return std::find_if(first, last, [&tElement](QSharedPointer<T> const& i) {
-			return *i.data() == *tElement.data();
+		return std::find_if(first, last, [&tElement](QSharedPointer<T> const& e) {
+			return *e.data() == *tElement.data();
 		}) != last;
 	}
 
 	template<typename InputIt, typename T>
 	QSharedPointer<T>& find_if_shared_value(InputIt first, InputIt last, QSharedPointer<T> const& tElement) noexcept
 	{
-		auto found = std::find_if(first, last, [&tElement](QSharedPointer<T const> const& i) {
-			return *i.data() == *tElement.data();
+		auto found = std::find_if(first, last, [&tElement](QSharedPointer<T const> const& e) {
+			return *e.data() == *tElement.data();
 		});
 		if (found == last)
 			Q_ASSERT_X(false, "", "Element not found");
@@ -50,8 +50,8 @@ namespace FastSimDesign {
 	template<typename InputIt, typename T>
 	InputIt find_if_shared_value_iterator(InputIt first, InputIt last, QSharedPointer<T> const& tElement) noexcept
 	{
-		auto found = std::find_if(first, last, [&tElement](QSharedPointer<T> const& i) {
-			return *i.data() == *tElement.data();
+		auto found = std::find_if(first, last, [&tElement](QSharedPointer<T> const& e) {
+			return *e.data() == *tElement.data();
 		});
 		if (found == last)
 			Q_ASSERT_X(false, "", "Element not found");
