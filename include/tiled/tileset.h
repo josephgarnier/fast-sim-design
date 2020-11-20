@@ -36,7 +36,6 @@
 #include <QList>
 #include <QPixmap>
 #include <QPoint>
-#include <QPointer>
 #include <QSharedPointer>
 #include <QString>
 #include <QVector>
@@ -49,7 +48,6 @@ namespace Tiled {
 
 class Tile;
 class Tileset;
-class TilesetFormat;
 class Terrain;
 class WangSet;
 
@@ -113,8 +111,8 @@ public:
     void setFileName(const QString &fileName);
     bool isExternal() const;
 
-    void setFormat(TilesetFormat *format);
-    TilesetFormat *format() const;
+    void setFormat(const QString &format);
+    QString format() const;
 
     int tileWidth() const;
     int tileHeight() const;
@@ -197,10 +195,9 @@ public:
     int wangSetCount() const;
     WangSet *wangSet(int index) const;
 
-    void addWangSet(WangSet *wangSet);
     void addWangSet(std::unique_ptr<WangSet> wangSet);
-    void insertWangSet(int index, WangSet *wangSet);
-    WangSet *takeWangSetAt(int index);
+    void insertWangSet(int index, std::unique_ptr<WangSet> wangSet);
+    std::unique_ptr<WangSet> takeWangSetAt(int index);
 
     Tile *addTile(const QPixmap &image, const QUrl &source = QUrl());
     void addTiles(const QList<Tile*> &tiles);
@@ -274,7 +271,7 @@ private:
     bool mTerrainDistancesDirty;
     LoadingStatus mStatus;
     QColor mBackgroundColor;
-    QPointer<TilesetFormat> mFormat;
+    QString mFormat;
 
     QWeakPointer<Tileset> mWeakPointer;
     QWeakPointer<Tileset> mOriginalTileset;
