@@ -78,12 +78,12 @@ IncludeCategories:
 IncludeIsMainRegex: '(Test)?$'
 IndentCaseBlocks: 'true'
 IndentCaseLabels: 'true'
-IndentExternBlock: 'IEBS_Indent'
+IndentExternBlock: 'Indent'
 IndentGotoLabels: 'true'
 IndentPPDirectives: None
 IndentWidth: '2'
 IndentWrappedFunctionNames: 'true'
-InsertTrailingCommas: 'TCS_None'
+# InsertTrailingCommas: 'TCS_None' # invalid for clang 11
 JavaImportGroups: ['com.example', 'com', 'org']
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: 'true'
@@ -120,13 +120,13 @@ SpaceBeforeCtorInitializerColon: 'false'
 SpaceBeforeInheritanceColon: 'true'
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: 'true'
-SpaceBeforeSquareBrackets: 'true'
+SpaceBeforeSquareBrackets: 'false'
 SpaceInEmptyBlock: 'false'
 SpaceInEmptyParentheses: 'false'
 SpacesBeforeTrailingComments: '1'
 SpacesInAngles: 'false'
 SpacesInCStyleCastParentheses: 'false'
-SpacesInConditionalStatement: 'true'
+SpacesInConditionalStatement: 'false'
 SpacesInContainerLiterals: 'false'
 SpacesInParentheses: 'false'
 SpacesInSquareBrackets: 'false'
