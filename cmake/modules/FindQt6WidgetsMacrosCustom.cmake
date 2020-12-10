@@ -54,6 +54,9 @@ function(QT6_WRAP_UI_CUSTOM outfiles )
 		get_filename_component(outfile ${it} NAME_WE)
 		get_filename_component(infile ${it} ABSOLUTE)
 		set(outfile ${CMAKE_CURRENT_BINARY_DIR}/src/ui_${outfile}.h)
+		get_filename_component(outdirectory ${outfile} DIRECTORY)
+		file(MAKE_DIRECTORY ${outdirectory})
+		
 		add_custom_command(OUTPUT ${outfile}
 			DEPENDS ${QT_CMAKE_EXPORT_NAMESPACE}::uic
 			COMMAND ${QT_CMAKE_EXPORT_NAMESPACE}::uic
