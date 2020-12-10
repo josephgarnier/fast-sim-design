@@ -16,6 +16,36 @@
 #include "cmath"
 
 namespace FastSimDesign {
+	template<class InputIt, class NthOccurence, class UnaryPredicate>
+	constexpr InputIt find_nth_if(InputIt first, InputIt last, NthOccurence nth, UnaryPredicate p)
+	{
+		if (nth <= 0)
+			return last;
+
+		for (; first != last; ++first)
+		{
+			if (p(*first))
+				if (!--nth)
+					return first;
+		}
+		return last;
+	}
+
+	template<class InputIt, class NthOccurence, class UnaryPredicate>
+	constexpr InputIt find_nth_if_not(InputIt first, InputIt last, NthOccurence nth, UnaryPredicate q)
+	{
+		if (nth <= 0)
+			return last;
+
+		for (; first != last; ++first)
+		{
+			if (!q(*first))
+				if (!--nth)
+					return first;
+		}
+		return last;
+	}
+	
 	/*!
 	 * Concatenates two numbers. For a comparison of different methods.
 	 * @see https://stackoverflow.com/questions/12700497/how-to-concatenate-two-integers-in-c
