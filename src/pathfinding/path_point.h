@@ -69,8 +69,8 @@ namespace FastSimDesign {
 
 		inline QPoint toPoint() const noexcept { return QPoint{*this}; }
 
-		friend inline uint qHash(PathPoint const& oKey, uint uiSeed) noexcept;
-		friend inline uint qHash(PathPoint const& oKey) noexcept;
+		friend inline std::uint32_t qHash(PathPoint const& oKey, std::uint32_t uiSeed) noexcept;
+		friend inline std::uint32_t qHash(PathPoint const& oKey) noexcept;
 
 		friend inline std::ostream& operator<<(std::ostream& oStream, PathPoint const& oLeft) noexcept;
 		friend inline QDebug operator<<(QDebug oStream, PathPoint const& oLeft) noexcept;
@@ -106,12 +106,12 @@ namespace FastSimDesign {
 		swap(oLeft.m_iG, oRight.m_iG);
 	}
 
-	inline uint qHash(PathPoint const& oKey, uint uiSeed) noexcept
+	inline std::uint32_t qHash(PathPoint const& oKey, std::uint32_t uiSeed) noexcept
 	{
 		return uiSeed ^ oKey.getH() ^ oKey.getG() ^ oKey.x() ^ oKey.y();
 	}
 
-	inline uint qHash(PathPoint const& oKey) noexcept
+	inline std::uint32_t qHash(PathPoint const& oKey) noexcept
 	{
 		return oKey.getH() ^ oKey.getG() ^ oKey.x() ^ oKey.y();
 	}

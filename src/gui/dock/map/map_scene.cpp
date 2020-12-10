@@ -66,10 +66,10 @@ namespace FastSimDesign {
 	MapScene::MapScene(World* const pWorld, Tiled::MapRenderer const* const pRenderer, QObject* pParent /*= Q_NULLPTR*/)
 		: QGraphicsScene{pParent}
 		, m_pWorld{pWorld}
+		, m_pRenderer{pRenderer}
 		, m_oLayerViews{}
 		, m_oSpriteViews{}
 		, m_oSpriteLabelLayerView{}
-		, m_pRenderer{pRenderer}
 	{
 		setBackgroundBrush(Qt::darkGray);
 
@@ -181,7 +181,7 @@ namespace FastSimDesign {
 	{
 		QSharedPointer<SpriteLabelLayerView> layerView = QSharedPointer<SpriteLabelLayerView>::create(m_pRenderer);
 		int viewIndex = 0;
-		for (QSharedPointer<SpriteView const> const& spriteView : m_oSpriteViews)
+		for (QSharedPointer<SpriteView> const& spriteView : m_oSpriteViews)
 		{
 			QSharedPointer<SpriteLabelView> spritelabelView = QSharedPointer<SpriteLabelView>::create(spriteView->getSprite(), m_pRenderer, layerView);
 			spritelabelView->setZValue(viewIndex);

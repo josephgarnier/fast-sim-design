@@ -46,8 +46,8 @@ namespace FastSimDesign {
 			m_oHolder.clear();
 		}
 
-		friend inline uint qHash(Slot const& oKey, uint uiSeed) noexcept;
-		friend inline uint qHash(Slot const& oKey) noexcept;
+		friend inline std::uint32_t qHash(Slot const& oKey, std::uint32_t uiSeed) noexcept;
+		friend inline std::uint32_t qHash(Slot const& oKey) noexcept;
 		friend inline bool operator==(Slot const& oLeft, Slot const& oRight) noexcept;
 		friend inline bool operator!=(Slot const& oLeft, Slot const& oRight) noexcept;
 
@@ -62,12 +62,12 @@ namespace FastSimDesign {
 	/*****************************************************************************
 	Operator functions
 	*****************************************************************************/
-	inline uint qHash(Slot const& oKey, uint uiSeed) noexcept
+	inline std::uint32_t qHash(Slot const& oKey, std::uint32_t uiSeed) noexcept
 	{
 		return uiSeed ^ static_cast<int>(oKey.m_pArea->id()) ^ static_cast<int>(oKey.m_bIsFree);
 	}
 
-	inline uint qHash(Slot const& oKey) noexcept
+	inline std::uint32_t qHash(Slot const& oKey) noexcept
 	{
 		return static_cast<int>(oKey.m_pArea->id()) ^ static_cast<int>(oKey.m_bIsFree);
 	}
