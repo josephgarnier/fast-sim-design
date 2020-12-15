@@ -19,11 +19,11 @@ namespace FastSimDesign {
 	class SpriteLayerView final : public QGraphicsItem
 	{
 	public:
-		explicit SpriteLayerView(Tiled::ObjectGroup const* const pLayer, Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent = Q_NULLPTR) noexcept;
+		explicit SpriteLayerView(Tiled::ObjectGroup const* const pLayer, Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent = nullptr) noexcept;
 		virtual ~SpriteLayerView() = default; // Destructor
 
 		virtual QRectF boundingRect() const noexcept override;
-		virtual void paint(QPainter* pPainter, QStyleOptionGraphicsItem const* pOption, QWidget* pWidget = Q_NULLPTR) noexcept override;
+		virtual void paint(QPainter* pPainter, QStyleOptionGraphicsItem const* pOption, QWidget* pWidget = nullptr) noexcept override;
 
 	protected:
 		Tiled::MapRenderer const* const m_pRenderer;

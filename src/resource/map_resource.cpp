@@ -37,10 +37,10 @@ namespace FastSimDesign {
 	*****************************************************************************/
 	MapResource::MapResource(QFileInfo oFilePath, QObject* pParent /*= 0*/)
 		: Parent{std::move(oFilePath), pParent}
-		, m_oMap{Q_NULLPTR}
-		, m_pCollisionLayer{Q_NULLPTR}
+		, m_oMap{nullptr}
+		, m_pCollisionLayer{nullptr}
 		, m_oTiledObjects{}
-		, m_oRenderer{Q_NULLPTR}
+		, m_oRenderer{nullptr}
 	{
 		try
 		{

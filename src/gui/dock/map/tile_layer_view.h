@@ -22,11 +22,11 @@ namespace FastSimDesign {
 	class TileLayerView final : public QGraphicsItem
 	{
 	public:
-		explicit TileLayerView(Tiled::TileLayer const * const pLayer, Tiled::MapRenderer const * const pRenderer, QGraphicsItem* pParent = Q_NULLPTR) noexcept;
+		explicit TileLayerView(Tiled::TileLayer const * const pLayer, Tiled::MapRenderer const * const pRenderer, QGraphicsItem* pParent = nullptr) noexcept;
 		virtual ~TileLayerView() = default; // Destructor
 
 		virtual QRectF boundingRect() const noexcept override;
-		virtual void paint(QPainter* pPainter, QStyleOptionGraphicsItem const * pOption, QWidget* pWidget = Q_NULLPTR) noexcept override;
+		virtual void paint(QPainter* pPainter, QStyleOptionGraphicsItem const * pOption, QWidget* pWidget = nullptr) noexcept override;
 	protected:
 		Tiled::TileLayer const * const m_pLayer;
 		Tiled::MapRenderer const * const m_pRenderer;

@@ -23,7 +23,7 @@ namespace FastSimDesign {
 		using Parent = Resource;
 
 	public:
-		explicit FileResource(QFileInfo oFilePath, QObject* pParent = Q_NULLPTR); // throw ResourceException
+		explicit FileResource(QFileInfo oFilePath, QObject* pParent = nullptr); // throw ResourceException
 		virtual ~FileResource() = default; // Destructor
 
 		inline QSharedPointer<QFile> const getFile() const noexcept { return m_oFile; }

@@ -9,7 +9,7 @@
 #include "sprite_label_layer_view.h"
 
 namespace FastSimDesign {
-	SpriteLabelLayerView::SpriteLabelLayerView(Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent /*= Q_NULLPTR*/) noexcept
+	SpriteLabelLayerView::SpriteLabelLayerView(Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent /*= nullptr*/) noexcept
 		: QGraphicsItem{pParent}
 		, m_pRenderer{pRenderer}
 	{
@@ -21,7 +21,7 @@ namespace FastSimDesign {
 		return QRectF{};
 	}
 
-	void SpriteLabelLayerView::paint(QPainter* pPainter, QStyleOptionGraphicsItem const* pOption, QWidget* pWidget /*= Q_NULLPTR*/) noexcept
+	void SpriteLabelLayerView::paint(QPainter* pPainter, QStyleOptionGraphicsItem const* pOption, QWidget* pWidget /*= nullptr*/) noexcept
 	{
 	}
 }

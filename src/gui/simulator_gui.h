@@ -64,7 +64,7 @@ namespace FastSimDesign {
 		void frameEnded();
 
 	public:
-		explicit SimulatorGui(QWidget* pParent = Q_NULLPTR) noexcept;
+		explicit SimulatorGui(QWidget* pParent = nullptr) noexcept;
 		virtual ~SimulatorGui() = default; // Destructor
 
 	protected:

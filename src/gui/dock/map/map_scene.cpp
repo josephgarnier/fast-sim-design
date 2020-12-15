@@ -63,7 +63,7 @@ namespace FastSimDesign {
 	/*****************************************************************************
 	Methods
 	*****************************************************************************/
-	MapScene::MapScene(World* const pWorld, Tiled::MapRenderer const* const pRenderer, QObject* pParent /*= Q_NULLPTR*/)
+	MapScene::MapScene(World* const pWorld, Tiled::MapRenderer const* const pRenderer, QObject* pParent /*= nullptr*/)
 		: QGraphicsScene{pParent}
 		, m_pWorld{pWorld}
 		, m_pRenderer{pRenderer}

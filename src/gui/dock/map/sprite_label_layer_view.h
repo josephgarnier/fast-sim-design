@@ -18,11 +18,11 @@ namespace FastSimDesign {
 	class SpriteLabelLayerView final : public QGraphicsItem
 	{
 	public:
-		explicit SpriteLabelLayerView(Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent = Q_NULLPTR) noexcept;
+		explicit SpriteLabelLayerView(Tiled::MapRenderer const* const pRenderer, QGraphicsItem* pParent = nullptr) noexcept;
 		virtual ~SpriteLabelLayerView() = default; // Destructor
 
 		virtual QRectF boundingRect() const noexcept override;
-		virtual void paint(QPainter* pPainter, QStyleOptionGraphicsItem const* pOption, QWidget* pWidget = Q_NULLPTR) noexcept override;
+		virtual void paint(QPainter* pPainter, QStyleOptionGraphicsItem const* pOption, QWidget* pWidget = nullptr) noexcept override;
 
 	protected:
 		Tiled::MapRenderer const* const m_pRenderer;

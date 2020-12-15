@@ -24,7 +24,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit SimulationState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit SimulationState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 		virtual void onEntry(QEvent* pEvent) noexcept override;
@@ -40,7 +40,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit UnloadedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit UnloadedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -50,7 +50,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit LoadingState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit LoadingState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 		virtual void onEntry(QEvent* pEvent) noexcept override;
@@ -62,7 +62,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit LoadedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit LoadedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -72,7 +72,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit StartedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit StartedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -82,7 +82,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit OneTickStartedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit OneTickStartedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -92,7 +92,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit MultiTickStartedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit MultiTickStartedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -102,7 +102,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit PausedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit PausedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -112,7 +112,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit StoppedState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit StoppedState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 	private:
@@ -122,7 +122,7 @@ namespace FastSimDesign {
 	{
 		Q_OBJECT
 	public:
-		explicit UnloadingState(SimulatorGui* pSimulation, QState* pParent = Q_NULLPTR) noexcept;
+		explicit UnloadingState(SimulatorGui* pSimulation, QState* pParent = nullptr) noexcept;
 
 	protected:
 		virtual void onEntry(QEvent* pEvent) noexcept override;

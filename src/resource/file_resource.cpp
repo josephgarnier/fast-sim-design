@@ -13,7 +13,7 @@
 namespace FastSimDesign {
 	FileResource::FileResource(QFileInfo oFilePath, QObject* pParent /*= 0*/)
 		: Parent{std::move(oFilePath), pParent}
-		, m_oFile{Q_NULLPTR}
+		, m_oFile{nullptr}
 	{
 		try
 		{

@@ -14,7 +14,7 @@ namespace FastSimDesign {
 	/************************************************************************/
 	/* States                                                               */
 	/************************************************************************/
-	SimulationState::SimulationState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	SimulationState::SimulationState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: QState{pParent}
 		, m_pSimulation{pSimulation}
 	{
@@ -30,7 +30,7 @@ namespace FastSimDesign {
 		qInfo().nospace() << "Exit from state: " << metaObject()->className() << ".\n";
 	}
 
-	UnloadedState::UnloadedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	UnloadedState::UnloadedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", true);
@@ -41,7 +41,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", false);
 	}
 
-	LoadingState::LoadingState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	LoadingState::LoadingState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 	}
@@ -52,7 +52,7 @@ namespace FastSimDesign {
 		m_pSimulation->onLoad();
 	}
 
-	LoadedState::LoadedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	LoadedState::LoadedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", false);
@@ -63,7 +63,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", true);
 	}
 
-	StartedState::StartedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	StartedState::StartedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", false);
@@ -74,7 +74,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", false);
 	}
 
-	OneTickStartedState::OneTickStartedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	OneTickStartedState::OneTickStartedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", false);
@@ -85,7 +85,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", false);
 	}
 
-	MultiTickStartedState::MultiTickStartedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	MultiTickStartedState::MultiTickStartedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", false);
@@ -96,7 +96,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", false);
 	}
 
-	PausedState::PausedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	PausedState::PausedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", false);
@@ -107,7 +107,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", true);
 	}
 
-	StoppedState::StoppedState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	StoppedState::StoppedState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 		assignProperty(pSimulation->m_pUi->loadSimulationAction, "enabled", true);
@@ -118,7 +118,7 @@ namespace FastSimDesign {
 		assignProperty(pSimulation->m_pUi->multiTickSimulationAction, "enabled", false);
 	}
 
-	UnloadingState::UnloadingState(SimulatorGui* pSimulation, QState* pParent /*= Q_NULLPTR*/) noexcept
+	UnloadingState::UnloadingState(SimulatorGui* pSimulation, QState* pParent /*= nullptr*/) noexcept
 		: SimulationState{pSimulation, pParent}
 	{
 	}

@@ -12,7 +12,7 @@
 namespace FastSimDesign {
 	Slot::Slot()
 		: m_oWorld{}
-		, m_pArea{Q_NULLPTR}
+		, m_pArea{nullptr}
 		, m_bIsFree{}
 		, m_oHolder{}
 	{

@@ -94,7 +94,7 @@ namespace FastSimDesign {
 	/*****************************************************************************
 	Methods
 	*****************************************************************************/
-	Preferences::Preferences(QObject* pParent /*= Q_NULLPTR*/) noexcept
+	Preferences::Preferences(QObject* pParent /*= nullptr*/) noexcept
 		: QObject{pParent}
 		, m_oSettings{new QSettings{"../config/preferences.ini", QSettings::IniFormat, this}}
 	{

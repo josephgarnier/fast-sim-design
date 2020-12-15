@@ -28,7 +28,7 @@ namespace FastSimDesign {
 		void onAllEntitiesUpdated() noexcept;
 
 	public:
-		explicit MapScene(World* const pWorld, Tiled::MapRenderer const* const pRenderer, QObject* pParent = Q_NULLPTR); // Default constructor
+		explicit MapScene(World* const pWorld, Tiled::MapRenderer const* const pRenderer, QObject* pParent = nullptr); // Default constructor
 		virtual ~MapScene() = default; // Destructor
 	protected:
 		virtual void drawForeground(QPainter* pPainter, QRectF const& oRect) noexcept override;

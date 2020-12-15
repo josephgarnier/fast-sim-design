@@ -55,7 +55,7 @@ namespace FastSimDesign {
 		}
 
 	private:
-		explicit Preferences(QObject* pParent = Q_NULLPTR) noexcept;
+		explicit Preferences(QObject* pParent = nullptr) noexcept;
 		virtual ~Preferences() = default; // Destructor
 
 	protected:

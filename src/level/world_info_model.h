@@ -30,7 +30,7 @@ namespace FastSimDesign {
 			LABEL_LAST = CURRENT_TICK
 		};
 
-		explicit WorldInfoModel(QObject* pParent = Q_NULLPTR) noexcept; // Default constructor
+		explicit WorldInfoModel(QObject* pParent = nullptr) noexcept; // Default constructor
 		virtual ~WorldInfoModel() = default; // Destructor
 
 		virtual int rowCount(QModelIndex const& oParent = QModelIndex{}) const noexcept override;

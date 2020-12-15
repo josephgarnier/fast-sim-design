@@ -10,7 +10,7 @@
 #include "QFont"
 
 namespace FastSimDesign {
-	WorldInfoModel::WorldInfoModel(QObject* pParent /*= Q_NULLPTR*/) noexcept
+	WorldInfoModel::WorldInfoModel(QObject* pParent /*= nullptr*/) noexcept
 		: QAbstractListModel{pParent}
 		, m_oTotalTime{}
 		, m_oWorldTime{}

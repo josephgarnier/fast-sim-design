@@ -30,7 +30,7 @@ namespace FastSimDesign {
 			Loading
 		};
 
-		explicit Resource(QFileInfo oPath, QObject* pParent = Q_NULLPTR) noexcept;
+		explicit Resource(QFileInfo oPath, QObject* pParent = nullptr) noexcept;
 		virtual ~Resource() = default; // Destructor
 
 		inline Resource::Status const& getStatus() const noexcept { return m_oStatus; }

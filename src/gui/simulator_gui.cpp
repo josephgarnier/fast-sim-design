@@ -152,14 +152,14 @@ namespace FastSimDesign {
 	void SimulatorGui::onStopOneTick() noexcept
 	{
 		emit stopTick();
-		QObject::disconnect(this, &SimulatorGui::frameEnded, this, Q_NULLPTR);
+		QObject::disconnect(this, &SimulatorGui::frameEnded, this, nullptr);
 		emit simulationStopped();
 	}
 
 	void SimulatorGui::onStopMultiTick() noexcept
 	{
 		emit stopTick();
-		QObject::disconnect(this, &SimulatorGui::frameEnded, this, Q_NULLPTR);
+		QObject::disconnect(this, &SimulatorGui::frameEnded, this, nullptr);
 		emit simulationStopped();
 	}
 
@@ -228,10 +228,10 @@ namespace FastSimDesign {
 		, m_pWorldTimeLabel{new QLabel{this}}
 		, m_pWorldTimeValue{new QLabel{this}}
 		, m_pWorldInfoView{new QDataWidgetMapper{this}}
-		, m_pTickTimer{Q_NULLPTR}
+		, m_pTickTimer{nullptr}
 		, m_pRealFrameDuration{new QElapsedTimer{}}
 		, m_pRenderFrameDuration{new QElapsedTimer{}}
-		, m_pWorld{Q_NULLPTR}
+		, m_pWorld{nullptr}
 		, m_pSimulationMachine{new QStateMachine{this}}
 	{
 		qInfo() << "Creating SimulatorGui...";
@@ -264,21 +264,21 @@ namespace FastSimDesign {
 		m_pTimeScaleLabel->setContentsMargins(12, 0, 3, 0);
 		m_pUi->toolBar->addWidget(m_pTimeScaleLabel.data());
 
-		m_pTimeScaleOneAction->setText(QApplication::translate("SimulatorGui", "x1", Q_NULLPTR));
+		m_pTimeScaleOneAction->setText(QApplication::translate("SimulatorGui", "x1", nullptr));
 		m_pTimeScaleOneAction->setObjectName(QStringLiteral("timeScaleAction"));
-		m_pTimeScaleOneAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x1", Q_NULLPTR));
+		m_pTimeScaleOneAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x1", nullptr));
 		m_pUi->toolBar->addAction(m_pTimeScaleOneAction.data());
 		QObject::connect(m_pTimeScaleOneAction.data(), &QAction::triggered, this, &SimulatorGui::onTimeScaledOne);
 
-		m_pTimeScaleTwoAction->setText(QApplication::translate("SimulatorGui", "x2", Q_NULLPTR));
+		m_pTimeScaleTwoAction->setText(QApplication::translate("SimulatorGui", "x2", nullptr));
 		m_pTimeScaleTwoAction->setObjectName(QStringLiteral("timeScaleAction"));
-		m_pTimeScaleTwoAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x2", Q_NULLPTR));
+		m_pTimeScaleTwoAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x2", nullptr));
 		m_pUi->toolBar->addAction(m_pTimeScaleTwoAction.data());
 		QObject::connect(m_pTimeScaleTwoAction.data(), &QAction::triggered, this, &SimulatorGui::onTimeScaledTwo);
 
-		m_pTimeScaleFiveAction->setText(QApplication::translate("SimulatorGui", "x5", Q_NULLPTR));
+		m_pTimeScaleFiveAction->setText(QApplication::translate("SimulatorGui", "x5", nullptr));
 		m_pTimeScaleFiveAction->setObjectName(QStringLiteral("timeScaleAction"));
-		m_pTimeScaleFiveAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x5", Q_NULLPTR));
+		m_pTimeScaleFiveAction->setToolTip(QApplication::translate("SimulatorGui", "Speed x5", nullptr));
 		m_pUi->toolBar->addAction(m_pTimeScaleFiveAction.data());
 		QObject::connect(m_pTimeScaleFiveAction.data(), &QAction::triggered, this, &SimulatorGui::onTimeScaledFive);
 
