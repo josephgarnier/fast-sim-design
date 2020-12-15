@@ -7,20 +7,20 @@
 			"${workspaceFolder}/include/**",
 			"${workspaceFolder}/build/src",
 			"${workspaceFolder}/build/src/**",
-			"/opt/Qt/6.0.0/gcc_64/include",
-			"/opt/Qt/6.0.0/gcc_64/include/**",
-			"/opt/Qt/6.0.0/gcc_64/include/QtCore",
-			"/opt/Qt/6.0.0/gcc_64/include/QtWidgets",
-			"/opt/Qt/6.0.0/gcc_64/include/QtGui"
+			"/opt/Qt/5.15.2/gcc_64/include",
+			"/opt/Qt/5.15.2/gcc_64/include/**",
+			"/opt/Qt/5.15.2/gcc_64/include/QtCore",
+			"/opt/Qt/5.15.2/gcc_64/include/QtWidgets",
+			"/opt/Qt/5.15.2/gcc_64/include/QtGui"
 		],
 		"linuxBrowsePath": [
 			"${workspaceFolder}/src",
 			"${workspaceFolder}/include",
 			"${workspaceFolder}/build/src",
-			"/opt/Qt/6.0.0/gcc_64/include",
-			"/opt/Qt/6.0.0/gcc_64/include/QtCore",
-			"/opt/Qt/6.0.0/gcc_64/include/QtWidgets",
-			"/opt/Qt/6.0.0/gcc_64/include/QtGui"
+			"/opt/Qt/5.15.2/gcc_64/include",
+			"/opt/Qt/5.15.2/gcc_64/include/QtCore",
+			"/opt/Qt/5.15.2/gcc_64/include/QtWidgets",
+			"/opt/Qt/5.15.2/gcc_64/include/QtGui"
 		],
 		"windowsIncludePath": [
 			"${workspaceFolder}/src",
@@ -29,20 +29,20 @@
 			"${workspaceFolder}/include/**",
 			"${workspaceFolder}/build/src",
 			"${workspaceFolder}/build/src/**",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/**",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/QtCore",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/QtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/QtGui"
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/**",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtCore",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtWidgets",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui"
 		],
 		"windowsBrowsePath": [
 			"${workspaceFolder}/src",
 			"${workspaceFolder}/include",
 			"${workspaceFolder}/build/src",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/QtCore",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/QtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/6.0.0/mingw81_64/include/QtGui"
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtCore",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtWidgets",
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui"
 		]
 	},
 	"configurations": [
