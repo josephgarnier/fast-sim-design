@@ -9,20 +9,22 @@
 #include "world_exception.h"
 
 namespace FastSimDesign {
-	WorldException::WorldException(QString const& sWhat)
+	/*****************************************************************************
+	WorldException::Methods
+	*****************************************************************************/
+	WorldException::WorldException(QString const& what)
 		: Parent{}
-		, m_pWhatMessage{sWhat.toUtf8().constData()}
+		, m_whatMessage{what.toUtf8()}
 	{
 	}
 
-	WorldException::WorldException(QLatin1String sWhat)
-		: Parent{}
-		, m_pWhatMessage{sWhat.data()}
+	WorldException::WorldException(QLatin1String what)
+		: WorldException{QString{std::move(what)}}
 	{
 	}
 
 	char const* WorldException::what() const noexcept
 	{
-		return m_pWhatMessage;
+		return m_whatMessage.constData();
 	}
 }

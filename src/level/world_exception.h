@@ -8,8 +8,8 @@
 
 #pragma once
 
-#ifndef FAST_SIM_DESIGN_WORLDEXCEPTION_H
-#define FAST_SIM_DESIGN_WORLDEXCEPTION_H
+#ifndef FAST_SIM_DESIGN_WORLD_EXCEPTION_H
+#define FAST_SIM_DESIGN_WORLD_EXCEPTION_H
 
 #include "QLatin1String"
 
@@ -21,8 +21,8 @@ namespace FastSimDesign {
 
 	public:
 		explicit WorldException() = default; // Default constructor
-		explicit WorldException(QString const& sWhat);
-		explicit WorldException(QLatin1String sWhat);
+		explicit WorldException(QString const& what);
+		explicit WorldException(QLatin1String what);
 		WorldException(WorldException const&) = default; // Copy constructor
 		WorldException(WorldException&&) = default; // Move constructor
 		WorldException& operator=(WorldException const&) = default; // Copy assignment operator
@@ -33,7 +33,7 @@ namespace FastSimDesign {
 
 	protected:
 	private:
-		char const* m_pWhatMessage;
+		QByteArray m_whatMessage;
 	};
 }
 #endif

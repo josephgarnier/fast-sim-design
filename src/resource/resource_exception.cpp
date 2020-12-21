@@ -9,20 +9,22 @@
 #include "resource_exception.h"
 
 namespace FastSimDesign {
-	ResourceException::ResourceException(QString const& sWhat) noexcept
+	/*****************************************************************************
+	ResourceException::Methods
+	*****************************************************************************/
+	ResourceException::ResourceException(QString const& what) noexcept
 		: Parent{}
-		, m_pWhatMessage{sWhat.toUtf8().constData()}
+		, m_whatMessage{what.toUtf8()}
 	{
 	}
 
-	ResourceException::ResourceException(QLatin1String sWhat) noexcept
-		: Parent{}
-		, m_pWhatMessage{sWhat.data()}
+	ResourceException::ResourceException(QLatin1String what) noexcept
+		: ResourceException{QString{std::move(what)}}
 	{
 	}
 
 	char const* ResourceException::what() const noexcept
 	{
-		return m_pWhatMessage;
+		return m_whatMessage.constData();
 	}
 }

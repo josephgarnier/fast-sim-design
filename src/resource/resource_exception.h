@@ -21,8 +21,8 @@ namespace FastSimDesign {
 
 	public:
 		explicit ResourceException() = default; // Default constructor
-		explicit ResourceException(QString const& sWhat) noexcept;
-		explicit ResourceException(QLatin1String sWhat) noexcept;
+		explicit ResourceException(QString const& what) noexcept;
+		explicit ResourceException(QLatin1String what) noexcept;
 		ResourceException(ResourceException const&) = default; // Copy constructor
 		ResourceException(ResourceException&&) = default; // Move constructor
 		ResourceException& operator=(ResourceException const&) = default; // Copy assignment operator
@@ -33,7 +33,7 @@ namespace FastSimDesign {
 
 	protected:
 	private:
-		char const* m_pWhatMessage;
+		QByteArray m_whatMessage;
 	};
 }
 #endif
