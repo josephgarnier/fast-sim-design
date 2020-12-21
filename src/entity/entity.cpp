@@ -120,8 +120,6 @@ namespace FastSimDesign {
 	bool Entity::isOwnSprite(Tiled::MapObject const& oSprite) const noexcept
 	{
 		QVector<Tiled::MapObject const*> allSprites = getAllOwnedSprites();
-		qInfo() << &allSprites[0];
-		qInfo() << &oSprite;
 		return allSprites.contains(&oSprite);
 	}
 

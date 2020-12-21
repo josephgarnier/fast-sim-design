@@ -50,7 +50,6 @@ namespace FastSimDesign {
 		auto found = std::find_if(std::begin(m_entities), std::end(m_entities), [sprite](std::unique_ptr<Entity> const& element) {
 			return element->isOwnSprite(sprite);
 		});
-		qInfo() << (*found)->getId().m_id;
 		Q_ASSERT_X(found != std::end(m_entities), "EntityStorage::get", "Entity does not exists");
 
 		EntityType* castedEntity = dynamic_cast<EntityType*>(found->get());
