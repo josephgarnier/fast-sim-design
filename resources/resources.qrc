@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="FastSimDesign">
+  <qresource prefix="ui">
     <file>images/nextMulti.png</file>
     <file>images/nextOne.png</file>
     <file>images/pause.png</file>

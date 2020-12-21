@@ -719,7 +719,7 @@
   <action name="startSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/FastSimDesign/images/start.png</normaloff>:/FastSimDesign/images/start.png</iconset>
+     <normaloff>:/ui/images/start.png</normaloff>:/ui/images/start.png</iconset>
    </property>
    <property name="text">
     <string>Start</string>
@@ -731,7 +731,7 @@
   <action name="pauseSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/FastSimDesign/images/pause.png</normaloff>:/FastSimDesign/images/pause.png</iconset>
+     <normaloff>:/ui/images/pause.png</normaloff>:/ui/images/pause.png</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -743,7 +743,7 @@
   <action name="oneStickSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/FastSimDesign/images/nextOne.png</normaloff>:/FastSimDesign/images/nextOne.png</iconset>
+     <normaloff>:/ui/images/nextOne.png</normaloff>:/ui/images/nextOne.png</iconset>
    </property>
    <property name="text">
     <string>One tick</string>
@@ -755,7 +755,7 @@
   <action name="stopSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/FastSimDesign/images/stop.png</normaloff>:/FastSimDesign/images/stop.png</iconset>
+     <normaloff>:/ui/images/stop.png</normaloff>:/ui/images/stop.png</iconset>
    </property>
    <property name="text">
     <string>Stop</string>
@@ -804,7 +804,7 @@
   <action name="multiTickSimulationAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/FastSimDesign/images/nextMulti.png</normaloff>:/FastSimDesign/images/nextMulti.png</iconset>
+     <normaloff>:/ui/images/nextMulti.png</normaloff>:/ui/images/nextMulti.png</iconset>
    </property>
    <property name="text">
     <string>Next multiple ticks</string>
