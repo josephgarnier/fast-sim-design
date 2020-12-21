@@ -7,14 +7,14 @@
 ******************************************************************************/
 
 #include "npc.h"
+
 #include "util/collision_helper.h"
 #include "util/algorithm_util.h"
-#include "level/vector_loc.h"
 #include "level/world.h"
 
 namespace FastSimDesign {
-	Npc::Npc(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= 0*/) noexcept
-		: Parent{std::move(oWorld), pSpriteEntity, pParent}
+	Npc::Npc(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= 0*/) noexcept
+		: Parent{std::move(oWorld), entityStorage, std::move(oId), pSpriteEntity, pParent}
 		, m_dWalkSpeed{128.0}
 		, m_dPixWalkedSinceLastDisplay{0.0}
 		, m_oTargetLocation{getLocation()}

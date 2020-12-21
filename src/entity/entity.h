@@ -13,21 +13,20 @@
 
 #include "QObject"
 #include "tiled/mapobject.h"
-#include "util/axis_aligned_bb.h"
+
 #include "level/location.h"
-#include "pathfinding/path.h"
 
 namespace FastSimDesign {
-	class Word;
+	class World;
+	class EntityStorage;
+	class AxisAlignedBB;
+	class Path;
+	class VectorLoc;
 	class Entity : public QObject
 	{
 		Q_OBJECT
-	public:
-		/*!
-		* Offset alignment according to center position reference. Offset is rotation sensitive.
-		*/
-		static QPointF spriteAlignmentOffset(Tiled::MapObject const* const pSpriteEntity, Tiled::Alignment oAlignment) noexcept;
-		static QPointF spriteCenterPosition(Tiled::MapObject const* const pSpriteEntity, Tiled::Alignment oAlignment) noexcept;
+	private:
+		using Parent = QObject;
 
 	public:
 		enum class EntityDirection
@@ -48,24 +47,55 @@ namespace FastSimDesign {
 			NOT_WALKABLE
 		};
 
-		explicit Entity(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent = Q_NULLPTR) noexcept;
+		struct Id
+		{
+				using value_type = uint64_t;
+				using index_type = uint64_t;
+				
+			  explicit Id() noexcept; // Default constructor
+			  explicit Id(Entity::Id::value_type id, Entity::Id::index_type index) noexcept; // Default constructor
+				Id(Id const&) = default; // Copy constructor
+				Id(Id&&) = default; // Move constructor
+				Id& operator=(Id const&) = default; // Copy assignment operator
+				Id& operator=(Id&&) = default; // Move assignment operator
+				virtual ~Id() = default; // Destructor
+				
+				friend inline bool operator==(Id const& oLeft, Id const& oRight) noexcept;
+				friend inline bool operator!=(Id const& oLeft, Id const& oRight) noexcept;
+				friend inline bool operator<(Id const& oLeft, Id const& oRight) noexcept;
+				friend inline bool operator>(Id const& oLeft, Id const& oRight) noexcept;
+
+				value_type m_id;
+				index_type m_index;
+		};
+		
+	public:
+		/*!
+		* Offset alignment according to center position reference. Offset is rotation sensitive.
+		*/
+		static QPointF spriteAlignmentOffset(Tiled::MapObject const* const pSpriteEntity, Tiled::Alignment oAlignment) noexcept;
+		static QPointF spriteCenterPosition(Tiled::MapObject const* const pSpriteEntity, Tiled::Alignment oAlignment) noexcept;
+
+		static const Entity::Id INVALID;
+		
+	public:
+		explicit Entity(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent = nullptr) noexcept;
 		virtual ~Entity() = default; // Destructor
 
-		inline int getId() const noexcept { return m_pSpriteEntity->id(); }
+		inline Entity::Id const& getId() const noexcept { return m_oId; }
 		inline QString const& getName() const noexcept { return m_pSpriteEntity->name(); }
 		inline QSharedPointer<World const> getWorld() const noexcept { return m_oWorld.lock(); }
 		inline void setEnableModelUpdating(bool bEnable) noexcept { m_bEnableModelUpdating = bEnable; };
+		inline Entity::ActionFeedback getActionFeedback() const noexcept { return m_oCurrentActionStatus; }
 
 		void init() noexcept;
 		virtual void onInit() noexcept {};
-
 		virtual void update(QTime const& oDeltaTime) noexcept = 0;
-
 		void term() noexcept;
 		virtual void onTerm() noexcept {};
 
+		bool isValid() const noexcept;
 		virtual bool isCollideWith(Entity const& oOther) const noexcept = 0;
-		inline Entity::ActionFeedback getActionFeedback() const noexcept { return m_oCurrentActionStatus; }
 
 		/*!
 		* Other can be seen if one of them corners (the corners are compute from the greatest side of its bounding box) is in the perception field.
@@ -96,7 +126,10 @@ namespace FastSimDesign {
 
 	protected:
 		QWeakPointer<World> m_oWorld;
+		EntityStorage const * const m_entityStorage;
 		Tiled::MapObject* const m_pSpriteEntity;
+		
+		Entity::Id m_oId;
 		Location m_oTargetLooktAt;
 		Entity::ActionFeedback m_oCurrentActionStatus;
 
@@ -104,5 +137,28 @@ namespace FastSimDesign {
 
 	private:
 	};
+	
+	/*****************************************************************************
+	Operator functions
+	*****************************************************************************/
+	inline bool operator==(Entity::Id const& oLeft, Entity::Id const& oRight) noexcept
+	{
+		return oLeft.m_id == oRight.m_id;
+	}
+
+	inline bool operator!=(Entity::Id const& oLeft, Entity::Id const& oRight) noexcept
+	{
+		return oLeft.m_id != oRight.m_id;
+	}
+	
+	inline bool operator<(Entity::Id const& oLeft, Entity::Id const& oRight) noexcept
+	{
+		return oLeft.m_id < oRight.m_id;
+	}
+	
+	inline bool operator>(Entity::Id const& oLeft, Entity::Id const& oRight) noexcept
+	{
+		return oLeft.m_id > oRight.m_id;
+	}
 }
 #endif

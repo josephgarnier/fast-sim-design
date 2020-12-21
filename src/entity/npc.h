@@ -21,7 +21,7 @@ namespace FastSimDesign {
 		using Parent = Entity;
 
 	public:
-		explicit Npc(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent = Q_NULLPTR) noexcept;
+		explicit Npc(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent = nullptr) noexcept;
 		virtual ~Npc() = default; // Destructor
 
 		virtual void update(QTime const& oDeltaTime) noexcept override;

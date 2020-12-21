@@ -34,7 +34,7 @@ namespace FastSimDesign {
 			WorldPopulator worldPopulator{mapResource.getTiledObjects()};
 			qInfo() << "Populating world from being entities...";
 			worldPopulator.populateWorld(oWorld);
-			qInfo() << "World has been populated with" << oWorld->getEntities().size() << "entities.";
+			qInfo() << "World has been populated with" << oWorld->entityCount() << "entities.";
 
 			// --- Init the world ---
 			qInfo().nospace() << "Initializing the world " << oWorldName << "...";
@@ -72,13 +72,13 @@ namespace FastSimDesign {
 	/*****************************************************************************
 	Methods
 	*****************************************************************************/
-	World::World(Tiled::MapRenderer const* pMapRenderer, Tiled::Map* const pMap, Tiled::TileLayer* pCollisionLayer, QObject* const pParent /*= Q_NULLPTR*/) noexcept
+	World::World(Tiled::MapRenderer const* pMapRenderer, Tiled::Map* const pMap, Tiled::TileLayer* pCollisionLayer, QObject* const pParent /*= nullptr*/) noexcept
 		: QObject{pParent}
 		, m_oWorldInfoModel{new WorldInfoModel{this}}
 		, m_pMapRenderer{pMapRenderer}
 		, m_pMap{pMap}
 		, m_pCollisionLayer{pCollisionLayer}
-		, m_oEntities{}
+		, m_oEntities{new EntityStorage(this)}
 	{
 	}
 
@@ -93,16 +93,12 @@ namespace FastSimDesign {
 		m_oWorldInfoModel->setTotalTime(World::getTotalTime());
 		m_oWorldInfoModel->setWorldTime(World::getWorldTime());
 		m_oWorldInfoModel->setCurrentTick(0);
-		for (QSharedPointer<Entity>& entity : m_oEntities)
-		{
-			qInfo().nospace() << "Initializing entity \"" << entity->getId() << "\"...";
-			entity->init();
-			qInfo().nospace() << "Entity \"" << entity->getId() << "\" initialized successfully!";
-		}
+		m_oEntities->init();
 	}
 
 	void World::update(QTime const& oDeltaTime) noexcept
 	{
+		// m_oEntities.update();
 		/*Being::Time dt{};
 		dt.FromMilli(Time::toMilliseconds(oDeltaTime));
 
@@ -138,13 +134,7 @@ namespace FastSimDesign {
 
 	void World::term() noexcept
 	{
-		for (QSharedPointer<Entity>& entity : m_oEntities)
-		{
-			qInfo().nospace() << "Terminating entity \"" << entity->getId() << "\"...";
-			entity->term();
-			qInfo().nospace() << "Entity \"" << entity->getId() << "\" terminated successfully!";
-		}
-		removeAllEntities();
+		m_oEntities->term();
 	}
 
 	bool World::isCoordExists(Location const& oCoord) const noexcept
@@ -169,7 +159,7 @@ namespace FastSimDesign {
 
 	bool World::isCollide(Entity const& oEntity) const noexcept
 	{
-		for (QSharedPointer<Entity> other : m_oEntities)
+		for (Entity const* other : m_oEntities->getAllConstPtr())
 			if (other->getId() != oEntity.getId() && other->isCollideWith(oEntity))
 				return true;
 		return false;
@@ -201,47 +191,27 @@ namespace FastSimDesign {
 
 	void World::setSelectedSprite(Tiled::MapObject const& oSelectedSprite) noexcept
 	{
-		for (auto entity : m_oEntities)
+		for (auto entity : m_oEntities->getAllPtr())
 			entity->setEnableModelUpdating(false);
-		QSharedPointer<Entity> selectedEntity = getEntityBySprite<Entity>(oSelectedSprite);
-		selectedEntity->setEnableModelUpdating(true);
-		emit selectedEntityChanged(*selectedEntity.data());
+		Entity& selectedEntity = m_oEntities->get<Entity>(oSelectedSprite);
+		selectedEntity.setEnableModelUpdating(true);
+		emit selectedEntityChanged(selectedEntity);
 	}
 
-	QVector<QSharedPointer<Entity>> World::getEntitiesInFront(Entity const& oEntity, double dRadius) const noexcept
+	EntityStorage::EntityContainerPtr World::getEntitiesInFront(Entity const& oEntity, double dRadius) const noexcept
 	{
-		QVector<QSharedPointer<Entity>> entitiesAround{};
-		for (QSharedPointer<Entity> other : m_oEntities)
+		EntityStorage::EntityContainerPtr entitiesAround{};
+		for (Entity* other : m_oEntities->getAllPtr())
 		{
-			if (other->getId() != oEntity.getId() && oEntity.canSeeInFront(*other.data(), dRadius))
+			if (other->getId() != oEntity.getId() && oEntity.canSeeInFront(*other, dRadius))
 				entitiesAround.push_back(other);
 		}
 		return entitiesAround;
 	}
 
-	QSharedPointer<Entity> World::getEntityByName(QString const& sName) const noexcept
+	void World::destroyAllEntities() noexcept
 	{
-		for (auto entity : m_oEntities)
-		{
-			if (entity->getName() == sName) return entity;
-		}
-		Q_ASSERT_X(false, "", "The requested entity does not exists");
-		return QSharedPointer<Entity>{};
-	}
-
-	void World::addEntity(QSharedPointer<Entity> oEntity) noexcept
-	{
-		Q_ASSERT_X(!isCollide(*oEntity.data()), "", "Location destination is not free");
-		m_oEntities.push_back(std::move(oEntity));
-	}
-
-	void World::removeAllEntities() noexcept
-	{
-		for (QSharedPointer<Entity>& entity : m_oEntities)
-		{
-			entity.reset();
-		}
-		m_oEntities.clear();
+		m_oEntities->clear();
 	}
 
 	Location World::getRandomWalkableLocation() const noexcept

@@ -11,8 +11,8 @@
 #include "level/world.h"
 
 namespace FastSimDesign {
-	Object::Object(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= Q_NULLPTR*/) noexcept
-		: Parent{std::move(oWorld), pSpriteEntity, pParent}
+	Object::Object(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= nullptr*/) noexcept
+		: Parent{std::move(oWorld), entityStorage, std::move(oId), pSpriteEntity, pParent}
 		, m_oSlots{}
 	{
 	}

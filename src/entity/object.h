@@ -22,7 +22,7 @@ namespace FastSimDesign {
 		using Parent = Entity;
 
 	public:
-		explicit Object(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent = Q_NULLPTR) noexcept;
+		explicit Object(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent = nullptr) noexcept;
 		virtual ~Object() = default; // Destructor
 
 		virtual void update(QTime const& oDeltaTime) noexcept override;

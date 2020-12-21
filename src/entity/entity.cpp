@@ -7,11 +7,31 @@
 ******************************************************************************/
 
 #include "entity.h"
+
 #include "level/world.h"
+#include "util/axis_aligned_bb.h"
+#include "pathfinding/path.h"
+
+#include "entity_storage.h"
 
 namespace FastSimDesign {
 	/*****************************************************************************
-	Statics
+	Id::Methods
+	*****************************************************************************/
+	Entity::Id::Id() noexcept
+		: m_id{0}
+		, m_index{0}
+	{
+	}
+	
+	Entity::Id::Id(Entity::Id::value_type id, Entity::Id::index_type index) noexcept
+		: m_id{id}
+		, m_index{index}
+	{
+	}
+	
+	/*****************************************************************************
+	Entity::Statics
 	*****************************************************************************/
 	QPointF Entity::spriteAlignmentOffset(Tiled::MapObject const* const pSpriteEntity, Tiled::Alignment oAlignment) noexcept
 	{
@@ -27,6 +47,7 @@ namespace FastSimDesign {
 			case Tiled::Alignment::BottomLeft: offset = QPointF{-pSpriteEntity->width() / 2, pSpriteEntity->height() / 2}; break;
 			case Tiled::Alignment::Bottom: offset = QPointF{0.0f, pSpriteEntity->height() / 2}; break;
 			case Tiled::Alignment::BottomRight: offset = QPointF{pSpriteEntity->width() / 2, pSpriteEntity->height() / 2}; break;
+			default: break;
 		}
 		QTransform matrixOffset{};
 		matrixOffset.rotate(pSpriteEntity->rotation());
@@ -41,12 +62,14 @@ namespace FastSimDesign {
 	}
 
 	/*****************************************************************************
-	Methods
+	Entity::Methods
 	*****************************************************************************/
-	Entity::Entity(QWeakPointer<World> oWorld, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= 0*/) noexcept
+	Entity::Entity(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent /*= 0*/) noexcept
 		: QObject{pParent}
 		, m_oWorld{std::move(oWorld)}
+		, m_entityStorage{entityStorage}
 		, m_pSpriteEntity{pSpriteEntity}
+		, m_oId{oId}
 		, m_oCurrentActionStatus{Entity::ActionFeedback::INACTIVE}
 		, m_bEnableModelUpdating{false}
 	{
@@ -60,6 +83,11 @@ namespace FastSimDesign {
 	void Entity::term() noexcept
 	{
 		onTerm();
+	}
+	
+	bool Entity::isValid() const noexcept
+	{
+		return m_entityStorage->isValid(m_oId);
 	}
 
 	bool Entity::canSeeInFront(Entity const& oOther, double dRadius) const noexcept
@@ -92,6 +120,8 @@ namespace FastSimDesign {
 	bool Entity::isOwnSprite(Tiled::MapObject const& oSprite) const noexcept
 	{
 		QVector<Tiled::MapObject const*> allSprites = getAllOwnedSprites();
+		qInfo() << &allSprites[0];
+		qInfo() << &oSprite;
 		return allSprites.contains(&oSprite);
 	}
 
@@ -128,19 +158,19 @@ namespace FastSimDesign {
 		 */
 		int xTile = getLocation().getTileX();
 		int yTile = getLocation().getTileY();
-		int maxIteration = (iMaxTileDistance * 2) + 1; // worst situation
+		uint32_t maxIteration = (iMaxTileDistance * 2) + 1; // worst situation
 		int direction = -1; // to left first
 		Location accessibleLoc{m_oWorld, xTile, yTile};
-		for (size_t lengthSide = 1; lengthSide <= maxIteration; lengthSide++)
+		for (std::size_t lengthSide = 1; lengthSide <= maxIteration; lengthSide++)
 		{
-			for (size_t row = 0; row < lengthSide; row++)
+			for (std::size_t row = 0; row < lengthSide; row++)
 			{
 				xTile += direction;
 				accessibleLoc = Location{m_oWorld, xTile, yTile};
 				if (m_oWorld.lock()->isCoordExists(accessibleLoc) && m_oWorld.lock()->isWalkableTileLocation(accessibleLoc))
 					return accessibleLoc;
 			}
-			for (size_t height = 0; height < lengthSide; height++)
+			for (std::size_t height = 0; height < lengthSide; height++)
 			{
 				yTile += direction;
 				accessibleLoc = Location{m_oWorld, xTile, yTile};

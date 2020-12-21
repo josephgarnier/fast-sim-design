@@ -35,7 +35,7 @@ namespace FastSimDesign {
 		} catch (...)
 		{
 			m_bIsWorldPopulated = false;
-			oWorld->removeAllEntities();
+			oWorld->destroyAllEntities();
 			throw;
 		}
 	}
@@ -47,10 +47,9 @@ namespace FastSimDesign {
 		{
 			int id = npcSprite->id();
 			int walkSpeed = npcSprite->property(QStringLiteral("walk_speed")).toInt();
-			QSharedPointer<Npc> newNpc = QSharedPointer<Npc>::create(m_oWorld, npcSprite, m_oWorld.data());
-			newNpc->setWalkSpeed(walkSpeed);
-			m_oWorld->addEntity(newNpc);
-			qInfo().nospace() << "Npc \"" << newNpc->getId() << "\" added.";
+			Entity::Id newEntity = m_oWorld->createEntity<Npc>(npcSprite, m_oWorld.data());
+			m_oWorld->getEntity<Npc>(newEntity).setWalkSpeed(walkSpeed);
+			qInfo().nospace() << "Npc \"" << newEntity.m_id << "\" added.";
 		}
 	}
 
@@ -61,16 +60,15 @@ namespace FastSimDesign {
 		for (Tiled::MapObject* objectSprite : objectSprites)
 		{
 			int id = objectSprite->id();
-			QSharedPointer<Object> newObject = QSharedPointer<Object>::create(m_oWorld, objectSprite, m_oWorld.data());
-			m_oWorld->addEntity(newObject);
-			qInfo().nospace() << "Object \"" << newObject->getId() << "\" added.";
+			Entity::Id newEntity = m_oWorld->createEntity<Object>(objectSprite, m_oWorld.data());
+			qInfo().nospace() << "Object \"" << newEntity.m_id << "\" added.";
 		}
 
 		for (Tiled::MapObject* slotSprite : slotSprites)
 		{
 			int relatedObject = slotSprite->property(QStringLiteral("related_object_id")).toInt();
-			QSharedPointer<Object> entity = m_oWorld->getEntityById<Object>(relatedObject);
-			entity->createSlot(slotSprite);
+			// QSharedPointer<Object> entity = m_oWorld->getEntity<Object>(relatedObject);
+			// entity->createSlot(slotSprite);
 		}
 	}
 }

@@ -12,10 +12,12 @@
 #define FAST_SIM_DESIGN_WORLD_H
 
 #include "QEnableSharedFromThis"
+#include "tiled/map.h"
+
 #include "entity/object.h"
 #include "entity/npc.h"
+#include "entity/entity_storage.h"
 #include "level/world_info_model.h"
-#include "tiled/map.h"
 #include "pathfinding/path.h"
 
 namespace FastSimDesign {
@@ -34,7 +36,7 @@ namespace FastSimDesign {
 		static QTime getWorldTime() noexcept;
 
 	public:
-		explicit World(Tiled::MapRenderer const* const pMapRenderer, Tiled::Map* const pMap, Tiled::TileLayer* const pCollisionLayer, QObject* pParent = Q_NULLPTR) noexcept;
+		explicit World(Tiled::MapRenderer const* const pMapRenderer, Tiled::Map* const pMap, Tiled::TileLayer* const pCollisionLayer, QObject* pParent = nullptr) noexcept;
 		virtual ~World() noexcept; // Destructor
 
 		void init() noexcept;
@@ -44,6 +46,7 @@ namespace FastSimDesign {
 		inline WorldInfoModel* getWorldInfoModel() const noexcept { return m_oWorldInfoModel.data(); }
 		inline Tiled::MapRenderer const* getMapRender() const noexcept { return m_pMapRenderer; }
 		inline Tiled::Map const* getMap() const noexcept { return m_pMap; }
+		inline EntityStorage& getEntityStorage() noexcept { return *m_oEntities.get(); }
 		inline int getHeight() const noexcept { return m_pMap->height() * m_pMap->tileHeight(); }
 		inline int getWidth() const noexcept { return m_pMap->width() * m_pMap->tileWidth(); }
 		inline int getTileHeight() const noexcept { return m_pMap->tileHeight(); }
@@ -64,44 +67,20 @@ namespace FastSimDesign {
 		bool isWalkableTileDestination(Entity const& oEntity, VectorLoc const& oDistanceOffset) const noexcept;
 
 		void setSelectedSprite(Tiled::MapObject const& oSelectedSprite) noexcept;
-		inline QVector<QSharedPointer<Entity>> const& getEntities() const noexcept { return m_oEntities; }
-		QVector<QSharedPointer<Entity>> getEntitiesInFront(Entity const& oEntity, double dRadius) const noexcept;
-		QSharedPointer<Entity> getEntityByName(QString const& sName) const noexcept;
 
-		template<typename T>
-		QSharedPointer<T> getEntityById(int iId) const noexcept
-		{
-			for (auto entity : m_oEntities)
-			{
-				if (entity->getId() == iId)
-				{
-					QSharedPointer<T> castedEntity = entity.dynamicCast<T>();
-					Q_ASSERT_X(!castedEntity.isNull(), "", "This entity cannot be cast to T type");
-					return castedEntity;
-				}
-			}
-			Q_ASSERT_X(false, "", "Requested entity does not exists");
-			return QSharedPointer<T>{};
-		}
+		inline std::size_t entityCount() const noexcept { return m_oEntities->count(); }
+		inline EntityStorage::EntityContainerPtr getEntities() const noexcept { return m_oEntities->getAllPtr(); }
+		EntityStorage::EntityContainerPtr getEntitiesInFront(Entity const& oEntity, double dRadius) const noexcept;
+		template<typename EntityType>
+		inline EntityType& getEntity(QString const& sName) const noexcept { return m_oEntities->get<EntityType>(sName); }
+		template<typename EntityType>
+		inline EntityType& getEntity(Entity::Id const& id) const noexcept { return m_oEntities->get<EntityType>(id); }
+		template<typename EntityType>
+		inline EntityType& getEntity(Tiled::MapObject const& sprite) const noexcept { return m_oEntities->get<EntityType>(sprite); }
 
-		template<typename T>
-		QSharedPointer<T> getEntityBySprite(Tiled::MapObject const& oSprite) const noexcept
-		{
-			for (auto entity : m_oEntities)
-			{
-				if (entity->isOwnSprite(oSprite))
-				{
-					QSharedPointer<T> castedEntity = entity.dynamicCast<T>();
-					Q_ASSERT_X(!castedEntity.isNull(), "", "This entity cannot be cast to T type");
-					return castedEntity;
-				}
-			}
-			Q_ASSERT_X(false, "", "Requested entity does not exists");
-			return QSharedPointer<T>{};
-		}
-
-		void addEntity(QSharedPointer<Entity> oEntity) noexcept;
-		void removeAllEntities() noexcept;
+		template<typename EntityType, typename... EntityArgs>
+		Entity::Id createEntity(EntityArgs&&... args) noexcept;
+		void destroyAllEntities() noexcept;
 
 		Location getRandomWalkableLocation() const noexcept;
 		Path findPath(Entity const& oFrom, Entity const& oTo) const noexcept;
@@ -112,9 +91,10 @@ namespace FastSimDesign {
 		Tiled::MapRenderer const* m_pMapRenderer;
 		Tiled::Map* m_pMap;
 		Tiled::TileLayer* m_pCollisionLayer;
-		QVector<QSharedPointer<Entity>> m_oEntities;
+		std::unique_ptr<EntityStorage> m_oEntities;
 
 	private:
 	};
 }
+#include "world.tpp"
 #endif
