@@ -125,8 +125,10 @@ namespace FastSimDesign {
 
 	inline QDebug operator<<(QDebug oStream, PathPoint const& oLeft) noexcept
 	{
-		QString output = QLatin1String{"[?("} % QString::number(oLeft.x()) % QLatin1String{");"} % QLatin1String{"?("} % QString::number(oLeft.y()) % QLatin1String{")]"};
-		oStream << output;
+		QDebugStateSaver saver(oStream);
+		oStream.noquote();
+		oStream << QLatin1String{"[?("} << oLeft.x() << QLatin1String{");"}
+						<< QLatin1String{"?("} << oLeft.y() << QLatin1String{")]"};
 		return oStream;
 	}
 
