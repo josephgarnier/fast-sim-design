@@ -1,0 +1,48 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "maps",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "maps/house.tmx": {
+            "scale": 0.982470703125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 550.1436310322549,
+                "y": 388.8156652253864
+            }
+        },
+        "maps/house.tmx#Minion_Walk": {
+            "scaleInDock": 1
+        },
+        "maps/house.tmx#interior": {
+            "scaleInDock": 1
+        },
+        "maps/house.tmx#meta_tiles": {
+            "scaleInDock": 1
+        },
+        "maps/house.tmx#town_buildings": {
+            "scaleInDock": 1
+        },
+        "maps/test.tmx": {
+            "scale": 0.982470703125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 549.6347100044728,
+                "y": 336.90572039163067
+            }
+        },
+        "maps/test.tmx#housey": {
+            "scaleInDock": 1
+        }
+    },
+    "openFiles": [
+    ],
+    "project": "Fast_Sim_Design.tiled-project",
+    "recentFiles": [
+        "maps/test.tmx",
+        "maps/house.tmx"
+    ]
+}
