@@ -25,7 +25,7 @@ namespace FastSimDesign {
 		ViewsUtil& operator=(ViewsUtil&&) = default; // Move assignment operator
 		virtual ~ViewsUtil() = default; // Destructor
 
-		static QProgressDialog* createProgressBox(QString sTitle, QObject const& oSender);
+		static QProgressDialog* const createProgressBox(QString sTitle, QObject const& oSender);
 
 		template<typename T, typename Class>
 		static void waitThreadProgressBox(QString sTitle, Class* pObject, T (Class::*fn)())
