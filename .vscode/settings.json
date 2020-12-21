@@ -110,6 +110,10 @@
 		"filesystem": "cpp",
 		"*.def": "cpp",
 		"__functional_03": "cpp",
-		"source_location": "cpp"
+		"source_location": "cpp",
+		"qenablesharedfromthis": "cpp",
+		"qdebug": "cpp",
+		"qtconcurrentdepends": "cpp",
+		"qtcoredepends": "cpp"
 	}
 }

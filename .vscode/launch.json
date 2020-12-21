@@ -12,7 +12,7 @@
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"avoidWindowsConsoleRedirection": true,
+			"avoidWindowsConsoleRedirection": false,
 			"MIMode": "lldb",
 			"setupCommands": [
 				{
@@ -23,14 +23,19 @@
 			],
 			"logging": {
 				"exceptions": true,
-				"moduleLoad": false,
+				"moduleLoad": true,
 				"programOutput": true,
 				"engineLogging": false,
 				"trace": false,
 				"traceResponse": false
 			},
-			"visualizerFile": "${workspaceFolder}/.vscode/default.natvis",
-			"showDisplayString": false
+			"visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
+			"showDisplayString": true,
+			"additionalSOLibSearchPath": "/opt/Qt/5.15.2/gcc_64/bin",
+			"symbolLoadInfo": {
+				"loadAll": true,
+				"exceptionList": ""
+			}
 		},
 		{
 			"name": "(gdb-linux) Debugger",
@@ -43,7 +48,7 @@
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"avoidWindowsConsoleRedirection": true,
+			"avoidWindowsConsoleRedirection": false,
 			"MIMode": "gdb",
 			"miDebuggerPath": "/usr/local/bin/gdb",
 			"setupCommands": [
@@ -55,14 +60,19 @@
 			],
 			"logging": {
 				"exceptions": true,
-				"moduleLoad": false,
+				"moduleLoad": true,
 				"programOutput": true,
 				"engineLogging": false,
 				"trace": false,
 				"traceResponse": false
 			},
-			"visualizerFile": "${workspaceFolder}/.vscode/default.natvis",
-			"showDisplayString": false
+			"visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
+			"showDisplayString": true,
+			"additionalSOLibSearchPath": "/opt/Qt/5.15.2/gcc_64/bin",
+			"symbolLoadInfo": {
+				"loadAll": true,
+				"exceptionList": ""
+			}
 		},
 		{
 			"name": "(gdb-windows) Debugger",
@@ -75,9 +85,9 @@
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"avoidWindowsConsoleRedirection": true,
+			"avoidWindowsConsoleRedirection": false,
 			"MIMode": "gdb",
-			"miDebuggerPath": "C:/msys64/usr/bin/gdb",
+			"miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
 			"setupCommands": [
 				{
 					"description": "Enable pretty-printing for gdb",
@@ -87,14 +97,19 @@
 			],
 			"logging": {
 				"exceptions": true,
-				"moduleLoad": false,
+				"moduleLoad": true,
 				"programOutput": true,
 				"engineLogging": false,
 				"trace": false,
 				"traceResponse": false
 			},
-			"visualizerFile": "${workspaceFolder}/.vscode/default.natvis",
-			"showDisplayString": false
+			"visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
+			"showDisplayString": true,
+			"additionalSOLibSearchPath": "D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/bin",
+			"symbolLoadInfo": {
+				"loadAll": true,
+				"exceptionList": ""
+			}
 		}
 	]
 }

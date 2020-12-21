@@ -11,7 +11,9 @@
 			"/opt/Qt/5.15.2/gcc_64/include/**",
 			"/opt/Qt/5.15.2/gcc_64/include/QtCore",
 			"/opt/Qt/5.15.2/gcc_64/include/QtWidgets",
-			"/opt/Qt/5.15.2/gcc_64/include/QtGui"
+			"/opt/Qt/5.15.2/gcc_64/include/QtGui",
+			"/opt/tiled-1.4.2/src/libtiled",
+			"/opt/tiled-1.4.2/src/libtiled/**"
 		],
 		"linuxBrowsePath": [
 			"${workspaceFolder}/src",
@@ -20,7 +22,8 @@
 			"/opt/Qt/5.15.2/gcc_64/include",
 			"/opt/Qt/5.15.2/gcc_64/include/QtCore",
 			"/opt/Qt/5.15.2/gcc_64/include/QtWidgets",
-			"/opt/Qt/5.15.2/gcc_64/include/QtGui"
+			"/opt/Qt/5.15.2/gcc_64/include/QtGui",
+			"/opt/tiled-1.4.2/src/libtiled"
 		],
 		"windowsIncludePath": [
 			"${workspaceFolder}/src",
@@ -33,7 +36,9 @@
 			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/**",
 			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtCore",
 			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui"
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui",
+			"D:/Documents/Travail/Libraries/tiled-1.4.2/src/libtiled",
+			"D:/Documents/Travail/Libraries/tiled-1.4.2/src/libtiled/**"
 		],
 		"windowsBrowsePath": [
 			"${workspaceFolder}/src",
@@ -42,7 +47,8 @@
 			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include",
 			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtCore",
 			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui"
+			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui",
+			"D:/Documents/Travail/Libraries/tiled-1.4.2/src/libtiled"
 		]
 	},
 	"configurations": [
