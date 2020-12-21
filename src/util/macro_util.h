@@ -12,18 +12,32 @@
 #define FAST_SIM_DESIGN_MACRO_UTIL_H
 
 namespace FastSimDesign {
+
 #define QT_DEFAULT_CONSTRUCTOR(x_ClassName) \
-	friend class QVector<x_ClassName>;        \
+	{                                         \
+		friend class QVector<x_ClassName>;      \
+                                            \
 	private:                                  \
 		explicit x_ClassName() = default;       \
-	public:
+                                            \
+	public:                                   \
+	}
 
-#define QVECTOR_NON_DEFAULT_CONSTRUCTIBLE(Type)                 \
-	template <> inline QVector<Type>::QVector(int) = delete;      \
-	template <> inline void QVector<Type>::resize(int newSize) {  \
-		Q_ASSERT(newSize <= size());                                \
-		detach();                                                   \
-	}                                                             \
-	template <> inline void QVector<Type>::defaultConstruct(Type*, Type*) { Q_ASSERT(false); }
+#define QVECTOR_NON_DEFAULT_CONSTRUCTIBLE(Type)               \
+	{                                                           \
+		template<>                                                \
+		inline QVector<Type>::QVector(int) = delete;              \
+		template<>                                                \
+		inline void QVector<Type>::resize(int newSize)            \
+		{                                                         \
+			Q_ASSERT(newSize <= size());                            \
+			detach();                                               \
+		}                                                         \
+		template<>                                                \
+		inline void QVector<Type>::defaultConstruct(Type*, Type*) \
+		{                                                         \
+			Q_ASSERT(false);                                        \
+		}                                                         \
+	}
 }
 #endif
