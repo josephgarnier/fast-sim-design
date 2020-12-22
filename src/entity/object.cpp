@@ -23,7 +23,7 @@ namespace FastSimDesign {
 
 	bool Object::isCollideWith(Entity const& oOther) const noexcept
 	{
-		Q_ASSERT_X(oOther.getId() != getId(), "", "The collision test has to concern two different entities");
+		Q_ASSERT_X(oOther.id() != id(), "", "The collision test has to concern two different entities");
 		if (CollisionHelper::areColliding(getBoundingBox(), oOther.getBoundingBox()))
 		{
 			for (auto& slot : m_oSlots) // Collisions with a slot are allowed, the entity can go on.
@@ -112,7 +112,7 @@ namespace FastSimDesign {
 		Q_ASSERT_X(m_oSlots.contains(oHoldSlotId), "", "No slot exists with this id");
 		Slot& slot = m_oSlots[oHoldSlotId];
 		Q_ASSERT_X(!slot.isFree(), "", "You cannot free this slot, it is not held");
-		Q_ASSERT_X(slot.getHolder()->getId() == oCurrentSlotHolder.getId(), "", "You try to release this slot with an entity not being the holder");
+		Q_ASSERT_X(slot.getHolder()->id() == oCurrentSlotHolder.id(), "", "You try to release this slot with an entity not being the holder");
 		Q_ASSERT_X(slot.getLocation().toCoordPoint() == oCurrentSlotHolder.getLocation().toCoordPoint(), "", "The holder have to be at the same location as the slot");
 		slot.release();
 	}

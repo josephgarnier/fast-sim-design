@@ -36,7 +36,7 @@ namespace FastSimDesign {
 
 	bool Npc::isCollideWith(Entity const& oOther) const noexcept
 	{
-		Q_ASSERT_X(oOther.getId() != getId(), "", "The collision test has to concern two different entities");
+		Q_ASSERT_X(oOther.id() != id(), "", "The collision test has to concern two different entities");
 		return CollisionHelper::areColliding(getBoundingBox(), oOther.getBoundingBox());
 	}
 

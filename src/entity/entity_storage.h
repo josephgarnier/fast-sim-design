@@ -36,8 +36,8 @@ namespace FastSimDesign {
 			EntityIdPool& operator=(EntityIdPool&&) = delete; // Move assignment operator
 			virtual ~EntityIdPool() = default; // Destructor
 
-			Entity::Id create() noexcept;
-			void destroy(Entity::Id const& id) noexcept;
+			Entity::Id createId() noexcept;
+			void destroyId(Entity::Id const& id) noexcept;
 			bool isValid(Entity::Id const& id) const noexcept;
 			inline std::vector<Entity::Id> const& allAllocatedIds() const noexcept { return m_allocatedIds; }
 			inline std::size_t allocatedIdCount() const noexcept { return m_allocatedIds.size(); }
@@ -75,7 +75,7 @@ namespace FastSimDesign {
 		void update(QTime const& deltaTime) noexcept;
 		void term() noexcept;
 
-		inline std::size_t count() const noexcept { return m_entityIdPool.allocatedIdCount(); }
+		inline std::size_t count() const noexcept { return m_idPool.allocatedIdCount(); }
 
 		inline EntityContainer::iterator begin() noexcept { return m_entities.begin(); }
 		inline EntityContainer::const_iterator begin() const noexcept { return m_entities.cbegin(); }
@@ -111,7 +111,7 @@ namespace FastSimDesign {
 	private:
 		EntityContainer m_entities;
 		std::vector<Entity::Id> m_entitiesToDestroy;
-		EntityStorage::EntityIdPool m_entityIdPool;
+		EntityStorage::EntityIdPool m_idPool;
 	};
 }
 #include "entity_storage.tpp"

@@ -160,7 +160,7 @@ namespace FastSimDesign {
 	bool World::isCollide(Entity const& oEntity) const noexcept
 	{
 		for (Entity const* other : m_oEntities->getAllConstPtr())
-			if (other->getId() != oEntity.getId() && other->isCollideWith(oEntity))
+			if (other->id() != oEntity.id() && other->isCollideWith(oEntity))
 				return true;
 		return false;
 	}
@@ -203,7 +203,7 @@ namespace FastSimDesign {
 		EntityStorage::EntityContainerPtr entitiesAround{};
 		for (Entity* other : m_oEntities->getAllPtr())
 		{
-			if (other->getId() != oEntity.getId() && oEntity.canSeeInFront(*other, dRadius))
+			if (other->id() != oEntity.id() && oEntity.canSeeInFront(*other, dRadius))
 				entitiesAround.push_back(other);
 		}
 		return entitiesAround;

@@ -21,7 +21,7 @@ namespace FastSimDesign {
 	{
 	}
 
-	Entity::Id EntityStorage::EntityIdPool::create() noexcept
+	Entity::Id EntityStorage::EntityIdPool::createId() noexcept
 	{
 		Entity::Id newId{m_nextIdValue, static_cast<Entity::Id::index_type>(m_allocatedIds.size())};
 		if (!m_freeIndexes.empty())
@@ -37,7 +37,7 @@ namespace FastSimDesign {
 		return newId;
 	}
 
-	void EntityStorage::EntityIdPool::destroy(Entity::Id const& id) noexcept
+	void EntityStorage::EntityIdPool::destroyId(Entity::Id const& id) noexcept
 	{
 		auto found = std::find(std::begin(m_allocatedIds), std::end(m_allocatedIds), id);
 		Q_ASSERT_X(found != std::end(m_allocatedIds), "EntityStorage::EntityIdPool::destroy", "Id does not exists");
@@ -67,7 +67,7 @@ namespace FastSimDesign {
 		: QAbstractListModel{parent}
 		, m_entities{}
 		, m_entitiesToDestroy{}
-		, m_entityIdPool{0}
+		, m_idPool{0}
 	{
 	}
 
@@ -80,7 +80,7 @@ namespace FastSimDesign {
 	{
 		if (parent.isValid())
 			return 0;
-		return m_entityIdPool.allocatedIdCount();
+		return m_idPool.allocatedIdCount();
 	}
 
 	QVariant EntityStorage::data(QModelIndex const& index, int role /*= Qt::DisplayRole*/) const noexcept
@@ -95,7 +95,7 @@ namespace FastSimDesign {
 		switch (role)
 		{
 			case Qt::DisplayRole:
-				return QVariant{(*entityRow)->getName()};
+				return QVariant{(*entityRow)->name()};
 				break;
 		}
 		return QVariant{};
@@ -105,9 +105,9 @@ namespace FastSimDesign {
 	{
 		for (std::unique_ptr<Entity> const& entity : m_entities)
 		{
-			qInfo("Initializing entity \"%llu\"...", entity->getId().m_id);
+			qInfo("Initializing entity \"%llu\"...", entity->id().m_id);
 			entity->init();
-			qInfo("Entity \"%llu\" initialized successfully!", entity->getId().m_id);
+			qInfo("Entity \"%llu\" initialized successfully!", entity->id().m_id);
 		}
 	}
 
@@ -124,7 +124,7 @@ namespace FastSimDesign {
 				entityExtracted->term();
 				entityExtracted->setParent(nullptr);
 				entityExtracted.reset();
-				m_entityIdPool.destroy(id);
+				m_idPool.destroyId(id);
 				endRemoveRows();
 				qInfo("Entity \"%llu\" destroyed successfully!", id.m_id);
 			}
@@ -144,9 +144,9 @@ namespace FastSimDesign {
 	{
 		for (std::unique_ptr<Entity> const& entity : m_entities)
 		{
-			qInfo("Terminating entity \"%llu\"...", entity->getId().m_id);
+			qInfo("Terminating entity \"%llu\"...", entity->id().m_id);
 			entity->term();
-			qInfo("Entity \"%llu\" terminated successfully!", entity->getId().m_id);
+			qInfo("Entity \"%llu\" terminated successfully!", entity->id().m_id);
 		}
 		clear();
 	}
@@ -195,7 +195,7 @@ namespace FastSimDesign {
 			entity.reset();
 		}
 		m_entitiesToDestroy.clear();
-		m_entityIdPool.clear();
+		m_idPool.clear();
 		m_entities.clear();
 		endResetModel();
 		emit allEntitiesDestroyed();
@@ -203,12 +203,12 @@ namespace FastSimDesign {
 
 	Entity::Id EntityStorage::createEntityId() noexcept
 	{
-		return m_entityIdPool.create();
+		return m_idPool.createId();
 	}
 
 	bool EntityStorage::isValid(Entity::Id const& id) const noexcept
 	{
-		if (m_entityIdPool.isValid(id))
+		if (m_idPool.isValid(id))
 		{
 			if (id.m_index >= 0 && id.m_index < static_cast<Entity::Id::index_type>(m_entities.size()) && m_entities[id.m_index] != nullptr)
 				return true;

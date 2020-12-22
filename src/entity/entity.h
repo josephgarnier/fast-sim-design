@@ -82,8 +82,8 @@ namespace FastSimDesign {
 		explicit Entity(QWeakPointer<World> oWorld, EntityStorage const* const entityStorage, Entity::Id oId, Tiled::MapObject* const pSpriteEntity, QObject* pParent = nullptr) noexcept;
 		virtual ~Entity() = default; // Destructor
 
-		inline Entity::Id const& getId() const noexcept { return m_oId; }
-		inline QString const& getName() const noexcept { return m_pSpriteEntity->name(); }
+		inline Entity::Id const& id() const noexcept { return m_oId; }
+		inline QString const& name() const noexcept { return m_pSpriteEntity->name(); }
 		inline QSharedPointer<World const> getWorld() const noexcept { return m_oWorld.lock(); }
 		inline void setEnableModelUpdating(bool bEnable) noexcept { m_bEnableModelUpdating = bEnable; };
 		inline Entity::ActionFeedback getActionFeedback() const noexcept { return m_oCurrentActionStatus; }

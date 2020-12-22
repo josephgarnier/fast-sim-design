@@ -93,7 +93,7 @@ namespace FastSimDesign {
 	bool Entity::canSeeInFront(Entity const& oOther, double dRadius) const noexcept
 	{
 		Q_ASSERT_X(dRadius >= getBoundingBox().radius(), "", "Radius have to be at less equal to the bounding box");
-		Q_ASSERT_X(oOther.getId() != getId(), "", "The can see test has to concern two different entities");
+		Q_ASSERT_X(oOther.id() != id(), "", "The can see test has to concern two different entities");
 		double distanceBetweenCenters = getLocation().euclideanDistanceTo(oOther.getLocation());
 		double radii = dRadius + qMax(oOther.getBoundingBox().width() / 2.0, oOther.getBoundingBox().height() / 2.0);
 		if (distanceBetweenCenters <= radii)

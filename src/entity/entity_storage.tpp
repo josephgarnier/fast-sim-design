@@ -80,10 +80,10 @@ namespace FastSimDesign {
 	{
 		std::unique_ptr<Entity> newEntity = std::make_unique<EntityType>(std::forward<EntityArgs>(args)...);
 		Q_ASSERT_X(!std::count(std::begin(m_entities), std::end(m_entities), newEntity), "EntityStorage::create", "Entity already exists, you have to erase it before push it again");
-		Q_ASSERT_X(m_entityIdPool.isValid(newEntity->getId()), "EntityStorage::create", "Entity id is not valid");
+		Q_ASSERT_X(m_idPool.isValid(newEntity->id()), "EntityStorage::create", "Entity id is not valid");
 
-		beginInsertRows(QModelIndex{}, m_entityIdPool.allocatedIdCount(), m_entityIdPool.allocatedIdCount());
-		Entity::Id const& idNewEntity = newEntity->getId();
+		beginInsertRows(QModelIndex{}, m_idPool.allocatedIdCount(), m_idPool.allocatedIdCount());
+		Entity::Id const& idNewEntity = newEntity->id();
 		if (idNewEntity.m_index >= static_cast<Entity::Id::index_type>(m_entities.size())) // resize the container of entities
 		{
 			m_entities.resize(idNewEntity.m_index + 1);
