@@ -8,7 +8,7 @@
 
 Debug
 -----
-Operations for helping with debug. It requires CMake 3.16 or newer.
+Operations for helping with debug. It requires CMake 3.20 or newer.
 
 Synopsis
 ^^^^^^^^
@@ -53,7 +53,9 @@ naming convention which stipulates that each variable is prefixed
 by ${PROJECT_NAME}.
 
 #]=======================================================================]
-cmake_minimum_required (VERSION 3.16)
+include_guard()
+
+cmake_minimum_required (VERSION 3.20)
 include(CMakePrintHelpers)
 
 #------------------------------------------------------------------------------
@@ -69,13 +71,13 @@ function(debug)
 	endif()
 
 	if(${DB_DUMP_VARIABLES})
-		debug_dump_variables()
+		_debug_dump_variables()
 	elseif(${DB_DUMP_PROPERTIES})
-		debug_dump_properties()
+		_debug_dump_properties()
 	elseif(DEFINED DB_DUMP_TARGET_PROPERTIES)
-		debug_dump_target_properties()
+		_debug_dump_target_properties()
 	elseif(${DB_DUMP_PROJECT_VARIABLES})
-		debug_dump_project_variables()
+		_debug_dump_project_variables()
 	else()
 		message(FATAL_ERROR "Operation argument is missing")
 	endif()
@@ -83,16 +85,14 @@ endfunction()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(debug_dump_variables)
-	if(DEFINED DB_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${DB_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_debug_dump_variables)
 	if(NOT ${DB_DUMP_VARIABLES})
 		message(FATAL_ERROR "DUMP_VARIABLES arguments is missing")
 	endif()
 
 	get_cmake_property(variable_names VARIABLES)
 	list(SORT variable_names)
+	list(REMOVE_DUPLICATES variable_names)
 	foreach (variable_name IN ITEMS ${variable_names})
 		if((NOT DEFINED DB_EXCLUDE_REGEX) OR (NOT "${variable_name}" MATCHES "${DB_EXCLUDE_REGEX}"))
 			message(STATUS "${variable_name}= ${${variable_name}}")
@@ -102,33 +102,27 @@ endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(debug_dump_properties)
-	if(DEFINED DB_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${DB_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_debug_dump_properties)
 	if(NOT ${DB_DUMP_PROPERTIES})
 		message(FATAL_ERROR "DUMP_PROPERTIES arguments is missing")
 	endif()
 
 	execute_process(COMMAND
 		${CMAKE_COMMAND} --help-property-list
-		OUTPUT_VARIABLE properties_names
+		OUTPUT_VARIABLE propertie_names
 	)
-	# Convert command output into a CMake list
-	string(REGEX REPLACE ";" "\\\\;" properties_names "${properties_names}")
-	string(REGEX REPLACE "\n" ";" properties_names "${properties_names}")
-	list(SORT properties_names)
-	foreach (propertie_name IN ITEMS ${properties_names})
+	# Convert command output into a CMake list.
+	string(REGEX REPLACE ";" "\\\\;" propertie_names "${propertie_names}")
+	string(REGEX REPLACE "\n" ";" propertie_names "${propertie_names}")
+	list(SORT propertie_names)
+	foreach (propertie_name IN ITEMS ${propertie_names})
 		message(STATUS "${propertie_name}")
 	endforeach()
 endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(debug_dump_target_properties)
-	if(DEFINED DB_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${DB_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_debug_dump_target_properties)
 	if(NOT DEFINED DB_DUMP_TARGET_PROPERTIES)
 		message(FATAL_ERROR "DB_DUMP_TARGET_PROPERTIES arguments is missing")
 	endif()
@@ -136,53 +130,89 @@ macro(debug_dump_target_properties)
 		message(FATAL_ERROR "There is no target named \"${DB_DUMP_TARGET_PROPERTIES}\"")
 	endif()
 
+	# Get all propreties that cmake supports
 	execute_process(COMMAND
 		${CMAKE_COMMAND} --help-property-list
-		OUTPUT_VARIABLE properties_names
+		OUTPUT_VARIABLE propertie_names
 	)
-	# Convert command output into a CMake list
-	string(REGEX REPLACE ";" "\\\\;" properties_names "${properties_names}")
-	string(REGEX REPLACE "\n" ";" properties_names "${properties_names}")
-	list(SORT properties_names)
-	foreach (propertie_name IN ITEMS ${properties_names})
-		string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" propertie_name ${propertie_name})
-		# Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i
-		if((NOT "${propertie_name}" STREQUAL "LOCATION")
-		AND (NOT "${propertie_name}" MATCHES "^LOCATION_")
-		AND (NOT "${propertie_name}" MATCHES "_LOCATION$"))
-			get_property(propertie_value TARGET "${DB_DUMP_TARGET_PROPERTIES}" PROPERTY "${propertie_name}" SET)
-			if(propertie_value)
-				get_target_property(propertie_value "${DB_DUMP_TARGET_PROPERTIES}" "${propertie_name}")
-				message(STATUS "${DB_DUMP_TARGET_PROPERTIES}: ${propertie_name}= ${propertie_value}")
-			endif()
+
+	# Convert command output into a CMake list.
+	string(REGEX REPLACE ";" "\\\\;" propertie_names "${propertie_names}")
+	string(REGEX REPLACE "\n" ";" propertie_names "${propertie_names}")
+	
+	# Add custom properties used in this project.
+	list(APPEND propertie_names
+		"INTERFACE_INCLUDE_DIRECTORIES_BUILD"
+		"INTERFACE_INCLUDE_DIRECTORIES_INSTALL"
+		"IMPORTED_LOCATION_BUILD_<CONFIG>"
+		"IMPORTED_LOCATION_INSTALL_<CONFIG>"
+	)
+	
+	# Substitute "_<CONFIG>"" for each variable by the real configuration types (RELEASE and DEBUG).
+	set(config_dependent_propertie_names ${propertie_names})
+	list(FILTER config_dependent_propertie_names INCLUDE REGEX "_<CONFIG>$")
+	list(FILTER propertie_names EXCLUDE REGEX "_<CONFIG>$")
+	foreach(propertie_name IN ITEMS ${config_dependent_propertie_names})
+		string(REPLACE "<CONFIG>" "DEBUG" propertie_name_debug ${propertie_name})
+		list(APPEND propertie_names "${propertie_name_debug}")
+		string(REPLACE "<CONFIG>" "RELEASE" propertie_name_release ${propertie_name})
+		list(APPEND propertie_names "${propertie_name_release}")
+	endforeach()
+
+	# Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i
+	list(FILTER propertie_names EXCLUDE REGEX "^LOCATION$|^LOCATION_|_LOCATION$")
+	list(REMOVE_DUPLICATES propertie_names)
+	list(SORT propertie_names)
+
+	message("")
+	message("-----")
+	list(APPEND CMAKE_MESSAGE_INDENT " ")
+	message("Properties for TARGET ${DB_DUMP_TARGET_PROPERTIES}:")
+	list(APPEND CMAKE_MESSAGE_INDENT "  ")
+	foreach(propertie_name IN ITEMS ${propertie_names})
+		get_property(propertie_set TARGET "${DB_DUMP_TARGET_PROPERTIES}" PROPERTY "${propertie_name}" SET)
+		if(${propertie_set})
+			get_target_property(propertie_value "${DB_DUMP_TARGET_PROPERTIES}" "${propertie_name}")
+			message("${DB_DUMP_TARGET_PROPERTIES}.${propertie_name} = \"${propertie_value}\"")
 		endif()
 	endforeach()
+	list(POP_BACK CMAKE_MESSAGE_INDENT)
+	list(POP_BACK CMAKE_MESSAGE_INDENT)
+	message("-----")
+	message("")
 endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(debug_dump_project_variables)
-	if(DEFINED DB_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${DB_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_debug_dump_project_variables)
 	if(NOT ${DB_DUMP_PROJECT_VARIABLES})
 		message(FATAL_ERROR "DUMP_PROJECT_VARIABLES arguments is missing")
 	endif()
 
 	get_cmake_property(variable_names VARIABLES)
 	list(SORT variable_names)
+	
+	message("")
+	message("-----")
+	list(APPEND CMAKE_MESSAGE_INDENT " ")
+	message("Variables for PROJECT ${PROJECT_NAME}:")
+	list(APPEND CMAKE_MESSAGE_INDENT "  ")
 	foreach (variable_name IN ITEMS ${variable_names})
 		if("${variable_name}" MATCHES "${PROJECT_NAME}_")
-			message(STATUS "${variable_name}= ${${variable_name}}")
+			message("${variable_name} = \"${${variable_name}}\"")
 		endif()
 	endforeach()
+	list(POP_BACK CMAKE_MESSAGE_INDENT)
+	list(POP_BACK CMAKE_MESSAGE_INDENT)
+	message("-----")
+	message("")
 endmacro()
 
 #------------------------------------------------------------------------------
 # Some usefull cmake functions
 #------------------------------------------------------------------------------
 
-# For printing properties and variables (see https://cmake.org/cmake/help/latest/module/CMakePrintHelpers.html
+# For printing properties and variables (@see https://cmake.org/cmake/help/latest/module/CMakePrintHelpers.html
 # and https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html)
 #cmake_print_properties([TARGETS target1 ..  targetN]
 #	[SOURCES source1 .. sourceN]
@@ -192,5 +222,11 @@ endmacro()
 #	PROPERTIES prop1 .. propN )
 #cmake_print_variables(var1 var2 ..  varN)
 
-# For printing system information (see https://cmake.org/cmake/help/latest/module/CMakePrintSystemInformation.html)
+# For printing system information (@see https://cmake.org/cmake/help/latest/module/CMakePrintSystemInformation.html)
 #include(CMakePrintSystemInformation)
+
+# For printing a graph of dependencies of the targets (@see https://cmake.org/cmake/help/latest/prop_gbl/GLOBAL_DEPENDS_DEBUG_MODE.html)
+#set_property(GLOBAL PROPERTY GLOBAL_DEPENDS_DEBUG_MODE 1)
+
+# For testing generator expressions (@see https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html#debugging)
+#file(GENERATE OUTPUT debug.txt CONTENT "$<...>")

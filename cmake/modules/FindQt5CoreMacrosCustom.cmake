@@ -40,7 +40,8 @@ include(CMakeParseArguments)
 
 # qt5_add_resources(outfiles inputfile ... )
 
-function(qt5_add_resources_custom outfiles)
+function(QT5_ADD_RESOURCES_CUSTOM outfiles )
+
 	set(options)
 	set(oneValueArgs)
 	set(multiValueArgs OPTIONS)
@@ -61,7 +62,7 @@ function(qt5_add_resources_custom outfiles)
 		get_filename_component(outdirectory ${outfile} DIRECTORY)
 		file(MAKE_DIRECTORY ${outdirectory})
 		
-		_qt5_parse_qrc_file(${infile} _out_depends _rc_depends)
+		_QT5_PARSE_QRC_FILE(${infile} _out_depends _rc_depends)
 		set_source_files_properties(${infile} PROPERTIES SKIP_AUTORCC ON)
 
 		add_custom_command(OUTPUT ${outfile}

@@ -4,6 +4,10 @@ rem All rights reserved.
 rem
 rem This source code is licensed under the license found in the
 rem LICENSE file in the root directory of this source tree.
+rem =============================================================================
+rem What Is This?
+rem -------------
+rem See README file in the root directory of this source tree.
 
 setlocal EnableDelayedExpansion
 

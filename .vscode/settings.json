@@ -114,6 +114,7 @@
 		"qenablesharedfromthis": "cpp",
 		"qdebug": "cpp",
 		"qtconcurrentdepends": "cpp",
-		"qtcoredepends": "cpp"
+		"qtcoredepends": "cpp",
+		"qtime": "cpp"
 	}
 }

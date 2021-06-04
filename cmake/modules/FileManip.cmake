@@ -8,51 +8,51 @@
 
 FileManip
 ---------
-Operations on files. It requires CMake 3.16 or newer.
+Operations on files. It requires CMake 3.20 or newer.
 
 Synopsis
 ^^^^^^^^
 .. parsed-literal::
 
-    file_manip(`RELATIVE_PATH`_ <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_var>])
-    file_manip(`ABSOLUTE_PATH`_ <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_var>])
-    file_manip(`STRIP_PATH`_ <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_var>])
-    file_manip(`GET_COMPONENT`_ <file_list>... MODE <mode> OUTPUT_VARIABLE <output_var>)
+    file_manip(`RELATIVE_PATH`_ <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_list_var>])
+    file_manip(`ABSOLUTE_PATH`_ <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_list_var>])
+    file_manip(`STRIP_PATH`_ <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_list_var>])
+    file_manip(`GET_COMPONENT`_ <file_list>... MODE <mode> OUTPUT_VARIABLE <output_list_var>)
 
 Usage
 ^^^^^
 .. _RELATIVE_PATH:
 .. code-block:: cmake
 
-  file_manip(RELATIVE_PATH <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_var>])
+  file_manip(RELATIVE_PATH <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_list_var>])
 
 Compute the relative path from a ``<directory_path>`` for each files in the
 list of input path ``<file_list_var>`` and store the result in-place or in
-the specified ``<output_var>``.
+the specified ``<output_list_var>`` as a list.
 
 .. _ABSOLUTE_PATH:
 .. code-block:: cmake
 
-  file_manip(ABSOLUTE_PATH <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_var>])
+  file_manip(ABSOLUTE_PATH <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_list_var>])
 
 Compute the absolute path from a ``<directory_path>`` for each files in the
 list of input path ``<file_list_var>`` and store the result in-place or in
-the specified ``<output_var>``.
+the specified ``<output_list_var>`` as a list.
 
-.. _GET_COMPONENT:
+.. _STRIP_PATH:
 .. code-block:: cmake
 
-  file_manip(STRIP_PATH <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_var>])
+  file_manip(STRIP_PATH <file_list_var> BASE_DIR <directory_path> [OUTPUT_VARIABLE <output_list_var>])
 
 Strip the <directory_path>`` prefix of each file in ``<file_list_var>`` and
-store the result in-place or in the specified ``<output_var>``.
+store the result in-place or in the specified ``<output_list_var>`` as a list.
 
 .. _GET_COMPONENT:
 .. code-block:: cmake
 
-  file_manip(GET_COMPONENT <file_list>... MODE <mode> OUTPUT_VARIABLE <output_var>)
+  file_manip(GET_COMPONENT <file_list>... MODE <mode> OUTPUT_VARIABLE <output_list_var>)
 
-Sets in the specified ``<output_var>`` to a component of file of ``<file_list>``
+Sets as a list in the specified ``<output_list_var>`` a component of file in the list of ``<file_list>``
 , where ``<mode>`` is one of:
 
 ::
@@ -61,7 +61,9 @@ Sets in the specified ``<output_var>`` to a component of file of ``<file_list>``
  NAME      = File name without directory
 
 #]=======================================================================]
-cmake_minimum_required (VERSION 3.16)
+include_guard()
+
+cmake_minimum_required (VERSION 3.20)
 
 #------------------------------------------------------------------------------
 # Public function of this module.
@@ -72,21 +74,21 @@ function(file_manip)
 	cmake_parse_arguments(FM "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
 	
 	if(DEFINED FM_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${SM_UNPARSED_ARGUMENTS}\"")
+		message(FATAL_ERROR "Unrecognized arguments: \"${FM_UNPARSED_ARGUMENTS}\"")
 	endif()
 
 	if(DEFINED FM_RELATIVE_PATH)
-		file_manip_relative_path()
+		_file_manip_relative_path()
 	elseif(DEFINED FM_ABSOLUTE_PATH)
-		file_manip_absolute_path()
+		_file_manip_absolute_path()
 	elseif(DEFINED FM_STRIP_PATH)
-		file_manip_strip_path()
+		_file_manip_strip_path()
 	elseif((DEFINED FM_GET_COMPONENT)
 		OR ("GET_COMPONENT" IN_LIST FM_KEYWORDS_MISSING_VALUES))
 		if("${FM_MODE}" STREQUAL DIRECTORY)
-			file_manip_get_component_directory()
+			_file_manip_get_component_directory()
 		elseif("${FM_MODE}" STREQUAL NAME)
-			file_manip_get_component_name()
+			_file_manip_get_component_name()
 		else()
 			message(FATAL_ERROR "MODE arguments is missing")
 		endif()
@@ -97,10 +99,7 @@ endfunction()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(file_manip_relative_path)
-	if(DEFINED FM_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${SMTSL_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_file_manip_relative_path)
 	if(NOT DEFINED FM_RELATIVE_PATH)
 		message(FATAL_ERROR "RELATIVE_PATH arguments is missing")
 	endif()
@@ -111,7 +110,7 @@ macro(file_manip_relative_path)
 	set(relative_path_list "")
 	foreach(file IN ITEMS ${${FM_RELATIVE_PATH}})
 		file(RELATIVE_PATH relative_path "${FM_BASE_DIR}" "${file}")
-		list(APPEND relative_path_list ${relative_path})
+		list(APPEND relative_path_list "${relative_path}")
 	endforeach()
 	
 	if(NOT DEFINED FM_OUTPUT_VARIABLE)
@@ -123,10 +122,7 @@ endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(file_manip_absolute_path)
-	if(DEFINED FM_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${SMTSL_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_file_manip_absolute_path)
 	if(NOT DEFINED FM_ABSOLUTE_PATH)
 		message(FATAL_ERROR "ABSOLUTE_PATH arguments is missing")
 	endif()
@@ -136,7 +132,7 @@ macro(file_manip_absolute_path)
 	
 	set(absolute_path_list "")
 	foreach(file IN ITEMS ${${FM_ABSOLUTE_PATH}})
-		get_filename_component(absolute_path "${file}" ABSOLUTE BASE_DIR "${FM_BASE_DIR}")
+		file(REAL_PATH "${file}" absolute_path BASE_DIRECTORY "${FM_BASE_DIR}")
 		list(APPEND absolute_path_list ${absolute_path})
 	endforeach()
 	
@@ -149,10 +145,7 @@ endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(file_manip_strip_path)
-	if(DEFINED FM_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${SMTSL_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_file_manip_strip_path)
 	if(NOT DEFINED FM_STRIP_PATH)
 		message(FATAL_ERROR "STRIP_PATH arguments is missing")
 	endif()
@@ -175,11 +168,9 @@ endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(file_manip_get_component_directory)
-	if(DEFINED FM_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${SMTSL_UNPARSED_ARGUMENTS}\"")
-	endif()
-	if(NOT DEFINED FM_GET_COMPONENT)
+macro(_file_manip_get_component_directory)
+	if((NOT DEFINED FM_GET_COMPONENT)
+		AND (NOT "GET_COMPONENT" IN_LIST FM_KEYWORDS_MISSING_VALUES))
 		message(FATAL_ERROR "GET_COMPONENT arguments is missing")
 	endif()
 	if(NOT DEFINED FM_MODE)
@@ -191,7 +182,7 @@ macro(file_manip_get_component_directory)
 	
 	set(directorty_path_list "")
 	foreach(file IN ITEMS ${FM_GET_COMPONENT})
-		get_filename_component(directory_path "${file}" DIRECTORY)
+		cmake_path(GET file PARENT_PATH directory_path)
 		list(APPEND directorty_path_list "${directory_path}")
 	endforeach()
 	
@@ -200,10 +191,7 @@ endmacro()
 
 #------------------------------------------------------------------------------
 # Internal usage.
-macro(file_manip_get_component_name)
-	if(DEFINED FM_UNPARSED_ARGUMENTS)
-		message(FATAL_ERROR "Unrecognized arguments: \"${SMTSL_UNPARSED_ARGUMENTS}\"")
-	endif()
+macro(_file_manip_get_component_name)
 	if((NOT DEFINED FM_GET_COMPONENT)
 		AND (NOT "GET_COMPONENT" IN_LIST FM_KEYWORDS_MISSING_VALUES))
 		message(FATAL_ERROR "GET_COMPONENT arguments is missing")
@@ -217,7 +205,7 @@ macro(file_manip_get_component_name)
 	
 	set(file_name_list "")
 	foreach(file IN ITEMS ${FM_GET_COMPONENT})
-		get_filename_component(file_name "${file}" NAME)
+		cmake_path(FILENAME file PARENT_PATH file_name)
 		list(APPEND file_name_list "${file_name}")
 	endforeach()
 	

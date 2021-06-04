@@ -2,16 +2,16 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Clean and Run CMake",
+			"label": "Clean Build Lifecycle",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 			"linux": {
-				"command": "./clean-cmake.sh && sleep 3s && ./run-cmake.sh"
+				"command": "./clean-cmake.sh"
 			},
 			"windows": {
-				"command": "clean-cmake.bat && timeout /t 3 > NUL && run-cmake.bat"
+				"command": "clean-cmake.bat"
 			},
 			"presentation": {
 				"reveal": "always",
@@ -22,12 +22,87 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build",
+			"label": "Generate Build Lifecycle",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"linux": {
+				"command": "./run-cmake.sh"
+			},
+			"windows": {
+				"command": "run-cmake.bat"
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Generate Build Lifecycle with Clean Build Lifecycle",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"linux": {
+				"command": "./clean-cmake.sh && sleep 3s && echo \"\" && ./run-cmake.sh"
+			},
+			"windows": {
+				"command": "clean-cmake.bat && timeout /t 3 > NUL && echo. && run-cmake.bat"
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Uninstall phase",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-			"command": "cmake --build .",
+			"linux": {
+				"command": "sudo cmake --build . --target uninstall"
+			},
+			"windows": {
+				"command": "cmake --build . --target uninstall"
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Clean phase",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"command": "cmake --build . --target clean",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Compile phase",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"command": "cmake --build . --target all",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -41,12 +116,16 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build with Clean",
+			"label": "Compile phase verbose",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-			"command": "cmake --build . --clean-first",
+			"command": "cmake --build . --target all --verbose",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
 			"presentation": {
 				"reveal": "always",
 				"panel": "dedicated",
@@ -56,12 +135,16 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build with Clean and Verbose",
+			"label": "Compile phase with Clean phase",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}/build"
 			},
-			"command": "cmake --build . --clean-first --verbose",
+			"command": "cmake --build . --target all --clean-first",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
 			"presentation": {
 				"reveal": "always",
 				"panel": "dedicated",
@@ -71,7 +154,100 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Execute",
+			"label": "Compile phase with Clean phase verbose",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"command": "cmake --build . --target all --clean-first --verbose",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Test phase",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"command": "cmake --build . --target fast-sim-design_test && ../bin/fast-sim-design_test",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Doc phase",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"command": "cmake --build . --target doc",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Install phase",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"linux": {
+				"command": "sudo cmake --build . --target install"
+			},
+			"windows": {
+				"command": "cmake --build . --target install"
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Package phase",
+			"type": "shell",
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"linux": {
+				"command": "cmake --build . --target package package_source && sleep 3s && rm -rfv ../bin/_CPack_Packages"
+			},
+			"windows": {
+				"command": "cmake --build . --target package package_source && timeout /t 3 > NUL && del /a /f /s /q ../bin/_CPack_Packages"
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": true,
+				"clear": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Execute main binary",
 			"type": "shell",
 			"options": {
 				"cwd": "${workspaceFolder}/bin"
@@ -81,91 +257,6 @@
 			},
 			"windows": {
 				"command": "fast-sim-design"
-			},
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated",
-				"focus": true,
-				"clear": true
-			},
-			"problemMatcher": []
-		},
-		{
-			"label": "Install",
-			"type": "shell",
-			"options": {
-				"cwd": "${workspaceFolder}/build"
-			},
-			"command": "sudo cmake --build . --target install",
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated",
-				"focus": true,
-				"clear": true
-			},
-			"problemMatcher": []
-		},
-		{
-			"label": "Uninstall",
-			"type": "shell",
-			"options": {
-				"cwd": "${workspaceFolder}/build"
-			},
-			"command": "sudo cmake --build . --target uninstall",
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated",
-				"focus": true,
-				"clear": true
-			},
-			"problemMatcher": []
-		},
-		{
-			"label": "Documentation",
-			"type": "shell",
-			"options": {
-				"cwd": "${workspaceFolder}/build"
-			},
-			"command": "cmake --build . --target docs",
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated",
-				"focus": true,
-				"clear": true
-			},
-			"problemMatcher": []
-		},
-		{
-			"label": "CPack Binary",
-			"type": "shell",
-			"options": {
-				"cwd": "${workspaceFolder}/build"
-			},
-			"linux": {
-				"command": "cpack --config CPackConfig.cmake && sleep 3s && rm -rf ../bin/_CPack_Packages"
-			},
-			"windows": {
-				"command": "cpack --config CPackConfig.cmake && timeout /t 3 > NUL && del /a /f /s /q ../bin/_CPack_Packages"
-			},
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated",
-				"focus": true,
-				"clear": true
-			},
-			"problemMatcher": []
-		},
-		{
-			"label": "CPack Sources",
-			"type": "shell",
-			"options": {
-				"cwd": "${workspaceFolder}/build"
-			},
-			"linux": {
-				"command": "cpack --config CPackSourceConfig.cmake && sleep 3s && rm -rf ../bin/_CPack_Packages"
-			},
-			"windows": {
-				"command": "cpack --config CPackSourceConfig.cmake && timeout /t 3 > NUL && del /a /f /s /q ../bin/_CPack_Packages"
 			},
 			"presentation": {
 				"reveal": "always",
