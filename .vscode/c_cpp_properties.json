@@ -1,139 +1,145 @@
 {
-	"env": {
-		"linuxIncludePath": [
-			"${workspaceFolder}/src",
-			"${workspaceFolder}/src/**",
-			"${workspaceFolder}/include",
-			"${workspaceFolder}/include/**",
-			"${workspaceFolder}/build/src",
-			"${workspaceFolder}/build/src/**",
-			"/opt/Qt/5.15.2/gcc_64/include",
-			"/opt/Qt/5.15.2/gcc_64/include/**",
-			"/opt/Qt/5.15.2/gcc_64/include/QtCore",
-			"/opt/Qt/5.15.2/gcc_64/include/QtWidgets",
-			"/opt/Qt/5.15.2/gcc_64/include/QtGui",
-			"/opt/tiled-1.7.0/src/libtiled",
-			"/opt/tiled-1.7.0/src/libtiled/**"
-		],
-		"linuxBrowsePath": [
-			"${workspaceFolder}/src",
-			"${workspaceFolder}/include",
-			"${workspaceFolder}/build/src",
-			"/opt/Qt/5.15.2/gcc_64/include",
-			"/opt/Qt/5.15.2/gcc_64/include/QtCore",
-			"/opt/Qt/5.15.2/gcc_64/include/QtWidgets",
-			"/opt/Qt/5.15.2/gcc_64/include/QtGui",
-			"/opt/tiled-1.7.0/src/libtiled"
-		],
-		"windowsIncludePath": [
-			"${workspaceFolder}/src",
-			"${workspaceFolder}/src/**",
-			"${workspaceFolder}/include",
-			"${workspaceFolder}/include/**",
-			"${workspaceFolder}/build/src",
-			"${workspaceFolder}/build/src/**",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/**",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtCore",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui",
-			"D:/Documents/Travail/Libraries/tiled-1.7.0/src/libtiled",
-			"D:/Documents/Travail/Libraries/tiled-1.7.0/src/libtiled/**"
-		],
-		"windowsBrowsePath": [
-			"${workspaceFolder}/src",
-			"${workspaceFolder}/include",
-			"${workspaceFolder}/build/src",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtCore",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtWidgets",
-			"D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/include/QtGui",
-			"D:/Documents/Travail/Libraries/tiled-1.7.0/src/libtiled"
-		]
-	},
-	"configurations": [
-		{
-			"name": "(clang-linux) IntelliSense",
-			"includePath": [
-				"${linuxIncludePath}"
-			],
-			"defines": [
-				"clang"
-			],
-			"compilerPath": "/usr/bin/clang++",
-			"cStandard": "c17",
-			"cppStandard": "c++17",
-			"intelliSenseMode": "clang-x64",
-			"compileCommands": "",
-			"browse": {
-				"path": [
-					"${linuxBrowsePath}"
-				],
-				"limitSymbolsToIncludedHeaders": false,
-				"databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
-			}
-		},
-		{
-			"name": "(clang-windows) IntelliSense",
-			"includePath": [
-				"${windowsIncludePath}"
-			],
-			"defines": [
-				"clang"
-			],
-			"compilerPath": "C:/msys64/mingw64/bin/clang++",
-			"cStandard": "c17",
-			"cppStandard": "c++17",
-			"intelliSenseMode": "clang-x64",
-			"compileCommands": "",
-			"browse": {
-				"path": [
-					"${windowsBrowsePath}"
-				],
-				"limitSymbolsToIncludedHeaders": false,
-				"databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
-			}
-		},
-		{
-			"name": "(gcc-linux) IntelliSense",
-			"includePath": [
-				"${linuxIncludePath}"
-			],
-			"defines": [
-			],
-			"compilerPath": "/usr/bin/g++",
-			"cStandard": "c17",
-			"cppStandard": "c++17",
-			"intelliSenseMode": "gcc-x64",
-			"compileCommands": "",
-			"browse": {
-				"path": [
-					"${linuxBrowsePath}"
-				],
-				"limitSymbolsToIncludedHeaders": false,
-				"databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
-			}
-		},
-		{
-			"name": "(gcc-windows) IntelliSense",
-			"includePath": [
-				"${windowsIncludePath}"
-			],
-			"defines": [
-			],
-			"compilerPath": "C:/msys64/mingw64/bin/g++",
-			"cStandard": "c17",
-			"cppStandard": "c++17",
-			"intelliSenseMode": "gcc-x64",
-			"compileCommands": "",
-			"browse": {
-				"path": [
-					"${windowsBrowsePath}"
-				],
-				"limitSymbolsToIncludedHeaders": false,
-				"databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
-			}
-		}
-	],
-	"version": 4
+  "env": {
+    "linuxIncludePath": [
+      "${workspaceFolder}/src",
+      "${workspaceFolder}/src/**",
+      "${workspaceFolder}/include",
+      "${workspaceFolder}/include/**",
+      "${workspaceFolder}/build/src",
+      "${workspaceFolder}/build/src/**",
+      "/opt/Qt/6.8.0/gcc_64/include",
+      "/opt/Qt/6.8.0/gcc_64/include/**",
+      "/opt/Qt/6.8.0/gcc_64/include/QtCore",
+      "/opt/Qt/6.8.0/gcc_64/include/QtWidgets",
+      "/opt/Qt/6.8.0/gcc_64/include/QtGui",
+      "/opt/tiled-1.11.0/src/libtiled",
+      "/opt/tiled-1.11.0/src/libtiled/**"
+    ],
+    "linuxBrowsePath": [
+      "${workspaceFolder}/src",
+      "${workspaceFolder}/include",
+      "${workspaceFolder}/build/src",
+      "/opt/Qt/6.8.0/gcc_64/include",
+      "/opt/Qt/6.8.0/gcc_64/include/QtCore",
+      "/opt/Qt/6.8.0/gcc_64/include/QtWidgets",
+      "/opt/Qt/6.8.0/gcc_64/include/QtGui",
+      "/opt/tiled-1.11.0/src/libtiled"
+    ],
+    "windowsIncludePath": [
+      "${workspaceFolder}/src",
+      "${workspaceFolder}/src/**",
+      "${workspaceFolder}/include",
+      "${workspaceFolder}/include/**",
+      "${workspaceFolder}/build/src",
+      "${workspaceFolder}/build/src/**",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/**",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtCore",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtWidgets",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtGui",
+      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled",
+      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled/**"
+    ],
+    "windowsBrowsePath": [
+      "${workspaceFolder}/src",
+      "${workspaceFolder}/include",
+      "${workspaceFolder}/build/src",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtCore",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtWidgets",
+      "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtGui",
+      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled"
+    ]
+  },
+  "configurations": [
+    {
+      "name": "(clang-linux) IntelliSense",
+      "compilerPath": "/usr/bin/clang++",
+      "compilerArgs": [],
+      "intelliSenseMode": "linux-clang-x64",
+      "includePath": [
+        "${linuxIncludePath}"
+      ],
+      "defines": [
+        "clang"
+      ],
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "compileCommands": "",
+      "browse": {
+        "path": [
+          "${linuxBrowsePath}"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+      },
+      "mergeConfigurations": false
+    },
+    {
+      "name": "(clang-windows) IntelliSense",
+      "compilerPath": "C:/msys64/mingw64/bin/clang++",
+      "compilerArgs": [],
+      "intelliSenseMode": "windows-clang-x64",
+      "includePath": [
+        "${windowsIncludePath}"
+      ],
+      "defines": [
+        "clang"
+      ],
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "compileCommands": "",
+      "browse": {
+        "path": [
+          "${windowsBrowsePath}"
+        ],
+        "limitSymbolsToIncludedHeaders": false,
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+      },
+      "mergeConfigurations": false
+    },
+    {
+      "name": "(gcc-linux) IntelliSense",
+      "compilerPath": "/usr/bin/g++",
+      "compilerArgs": [],
+      "intelliSenseMode": "linux-gcc-x64",
+      "includePath": [
+        "${linuxIncludePath}"
+      ],
+      "defines": [],
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "compileCommands": "",
+      "browse": {
+        "path": [
+          "${linuxBrowsePath}"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+      },
+      "mergeConfigurations": false
+    },
+    {
+      "name": "(gcc-windows) IntelliSense",
+      "compilerPath": "C:/msys64/mingw64/bin/g++",
+      "compilerArgs": [],
+      "intelliSenseMode": "windows-gcc-x64",
+      "includePath": [
+        "${windowsIncludePath}"
+      ],
+      "defines": [],
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "compileCommands": "",
+      "browse": {
+        "path": [
+          "${windowsBrowsePath}"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+      },
+      "mergeConfigurations": false
+    }
+  ],
+  "version": 4
 }

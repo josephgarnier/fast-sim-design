@@ -15,19 +15,19 @@
 
 #---- Import and link Qt. ----
 message(STATUS "Import and link Qt")
-if(DEFINED ENV{Qt5_DIR}) 
-	set(Qt5_DIR "$ENV{Qt5_DIR}")
+if(DEFINED ENV{Qt6_DIR}) 
+	set(Qt6_DIR "$ENV{Qt6_DIR}")
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-	set(Qt5_DIR "D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/lib/cmake")
+	set(Qt6_DIR "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64")
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-	set(Qt5_DIR "/opt/Qt/5.15.2/gcc_64/lib/cmake")
+	set(Qt6_DIR "/opt/Qt/6.8.0/gcc_64/lib/cmake")
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
-	set(Qt5_DIR "/opt/Qt/5.15.2/gcc_64/lib/cmake")
+	set(Qt6_DIR "/opt/Qt/6.8.0/gcc_64/lib/cmake")
 endif()
 if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
 	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
 else()
-	set(CMAKE_PREFIX_PATH "${Qt5_DIR}")
+	set(CMAKE_PREFIX_PATH "${Qt6_DIR}")
 endif()
 
 # See https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html for their documentations.
@@ -42,14 +42,14 @@ set_target_properties("${${PROJECT_NAME}_MAIN_BIN_TARGET}" PROPERTIES
 	AUTOUIC_SEARCH_PATHS "${${PROJECT_NAME}_SRC_DIR}/gui"
 )
 
-find_package(Qt5 COMPONENTS Widgets Gui Core Svg Concurrent REQUIRED)
+find_package(Qt6 COMPONENTS Widgets Gui Core Svg Concurrent REQUIRED)
 
-if (${Qt5Widgets_VERSION} VERSION_LESS 5.15.1
-	OR ${Qt5Gui_VERSION} VERSION_LESS 5.15.1
-	OR ${Qt5Core_VERSION} VERSION_LESS 5.15.1
-	OR ${Qt5Svg_VERSION} VERSION_LESS 5.15.1
-	OR ${Qt5Concurrent_VERSION} VERSION_LESS 5.15.1)
-		message(FATAL_ERROR "Minimum supported Qt5 version is 5.15.1!")
+if (${Qt6Widgets_VERSION} VERSION_LESS 6.8.0
+	OR ${Qt6Gui_VERSION} VERSION_LESS 6.8.0
+	OR ${Qt6Core_VERSION} VERSION_LESS 6.8.0
+	OR ${Qt6Svg_VERSION} VERSION_LESS 6.8.0
+	OR ${Qt6Concurrent_VERSION} VERSION_LESS 6.8.0)
+		message(FATAL_ERROR "Minimum supported Qt6 version is 6.8.0!")
 endif()
 
 # Add Qt definitions to the main binary build target.
@@ -70,8 +70,8 @@ target_compile_definitions("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
 message(STATUS "Link Qt to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
 target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
 	PUBLIC
-		"$<BUILD_INTERFACE:Qt5::Widgets;Qt5::Gui;Qt5::Core;Qt5::Svg;Qt5::Concurrent>"
-		"$<INSTALL_INTERFACE:Qt5::Widgets;Qt5::Gui;Qt5::Core;Qt5::Svg;Qt5::Concurrent>"
+		"$<BUILD_INTERFACE:Qt6::Widgets;Qt6::Gui;Qt6::Core;Qt6::Svg;Qt6::Concurrent>"
+		"$<INSTALL_INTERFACE:Qt6::Widgets;Qt6::Gui;Qt6::Core;Qt6::Svg;Qt6::Concurrent>"
 )
 
 # Set Qt as a position-independent target.

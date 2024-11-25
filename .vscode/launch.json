@@ -103,9 +103,9 @@
 				"trace": false,
 				"traceResponse": false
 			},
-			"visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
+			"visualizerFile": "${workspaceFolder}/.vscode/qt6.natvis.xml",
 			"showDisplayString": true,
-			"additionalSOLibSearchPath": "D:/Documents/Travail/Libraries/Qt/5.15.2/mingw81_64/bin",
+			"additionalSOLibSearchPath": "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/bin",
 			"symbolLoadInfo": {
 				"loadAll": true,
 				"exceptionList": ""
