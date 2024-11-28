@@ -41,7 +41,7 @@ Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps create
 
 The following dependencies are required for development:
 
-- **C++20 compiler** - e.g [GCC v15.2+](https://gcc.gnu.org/), [Clang C++ v19.1.3+](https://clang.llvm.org/cxx_status.html) or [Visual Studio](https://visualstudio.microsoft.com).
+- **C++20 compiler** - e.g [GCC v15.2+](https://gcc.gnu.org/), [Clang C++ v19.1.3+](https://clang.llvm.org/cxx_status.html) or [Visual Studio](https://visualstudio.microsoft.com). The project is developed with the GCC compiler, and its dependencies are provided pre-compiled with GCC. 
 - **CMake v3.27.6+** - can be found [here](https://cmake.org/).
 - **Qt 6.8.0+** - can be found [here](https://www.qt.io/download-dev).
 - **SFML v2.6.2+** - can be found [here](https://www.sfml-dev.org/download.php).
@@ -227,18 +227,19 @@ This project has been set up with a specific file/folder structure in mind. The 
 
 ### Update the Tiled library
 
-Fast-Sim-Design is supplied with the Tiled library already compiled. To rebuild and update it, proceed as follows:
+Fast-Sim-Design is supplied with the Tiled library already pre-compiled with GCC. To rebuild and update it, proceed as follows:
 
-1. Using a Web browser, go to the [Tiled release download page](https://github.com/mapeditor/tiled/releases).
-2. Find the section corresponding to the version of Tiled you want or have already installed on your computer, then click on **Source code** to download the source code.
-3. Extract the contents of the downloaded archive into the folder of your choice.
-4. Launch Qt Creator and open the tiled project located in the extracted folder.
-5. Open the file `Tield/libtiled/libtiled.qbs`.
-6. To change the name of the generated target according to the build type, replace the `targetName: ...` line with `qbs.buildVariant === "debug" ? "tiledd_x.xx.x" : "tiled_x.xx.x"`, substituting the `x` with the current Tiled version number, then save the file.
-7. Start compiling the library from the `libtiled` folder (right-click on the folder, then select **Build**).
-8. When the operation is complete, compile the other build type: *debug* or *release*.
+1. Make sure that the Qt Creator software and the Qt framework compiled with GCC are installed.
+2. Using a Web browser, go to the [Tiled release download page](https://github.com/mapeditor/tiled/releases).
+3. Find the section corresponding to the version of Tiled you want or have already installed on your computer, then click on **Source code** to download the source code.
+4. Extract the contents of the downloaded archive into the folder of your choice.
+5. Launch Qt Creator and open the tiled project located in the extracted folder.
+6. Open the file `Tield/libtiled/libtiled.qbs`.
+7. To change the name of the generated target according to the build type, replace the `targetName: ...` line with `qbs.buildVariant === "debug" ? "tiledd_x.xx.x" : "tiled_x.xx.x"`, substituting the `x` with the current Tiled version number, then save the file.
+8. Start compiling the library from the `libtiled` folder (right-click on the folder, then select **Build**).
+9. When the operation is complete, compile the other build type: *debug* or *release*.
 
-At the end of the procedure, the compiled library is available from the Qt Creator output folders: `<path-to-project-tield>/build/<Release|Debug>_Desktop/libtiled/<tiled_x.xx.x|tiledd_x.xx.x>`.
+At the end of the procedure, the compiled library is available from the Qt Creator output folders: `<path-to-project-tield>/build/<Release|Debug>_Desktop/libtiled/<tiled_x.xx.x|tiledd_x.xx.x>`. Copy them into the project's `lib/` folder. Also copy Tiled's C++ header files from the `<path-to-project-tield>/libtiled/` folder to the `include/tiled/` project folder.
 
 ## 🤝 Contributing
 
