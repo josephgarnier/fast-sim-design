@@ -20,8 +20,8 @@ set(${PROJECT_NAME}_IMPORTED_INTERNAL_LIBRARIES "")
 #---- Import Tiled. ----
 dependency(IMPORT "tiled"
 	SHARED
-	RELEASE_NAME "tiled"
-	DEBUG_NAME "tiledd"
+	RELEASE_NAME "tiled_1.11.0"
+	DEBUG_NAME "tiledd_1.11.0"
 	ROOT_DIR "${${PROJECT_NAME}_LIB_DIR}"
 	INCLUDE_DIR "${${PROJECT_NAME}_INCLUDE_DIR}/tiled"
 )
