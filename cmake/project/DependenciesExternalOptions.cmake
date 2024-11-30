@@ -42,6 +42,7 @@ set_target_properties("${${PROJECT_NAME}_MAIN_BIN_TARGET}" PROPERTIES
 	AUTOUIC_SEARCH_PATHS "${${PROJECT_NAME}_SRC_DIR}/gui"
 )
 
+# Find Qt.
 find_package(Qt6 COMPONENTS Widgets Gui Core Svg Concurrent REQUIRED)
 
 if (${Qt6Widgets_VERSION} VERSION_LESS 6.8.0
@@ -84,3 +85,40 @@ target_compile_options("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
 		"$<IF:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,-fPIE,-fPIC>"
 )
 message(STATUS "Import and link Qt - done")
+
+#---- Import and link SFML. ----
+message(STATUS "Import and link SFML")
+if(DEFINED ENV{SFML_DIR}) 
+	set(SFML_DIR "$ENV{SFML_DIR}")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+	if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+		set(SFML_DIR "D:/Documents/Software_Libraries/SFML-2.6.2/vs17-w64")
+	else()
+		set(SFML_DIR "D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64")
+	endif()
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+	set(SFML_DIR "/opt/SFML-2.6.2")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+	set(SFML_DIR "/opt/SFML-2.6.2")
+endif()
+if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
+	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
+else()
+	set(CMAKE_PREFIX_PATH "${SFML_DIR}")
+endif()
+
+# Find SFML.
+find_package(SFML COMPONENTS system graphics window audio network REQUIRED)
+
+# Link SFML to the main binary build target.
+message(STATUS "Link SFML library to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
+target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
+	PRIVATE
+		"sfml-system;sfml-graphics;sfml-window;sfml-audio;sfml-network"
+)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+	set_target_properties("${${PROJECT_NAME}_MAIN_BIN_TARGET}" PROPERTIES
+		VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;D:/Documents/Software_Libraries/SFML-2.6.2/vs17-w64/bin"
+	)
+endif()
+message(STATUS "Import and link SFML - done")

@@ -38,7 +38,9 @@
       "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtWidgets",
       "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtGui",
       "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled",
-      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled/**"
+      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled/**",
+      "D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64/include",
+      "D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64/include/**"
     ],
     "windowsBrowsePath": [
       "${workspaceFolder}/src",
@@ -48,7 +50,8 @@
       "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtCore",
       "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtWidgets",
       "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/include/QtGui",
-      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled"
+      "D:/Documents/Software_Libraries/tiled-1.11.0/src/libtiled",
+      "D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64/include"
     ]
   },
   "configurations": [
