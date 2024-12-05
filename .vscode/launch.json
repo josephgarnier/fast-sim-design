@@ -1,115 +1,95 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "(lldb-linux) Debugger",
-			"type": "cppdbg",
-			"request": "launch",
-			"preLaunchTask": "${defaultBuildTask}",
-			"program": "${workspaceFolder}/bin/fast-sim-design",
-			"args": [],
-			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
-			"environment": [],
-			"externalConsole": false,
-			"avoidWindowsConsoleRedirection": false,
-			"MIMode": "lldb",
-			"setupCommands": [
-				{
-					"description": "Enable pretty-printing for lldb",
-					"text": "-enable-pretty-printing",
-					"ignoreFailures": true
-				}
-			],
-			"logging": {
-				"exceptions": true,
-				"moduleLoad": true,
-				"programOutput": true,
-				"engineLogging": false,
-				"trace": false,
-				"traceResponse": false
-			},
-			"visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
-			"showDisplayString": true,
-			"additionalSOLibSearchPath": "/opt/Qt/5.15.2/gcc_64/bin",
-			"symbolLoadInfo": {
-				"loadAll": true,
-				"exceptionList": ""
-			}
-		},
-		{
-			"name": "(gdb-linux) Debugger",
-			"type": "cppdbg",
-			"request": "launch",
-			"preLaunchTask": "${defaultBuildTask}",
-			"program": "${workspaceFolder}/bin/fast-sim-design",
-			"args": [],
-			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
-			"environment": [],
-			"externalConsole": false,
-			"avoidWindowsConsoleRedirection": false,
-			"MIMode": "gdb",
-			"miDebuggerPath": "/usr/local/bin/gdb",
-			"setupCommands": [
-				{
-					"description": "Enable pretty-printing for gdb",
-					"text": "-enable-pretty-printing",
-					"ignoreFailures": true
-				}
-			],
-			"logging": {
-				"exceptions": true,
-				"moduleLoad": true,
-				"programOutput": true,
-				"engineLogging": false,
-				"trace": false,
-				"traceResponse": false
-			},
-			"visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
-			"showDisplayString": true,
-			"additionalSOLibSearchPath": "/opt/Qt/5.15.2/gcc_64/bin",
-			"symbolLoadInfo": {
-				"loadAll": true,
-				"exceptionList": ""
-			}
-		},
-		{
-			"name": "(gdb-windows) Debugger",
-			"type": "cppdbg",
-			"request": "launch",
-			"preLaunchTask": "${defaultBuildTask}",
-			"program": "${workspaceFolder}/bin/fast-sim-design",
-			"args": [],
-			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
-			"environment": [],
-			"externalConsole": false,
-			"avoidWindowsConsoleRedirection": false,
-			"MIMode": "gdb",
-			"miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
-			"setupCommands": [
-				{
-					"description": "Enable pretty-printing for gdb",
-					"text": "-enable-pretty-printing",
-					"ignoreFailures": true
-				}
-			],
-			"logging": {
-				"exceptions": true,
-				"moduleLoad": true,
-				"programOutput": true,
-				"engineLogging": false,
-				"trace": false,
-				"traceResponse": false
-			},
-			"visualizerFile": "${workspaceFolder}/.vscode/qt6.natvis.xml",
-			"showDisplayString": true,
-			"additionalSOLibSearchPath": "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/bin",
-			"symbolLoadInfo": {
-				"loadAll": true,
-				"exceptionList": ""
-			}
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "(lldb) Debugger",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "${defaultBuildTask}",
+      "program": "",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "avoidWindowsConsoleRedirection": false,
+      "MIMode": "lldb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for lldb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "logging": {
+        "exceptions": true,
+        "moduleLoad": true,
+        "programOutput": true,
+        "engineLogging": false,
+        "trace": false,
+        "traceResponse": false
+      },
+      "visualizerFile": "${workspaceFolder}/.vscode/qt6.natvis.xml",
+      "showDisplayString": true,
+      "additionalSOLibSearchPath": "",
+      "symbolLoadInfo": {
+        "loadAll": true,
+        "exceptionList": ""
+      },
+      "linux": {
+        "program": "${workspaceFolder}/bin/fast-sim-design",
+        "additionalSOLibSearchPath": "/opt/Qt/6.8.0/gcc_64/bin"
+      },
+      "windows": {},
+      "osx": {}
+    },
+    {
+      "name": "(gdb) Debugger",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "${defaultBuildTask}",
+      "program": "",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "avoidWindowsConsoleRedirection": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "logging": {
+        "exceptions": true,
+        "moduleLoad": true,
+        "programOutput": true,
+        "engineLogging": false,
+        "trace": false,
+        "traceResponse": false
+      },
+      "visualizerFile": "${workspaceFolder}/.vscode/qt6.natvis.xml",
+      "showDisplayString": true,
+      "additionalSOLibSearchPath": "",
+      "symbolLoadInfo": {
+        "loadAll": true,
+        "exceptionList": ""
+      },
+      "linux": {
+        "program": "${workspaceFolder}/bin/fast-sim-design",
+        "miDebuggerPath": "/usr/local/bin/gdb",
+        "additionalSOLibSearchPath": "/opt/Qt/6.8.0/gcc_64/bin",
+      },
+      "windows": {
+        "program": "${workspaceFolder}/bin/fast-sim-design.exe",
+        "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
+        "additionalSOLibSearchPath": "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/bin;D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64/bin",
+      },
+      "osx": {}
+    }
+  ]
 }
