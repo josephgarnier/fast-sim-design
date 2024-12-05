@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Clean Build Lifecycle",
+      "label": "Project: Clean",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -24,7 +24,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Generate Build Lifecycle",
+      "label": "Project: Generate",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -46,7 +46,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Generate Build Lifecycle with Clean Build Lifecycle",
+      "label": "Project: Clean and Generate",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -68,7 +68,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Uninstall phase",
+      "label": "CMake: Uninstall",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -90,7 +90,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Clean phase",
+      "label": "CMake: Clean",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -107,13 +107,16 @@
       "problemMatcher": []
     },
     {
-      "label": "Compile phase",
+      "label": "CMake: Compile",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
       "command": "cmake --build . --target all",
-      "group": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -125,7 +128,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Compile phase verbose",
+      "label": "CMake: Compile (verbose)",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -143,7 +146,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Compile phase with Clean phase",
+      "label": "CMake: Compile with Clean",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -161,7 +164,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Compile phase with Clean phase verbose",
+      "label": "CMake: Compile with Clean (verbose)",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -179,7 +182,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Test phase",
+      "label": "CMake: Test",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -195,7 +198,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Doc phase",
+      "label": "CMake: Doc",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -212,7 +215,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Install phase",
+      "label": "CMake: Install",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -234,7 +237,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Package phase",
+      "label": "CMake: Package",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/build"
@@ -256,7 +259,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Execute main binary",
+      "label": "CMake: Execute",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/bin"
@@ -265,7 +268,7 @@
         "command": "./fast-sim-design"
       },
       "windows": {
-        "command": "fast-sim-design"
+        "command": "fast-sim-design.exe"
       },
       "presentation": {
         "echo": true,
@@ -275,7 +278,8 @@
         "showReuseMessage": false,
         "clear": true
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "dependsOn": ["CMake: Compile"]
     }
   ]
 }
