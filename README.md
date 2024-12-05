@@ -7,7 +7,7 @@
 
 <p align="center">
 <a rel="license" href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="Static Badge" src="https://img.shields.io/badge/licence-GNU_GPLv3-brightgreen">
-</a> <img alt="Static Badge" src="https://img.shields.io/badge/plateform-windows%7Clinux%7Cmac-lightgrey"> <img alt="Static Badge" src="https://img.shields.io/badge/language-c%2B%2B%7Ccmake-blue"> <img alt="Static Badge" src="https://img.shields.io/badge/status-in_dev-orange">
+</a> <img alt="Static Badge" src="https://img.shields.io/badge/plateform-Windows%20%7C%20Linux%20%7C%20Mac-lightgrey"> <img alt="Static Badge" src="https://img.shields.io/badge/language-C%2B%2B%20%7C%20CMake-blue"> <img alt="Static Badge" src="https://img.shields.io/badge/status-in_dev-orange">
 </p>
 
 Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps created using [Tiled software](https://www.mapeditor.org/). It use SFML to simulate the world. It is designed to get design projects off the ground quickly, and offers several tools for visualizing activity within the simulator to facilitate analysis. This makes Fast-Sim-Design ideal for simulation experiments. Finally, particular attention was paid to code quality, documentation and unit testing to guarantee reliable behavior.
@@ -41,7 +41,7 @@ Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps create
 
 The following dependencies are required for development:
 
-- **C++20 compiler** - e.g [GCC v15.2+](https://gcc.gnu.org/), [Clang C++ v19.1.3+](https://clang.llvm.org/cxx_status.html) or [Visual Studio](https://visualstudio.microsoft.com). The project is developed with the GCC compiler, and its dependencies are provided pre-compiled with GCC. 
+- **C++20 compiler** - e.g [GCC v15.2+](https://gcc.gnu.org/), [Clang C++ v19.1.3+](https://clang.llvm.org/cxx_status.html) or [Visual Studio](https://visualstudio.microsoft.com). The project is developed with the GCC compiler, and its dependencies are provided pre-compiled with GCC.
 - **CMake v3.27.6+** - can be found [here](https://cmake.org/).
 - **Qt 6.8.0+** - can be found [here](https://www.qt.io/download-dev).
 - **SFML v2.6.2+** - can be found [here](https://www.sfml-dev.org/download.php).
