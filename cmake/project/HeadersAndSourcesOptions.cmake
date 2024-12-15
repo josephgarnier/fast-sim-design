@@ -49,4 +49,4 @@ set(${PROJECT_NAME}_PRECOMPILED_HEADER_FILE "${${PROJECT_NAME}_INCLUDE_DIR}/${PR
 
 
 # Note: set the absolute path to the main source file.
-set(${PROJECT_NAME}_MAIN_SOURCE_FILE "${${PROJECT_NAME}_SRC_DIR}/simulator_starter.cpp")
+set(${PROJECT_NAME}_MAIN_SOURCE_FILE "${${PROJECT_NAME}_SRC_DIR}/main.cpp")
