@@ -13,79 +13,6 @@
 # Import and link external libraries from here.
 #------------------------------------------------------------------------------
 
-#---- Import and link Qt. ----
-message(STATUS "Import and link Qt")
-if(DEFINED ENV{Qt6_DIR}) 
-	set(Qt6_DIR "$ENV{Qt6_DIR}")
-elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-	set(Qt6_DIR "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64")
-elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-	set(Qt6_DIR "/opt/Qt/6.8.0/gcc_64/lib/cmake")
-elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
-	set(Qt6_DIR "/opt/Qt/6.8.0/gcc_64/lib/cmake")
-endif()
-if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
-	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
-else()
-	set(CMAKE_PREFIX_PATH "${Qt6_DIR}")
-endif()
-
-# See https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html for their documentations.
-set_target_properties("${${PROJECT_NAME}_MAIN_BIN_TARGET}" PROPERTIES
-	AUTOGEN_ORIGIN_DEPENDS on
-	AUTOMOC on
-	AUTOMOC_COMPILER_PREDEFINES on
-	AUTOMOC_MACRO_NAMES "${CMAKE_AUTOMOC_MACRO_NAMES}"
-	AUTOMOC_PATH_PREFIX on
-	AUTORCC on
-	AUTOUIC on
-	AUTOUIC_SEARCH_PATHS "${${PROJECT_NAME}_SRC_DIR}/gui"
-)
-
-# Find Qt.
-find_package(Qt6 COMPONENTS Widgets Gui Core Svg Concurrent REQUIRED)
-
-if (${Qt6Widgets_VERSION} VERSION_LESS 6.8.0
-	OR ${Qt6Gui_VERSION} VERSION_LESS 6.8.0
-	OR ${Qt6Core_VERSION} VERSION_LESS 6.8.0
-	OR ${Qt6Svg_VERSION} VERSION_LESS 6.8.0
-	OR ${Qt6Concurrent_VERSION} VERSION_LESS 6.8.0)
-		message(FATAL_ERROR "Minimum supported Qt6 version is 6.8.0!")
-endif()
-
-# Add Qt definitions to the main binary build target.
-message(STATUS "Add Qt definitions to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
-target_compile_definitions("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
-	PUBLIC
-		"$<BUILD_INTERFACE:QT_USE_QSTRINGBUILDER;QT_SHAREDPOINTER_TRACK_POINTERS;QT_MESSAGELOGCONTEXT>"
-		"$<INSTALL_INTERFACE:QT_USE_QSTRINGBUILDER;QT_SHAREDPOINTER_TRACK_POINTERS;QT_MESSAGELOGCONTEXT>"
-)
-# Add Qt assert definitions to the main binary build target only for debug.
-target_compile_definitions("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
-	PUBLIC
-		"$<BUILD_INTERFACE:$<$<NOT:$<STREQUAL:${CMAKE_BUILD_TYPE},DEBUG>>:QT_NO_DEBUG>>"
-		"$<INSTALL_INTERFACE:$<$<NOT:$<STREQUAL:${CMAKE_BUILD_TYPE},DEBUG>>:QT_NO_DEBUG>>"
-)
-
-# Link Qt to the main binary build target.
-message(STATUS "Link Qt to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
-target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
-	PUBLIC
-		"$<BUILD_INTERFACE:Qt6::Widgets;Qt6::Gui;Qt6::Core;Qt6::Svg;Qt6::Concurrent>"
-		"$<INSTALL_INTERFACE:Qt6::Widgets;Qt6::Gui;Qt6::Core;Qt6::Svg;Qt6::Concurrent>"
-)
-
-# Set Qt as a position-independent target.
-set_target_properties("${${PROJECT_NAME}_MAIN_BIN_TARGET}" PROPERTIES INTERFACE_POSITION_INDEPENDENT_CODE ON)
-target_compile_options("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
-	PUBLIC
-		"$<BUILD_INTERFACE:$<IF:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,-fPIE,-fPIC>>"
-		"$<INSTALL_INTERFACE:$<IF:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,-fPIE,-fPIC>>"
-	PRIVATE
-		"$<IF:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,EXECUTABLE>,-fPIE,-fPIC>"
-)
-message(STATUS "Import and link Qt - done")
-
 #---- Import and link SFML. ----
 message(STATUS "Import and link SFML")
 if(DEFINED ENV{SFML_DIR}) 
@@ -107,8 +34,46 @@ else()
 	set(CMAKE_PREFIX_PATH "${SFML_DIR}")
 endif()
 
-# Find SFML.
+# Find SFML or auto-download it.
+message(STATUS "Find SFML package")
 find_package(SFML COMPONENTS system graphics window audio network REQUIRED)
+if(NOT ${SFML_FOUND})
+	message(STATUS "SFML not found, it will be auto-downloaded in the build-tree")
+	include(FetchContent)
+	set(FETCHCONTENT_QUIET off)
+	FetchContent_Declare(
+		SFML
+		GIT_REPOSITORY https://github.com/SFML/SFML.git
+		GIT_TAG 2.6.2
+		GIT_SHALLOW on
+		GIT_PROGRESS on
+		EXCLUDE_FROM_ALL
+		SYSTEM
+		STAMP_DIR "${${PROJECT_NAME}_BUILD_DIR}"
+		DOWNLOAD_NO_PROGRESS off
+		LOG_DOWNLOAD on
+		LOG_UPDATE on
+		LOG_PATCH on
+		LOG_CONFIGURE on
+		LOG_BUILD on
+		LOG_INSTALL on
+		LOG_TEST on
+		LOG_MERGED_STDOUTERR on
+		LOG_OUTPUT_ON_FAILURE on
+		USES_TERMINAL_DOWNLOAD on
+	)
+	FetchContent_MakeAvailable(SFML)
+	if(WIN32)
+		add_custom_command(
+			TARGET "${${PROJECT_NAME}_MAIN_BIN_TARGET}"
+			COMMENT "Copy OpenAL DLL"
+			PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:${${PROJECT_NAME}_MAIN_BIN_TARGET}>
+			VERBATIM
+		)
+	endif()
+else()
+  message(STATUS "SFML found")
+endif()
 
 # Link SFML to the main binary build target.
 message(STATUS "Link SFML library to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
@@ -122,3 +87,124 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	)
 endif()
 message(STATUS "Import and link SFML - done")
+
+
+#---- Import and link Dear ImGui. ----
+message(STATUS "Import and link Dear ImGui")
+if(DEFINED ENV{IMGUI_DIR}) 
+	set(IMGUI_DIR "$ENV{IMGUI_DIR}")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+	set(IMGUI_DIR "D:/Documents/Software_Libraries/ImGui/1.91.6")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+	set(IMGUI_DIR "/opt/ImGui/1.91.6")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+	set(IMGUI_DIR "/opt/ImGui/1.91.6")
+endif()
+if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
+	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
+else()
+	set(CMAKE_PREFIX_PATH "${IMGUI_DIR}")
+endif()
+
+# Find Dear ImGui or auto-download it.
+message(STATUS "Find Dear ImGui package")
+find_package(imgui NO_MODULE)
+if(NOT ${imgui_FOUND})
+	message(STATUS "Dear ImGui not found, it will be auto-downloaded in the build-tree")
+	include(FetchContent)
+	set(FETCHCONTENT_QUIET off)
+	FetchContent_Declare(
+		imgui
+		GIT_REPOSITORY https://github.com/ocornut/imgui.git
+		GIT_TAG v1.91.6
+		GIT_SHALLOW on
+		GIT_PROGRESS on
+		EXCLUDE_FROM_ALL
+		SYSTEM
+		STAMP_DIR "${${PROJECT_NAME}_BUILD_DIR}"
+		DOWNLOAD_NO_PROGRESS off
+		LOG_DOWNLOAD on
+		LOG_UPDATE on
+		LOG_PATCH on
+		LOG_CONFIGURE on
+		LOG_BUILD on
+		LOG_INSTALL on
+		LOG_TEST on
+		LOG_MERGED_STDOUTERR on
+		LOG_OUTPUT_ON_FAILURE on
+		USES_TERMINAL_DOWNLOAD on
+	)
+	FetchContent_MakeAvailable(imgui)
+	set(IMGUI_DIR "${imgui_SOURCE_DIR}")
+else()
+  message(STATUS "Dear ImGui found")
+endif()
+
+# Link Dear ImGui to the main binary build target.
+message(STATUS "No need to link Dear ImGui library to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
+message(STATUS "Import and link Dear ImGui - done")
+
+
+#---- Import and link ImGui-SFML. ----
+message(STATUS "Import and link ImGui-SFML")
+if(DEFINED ENV{IMGUI-SFML_DIR}) 
+	set(IMGUI-SFML_DIR "$ENV{IMGUI-SFML_DIR}")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+	set(IMGUI-SFML_DIR "D:/Documents/Software_Libraries/ImGui-SFML/1.91.6")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+	set(IMGUI-SFML_DIR "/opt/ImGui-SFML/1.91.6")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+	set(IMGUI-SFML_DIR "/opt/ImGui-SFML/1.91.6")
+endif()
+if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
+	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
+else()
+	set(CMAKE_PREFIX_PATH "${IMGUI-SFML_DIR}")
+endif()
+
+# Set ImGui-SFML options.
+option(IMGUI_SFML_USE_DEFAULT_CONFIG on)
+option(IMGUI_SFML_FIND_SFML "Use find_package to find SFML" off)
+option(IMGUI_SFML_IMGUI_DEMO "Build imgui_demo.cpp" off)
+
+# Find ImGui-SFML or auto-download it.
+message(STATUS "Find ImGui-SFML package")
+find_package(imgui-sfml NO_MODULE)
+if(NOT ${imgui-sfml_FOUND})
+	message(STATUS "ImGui-SFML not found, it will be auto-downloaded in the build-tree")
+	include(FetchContent)
+	set(FETCHCONTENT_QUIET off)
+	FetchContent_Declare(
+		imgui-sfml
+		GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
+		GIT_TAG 2.6.x
+		GIT_SHALLOW on
+		GIT_PROGRESS on
+		EXCLUDE_FROM_ALL
+		SYSTEM
+		STAMP_DIR "${${PROJECT_NAME}_BUILD_DIR}"
+		DOWNLOAD_NO_PROGRESS off
+		LOG_DOWNLOAD on
+		LOG_UPDATE on
+		LOG_PATCH on
+		LOG_CONFIGURE on
+		LOG_BUILD on
+		LOG_INSTALL on
+		LOG_TEST on
+		LOG_MERGED_STDOUTERR on
+		LOG_OUTPUT_ON_FAILURE on
+		USES_TERMINAL_DOWNLOAD on
+	)
+	FetchContent_MakeAvailable(imgui-sfml)
+	set(IMGUI-SFML_DIR "${imgui-sfml_SOURCE_DIR}")
+else()
+  message(STATUS "ImGui-SFML found")
+endif()
+
+# Link ImGui-SFML to the main binary build target.
+message(STATUS "Link ImGui-SFML library to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
+target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
+	PRIVATE
+		"ImGui-SFML::ImGui-SFML"
+)
+message(STATUS "Import and link ImGui-SFML - done")

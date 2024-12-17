@@ -10,7 +10,7 @@
 </a> <img alt="Static Badge" src="https://img.shields.io/badge/plateform-Windows%20%7C%20Linux%20%7C%20Mac-lightgrey"> <img alt="Static Badge" src="https://img.shields.io/badge/language-C%2B%2B%20%7C%20CMake-blue"> <img alt="Static Badge" src="https://img.shields.io/badge/status-in_dev-orange">
 </p>
 
-Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps created using [Tiled software](https://www.mapeditor.org/). It use SFML to simulate the world. It is designed to get design projects off the ground quickly, and offers several tools for visualizing activity within the simulator to facilitate analysis. This makes Fast-Sim-Design ideal for simulation experiments. Finally, particular attention was paid to code quality, documentation and unit testing to guarantee reliable behavior.
+Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps created with [Tiled software](https://www.mapeditor.org/). It use the [SFML engine](https://www.sfml-dev.org/) to simulate the world and [Dear ImGui](https://github.com/ocornut/imgui)/[ImGui-SFML](https://github.com/SFML/imgui-sfml) to display what's happening in the simulation. It is designed to get design projects off the ground quickly, and offers several tools for visualizing activity within the simulator to facilitate analysis. This makes Fast-Sim-Design ideal for simulation experiments. Finally, particular attention was paid to code quality, documentation and unit testing to guarantee reliable behavior.
 
 ⚠️ **Development in progress** ⚠️
 
@@ -34,24 +34,29 @@ Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps create
 
 - Agent modeling with the Entity-component-system (ECS).
 - A fast and lightweight simulator thanks to SFML.
+- An analysis of the state of simulation powered by Dear ImGui.
 - Modern code, written in C++ 20 and modern CMake.
 - Reliable code thanks to extensive unit testing and the implementation of best practices.
 
 ## ⚓ Requirements
 
-The following dependencies are required for development:
+The following dependencies are **required** for development and must be installed:
 
 - **C++20 compiler** - e.g [GCC v15.2+](https://gcc.gnu.org/), [Clang C++ v19.1.3+](https://clang.llvm.org/cxx_status.html) or [Visual Studio](https://visualstudio.microsoft.com). The project is developed with the GCC compiler, and its dependencies are provided pre-compiled with GCC.
-- **CMake v3.27.6+** - can be found [here](https://cmake.org/).
-- **Qt 6.8.0+** - can be found [here](https://www.qt.io/download-dev).
-- **SFML v2.6.2+** - can be found [here](https://www.sfml-dev.org/download.php).
+- **CMake v3.31.2+** - can be found [here](https://cmake.org/).
 
-The following dependencies are **optional** because they will be **automatically downloaded** by CMake if they can't be found:
+The following dependencies are **required** for development, but their installation is optional because they will be **automatically downloaded** by CMake if they cannot be found:
+
+- **SFML v2.6.2+** - can be found [here](https://www.sfml-dev.org/download.php) (the Linux version has [some requirements](https://www.sfml-dev.org/tutorials/2.6/start-cmake.php) for autodownloading).
+- **Dear ImGui v1.91.6+** - can be found [here](https://github.com/ocornut/imgui).
+- **ImGui-SFML v2.6+** - can be found [here](https://github.com/SFML/imgui-sfml).
+
+The following dependencies are **optional** and depends on project configuration. Their installation is optional because they will be **automatically downloaded** by CMake if they can't be found:
 
 - [Doxygen v1.12+](http://www.doxygen.nl/) (used when `ENABLE_TEST_MODULE` option is set to `on`);
 - [GTest v1.15.2+](https://github.com/google/googletest) (used when `ENABLE_DOC_MODULE` option is set to `on`).
 
-In addition, it is recommended **to install [Tiled](https://www.mapeditor.org/)** to test this software.
+In addition, it is recommended **to install [Tiled](https://www.mapeditor.org/)** to design your own map to test Fast-Sim-Design.
 
 ## 🚀 Getting started
 
