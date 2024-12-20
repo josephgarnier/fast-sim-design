@@ -116,7 +116,7 @@ if(NOT ${imgui_FOUND})
 	FetchContent_Declare(
 		imgui
 		GIT_REPOSITORY https://github.com/ocornut/imgui.git
-		GIT_TAG v1.91.6
+		GIT_TAG v1.91.6-docking
 		GIT_SHALLOW on
 		GIT_PROGRESS on
 		EXCLUDE_FROM_ALL
@@ -208,3 +208,63 @@ target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
 		"ImGui-SFML::ImGui-SFML"
 )
 message(STATUS "Import and link ImGui-SFML - done")
+
+
+#---- Import and link spdlog. ----
+message(STATUS "Import and link spdlog")
+if(DEFINED ENV{SPDLOG_DIR}) 
+	set(SPDLOG_DIR "$ENV{SPDLOG_DIR}")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+	set(SPDLOG_DIR "D:/Documents/Software_Libraries/spdlog/1.15.0")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+	set(SPDLOG_DIR "/opt/spdlog/1.15.0")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+	set(SPDLOG_DIR "/opt/spdlog/1.15.0")
+endif()
+if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
+	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
+else()
+	set(CMAKE_PREFIX_PATH "${SPDLOG_DIR}")
+endif()
+
+# Find spdlog or auto-download it.
+message(STATUS "Find spdlog package")
+find_package(spdlog NO_MODULE)
+if(NOT ${spdlog_FOUND})
+	message(STATUS "spdlog not found, it will be auto-downloaded in the build-tree")
+	include(FetchContent)
+	set(FETCHCONTENT_QUIET off)
+	FetchContent_Declare(
+		spdlog
+		GIT_REPOSITORY https://github.com/gabime/spdlog.git
+		GIT_TAG v1.15.0
+		GIT_SHALLOW on
+		GIT_PROGRESS on
+		EXCLUDE_FROM_ALL
+		SYSTEM
+		STAMP_DIR "${${PROJECT_NAME}_BUILD_DIR}"
+		DOWNLOAD_NO_PROGRESS off
+		LOG_DOWNLOAD on
+		LOG_UPDATE on
+		LOG_PATCH on
+		LOG_CONFIGURE on
+		LOG_BUILD on
+		LOG_INSTALL on
+		LOG_TEST on
+		LOG_MERGED_STDOUTERR on
+		LOG_OUTPUT_ON_FAILURE on
+		USES_TERMINAL_DOWNLOAD on
+	)
+	FetchContent_MakeAvailable(spdlog)
+	set(SPDLOG_DIR "${spdlog_SOURCE_DIR}")
+else()
+  message(STATUS "spdlog found")
+endif()
+
+# Link spdlog to the main binary build target.
+message(STATUS "Link spdlog library to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
+target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
+	PRIVATE
+		"spdlog::spdlog"
+)
+message(STATUS "Import and link spdlog - done")
