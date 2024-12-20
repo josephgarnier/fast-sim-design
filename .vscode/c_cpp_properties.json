@@ -10,14 +10,17 @@
       "${workspaceFolder}/build/_deps",
       "${workspaceFolder}/build/_deps/**",
       "/opt/tiled-1.11.0/src/libtiled",
-      "/opt/tiled-1.11.0/src/libtiled/**"
+      "/opt/tiled-1.11.0/src/libtiled/**",
+      "/opt/SFML-2.6.2/gcc-13.1.0/include",
+      "/opt/SFML-2.6.2/gcc-13.1.0/include/**"
     ],
     "linuxBrowsePath": [
       "${workspaceFolder}/src",
       "${workspaceFolder}/include",
       "${workspaceFolder}/build/src",
       "${workspaceFolder}/build/_deps",
-      "/opt/tiled-1.11.0/src/libtiled"
+      "/opt/tiled-1.11.0/src/libtiled",
+      "/opt/SFML-2.6.2/gcc-13.1.0/include"
     ],
     "windowsIncludePath": [
       "${workspaceFolder}/src",
