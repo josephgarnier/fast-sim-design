@@ -65,6 +65,12 @@ In addition, it is recommended **to install [Tiled](https://www.mapeditor.org/)*
 
 ## 📄 Setting up the environment
 
+### List of compile definitions
+
+Compilation definitions are defined in the CMake configuration file `cmake/project/StandardOptions.txt` by the variable `COMPILE_DEFINITIONS_VAL`.
+
+- `LOG_ACTIVE_LEVEL=LOG_LEVEL_<TRACE|DEBUG|INFO|WARN|ERROR|CRITICAL|OFF>`: desired log level.
+
 ## ⚙️ Usage and commands
 
 This project provide several scripts and commands to generate the *Build Lifecycle* and execute each build phase with their targets. If you are a VS Code user, they have all been written in `.vscode/tasks.json` and can be launched from the [command palette](https://code.visualstudio.com/docs/editor/tasks), otherwise you can use a command prompt. All the following instructions have to be executed from the root of the project. They are listed in the order of execution of a complete and classic sequence of build phases.
