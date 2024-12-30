@@ -8,6 +8,7 @@
 
 #include "log.h"
 
+// #include <memory>
 #include <spdlog/pattern_formatter.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -22,8 +23,9 @@ namespace FastSimDesign {
   {
     // See here for the list of supported sinks : https://github.com/gabime/spdlog/wiki/4.-Sinks
     std::vector<spdlog::sink_ptr> log_sinks;
-    log_sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
-    log_sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("fast-sim-design.log", false));
+    log_sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
+    log_sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("fast-sim-design.log", false));
+
     log_sinks[0]->set_pattern("%^[%T] [%s::%!()] %v%$"); // console pattern
     log_sinks[0]->set_level(spdlog::level::trace);
     log_sinks[1]->set_pattern("[%Y-%m-%d %T] [%l] [%s::%!()] %v"); // file pattern

@@ -63,6 +63,18 @@ In addition, it is recommended **to install [Tiled](https://www.mapeditor.org/)*
 
 ## 💫 Architecture overview
 
+### Logging
+
+A logging system based on [spdlog](https://github.com/gabime/spdlog) is available to trace events within the simulation. It can be disabled or limited to certain log levels during the compilation phase by setting the `LOG_ACTIVE_LEVEL` compilation definition (see [List of compile definitions](#list-of-compile-definitions)). Logs are sent to three sinks:
+
+- the console ;
+- the bin/fast-sim-design.log file
+- the ImGui "Log Window".
+
+The Log Window offers several options for filtering the display of logs and copying them to the clipboard.
+
+Logs can be added using the macros provided for each log level: `LOG_TRACE("<message>")`, `LOG_DEBUG("<message>")`, `LOG_INFO("<message>")`, `LOG_WARN("<message>")`, `LOG_ERROR("<message>")`, `LOG_CRITICAL("<message>")`.
+
 ## 📄 Setting up the environment
 
 ### List of compile definitions
