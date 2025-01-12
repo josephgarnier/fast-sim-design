@@ -138,5 +138,5 @@ StatementMacros:
 TabWidth: '2'
 #TypenameMacros: ''
 UseCRLF: 'false'
-UseTab: Always
+UseTab: Never
 ...
