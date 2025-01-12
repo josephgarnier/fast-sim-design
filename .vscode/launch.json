@@ -51,7 +51,7 @@
       "program": "",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}/bin",
       "environment": [],
       "externalConsole": false,
       "avoidWindowsConsoleRedirection": false,
@@ -87,7 +87,7 @@
       "windows": {
         "program": "${workspaceFolder}/bin/fast-sim-design.exe",
         "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
-        "additionalSOLibSearchPath": "D:/Documents/Software_Libraries/Qt/6.8.0/mingw_64/bin;D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64/bin",
+        "additionalSOLibSearchPath": "D:/Documents/Software_Libraries/SFML-2.6.2/gcc-13.1.0-mingw64/bin",
       },
       "osx": {}
     }
