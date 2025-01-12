@@ -1,23 +1,24 @@
-/******************************************************************************
- * Copyright 2024-present, Joseph Garnier
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- ******************************************************************************/
+////////////////////////////////////////////////////////////
+///
+/// Copyright 2024-present, Joseph Garnier
+/// All rights reserved.
+///
+/// This source code is licensed under the license found in the
+/// LICENSE file in the root directory of this source tree.
+///
+////////////////////////////////////////////////////////////
 
 #include "log_window.h"
 #include "../../core/log.h"
-#include "../../core/imgu_sink.h"
-#include "../../util/generic_utility.h"
+#include "../../core/log_imgu_sink.h"
+#include "../../utils/generic_utility.h"
 #include <imgui.h>
 #include <spdlog/common.h>
 
 namespace FastSimDesign {
 
-  LogWindow::LogWindow() noexcept
-    : Parent{"Log Window"}
-    , m_show_window{true}
+  LogWindow::LogWindow(ImGuiLayer* imgui_layer) noexcept
+    : Parent{imgui_layer, "Log Window"}
     , m_log_text{}
     , m_log_metadata{}
     , m_text_filter{}
@@ -30,48 +31,48 @@ namespace FastSimDesign {
     Log::registerSink<FastSimDesign::imgui_sink_mt>(this);
   }
 
-  /**
-   * This function is inspired from \link https://gist.github.com/Lima-X/73f2bbf9ac03818ab8ef42ab15d09935 \endlink and from \link https://github.com/ocornut/imgui/blob/6982ce43f5b143c5dce5fab0ce07dd4867b705ae/imgui_demo.cpp#L8683 \endlink.
-   */
-  void LogWindow::updateWindow(sf::RenderWindow& window, sf::Time const& dt) noexcept
+  /// This function is inspired from \link https://gist.github.com/Lima-X/73f2bbf9ac03818ab8ef42ab15d09935 \endlink and from \link https://github.com/ocornut/imgui/blob/6982ce43f5b143c5dce5fab0ce07dd4867b705ae/imgui_demo.cpp#L8683 \endlink.
+  void LogWindow::draw(sf::RenderWindow& window, sf::Time const& dt) noexcept
   {
-    backupFilterState();
-    ImGui::Begin(Parent::m_title.c_str(), &m_show_window);
-
-    // Draw options submenu.
-    if (ImGui::BeginPopup("Options"))
+    if (ImGui::Begin(Parent::m_title.c_str(), &(Parent::m_open)))
     {
-      ImGui::Checkbox("Auto-scroll", &m_enable_auto_scrolling);
-      ImGui::EndPopup();
+      backupFilterState();
+
+      // Draw options submenu.
+      if (ImGui::BeginPopup("Options"))
+      {
+        ImGui::Checkbox("Auto-scroll", &m_enable_auto_scrolling);
+        ImGui::EndPopup();
+      }
+
+      // Draw main window.
+      drawButton("Options", [] {
+        ImGui::OpenPopup("Options");
+      });
+      drawButton("Copy", [] {
+        ImGui::LogToClipboard();
+      });
+      drawButton("Clear", [this] {
+        clearLogBuffers();
+      });
+      drawLogFilter();
+      ImGui::Separator();
+
+      // Draw log view.
+      if (ImGui::BeginChild("LogTextView", ImVec2{0, 0}, ImGuiChildFlags_None, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_HorizontalScrollbar))
+      {
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{0, 0});
+        if (isFilterModified())
+          rebuildFilteredView();
+        drawLogLines();
+        ImGui::PopStyleVar();
+
+        // Handle auto-scrolling.
+        if (m_enable_auto_scrolling && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+          ImGui::SetScrollHereY(1.0f);
+      }
+      ImGui::EndChild();
     }
-
-    // Draw main window.
-    drawButton("Options", [] {
-      ImGui::OpenPopup("Options");
-    });
-    drawButton("Copy", [] {
-      ImGui::LogToClipboard();
-    });
-    drawButton("Clear", [this] {
-      clearLogBuffers();
-    });
-    drawLogFilter();
-    ImGui::Separator();
-
-    // Draw log view.
-    if (ImGui::BeginChild("LogTextView", ImVec2{0, 0}, ImGuiChildFlags_None, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_HorizontalScrollbar))
-    {
-      ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{0, 0});
-      if (isFilterModified())
-        rebuildFilteredView();
-      drawLogLines();
-      ImGui::PopStyleVar();
-
-      // Handle auto-scrolling.
-      if (m_enable_auto_scrolling && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
-        ImGui::SetScrollHereY(1.0f);
-    }
-    ImGui::EndChild();
     ImGui::End();
   }
 

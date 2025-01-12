@@ -1,28 +1,30 @@
-/******************************************************************************
- * Copyright 2024-present, Joseph Garnier
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- ******************************************************************************/
+////////////////////////////////////////////////////////////
+///
+/// Copyright 2024-present, Joseph Garnier
+/// All rights reserved.
+///
+/// This source code is licensed under the license found in the
+/// LICENSE file in the root directory of this source tree.
+///
+////////////////////////////////////////////////////////////
 
 #include "state_stack.h"
 #include <cassert>
 #include <ranges>
 
 namespace FastSimDesign {
-  /*****************************************************************************
-  PendingChange::Methods
-  *****************************************************************************/
+  ////////////////////////////////////////////////////////////
+  /// PendingChange::Methods
+  ////////////////////////////////////////////////////////////
   StateStack::PendingChange::PendingChange(StateStack::Action action_, States::ID state_id_) noexcept
     : action{action_}
     , state_id{state_id_}
   {
   }
 
-  /*****************************************************************************
-  StateStack::Methods
-  *****************************************************************************/
+  ////////////////////////////////////////////////////////////
+  /// StateStack::Methods
+  ////////////////////////////////////////////////////////////
   StateStack::StateStack(State::Context context) noexcept
     : m_stack{}
     , m_pending_list{}
@@ -40,7 +42,7 @@ namespace FastSimDesign {
     }
     applyPendingChanges();
   }
-  void StateStack::update(sf::Time dt) noexcept
+  void StateStack::update(sf::Time const& dt) noexcept
   {
     // Iterate from top to bottom, stop as soon as update() returns false.
     for (auto const& state : std::ranges::reverse_view{m_stack})

@@ -1,10 +1,12 @@
-/******************************************************************************
- * Copyright 2024-present, Joseph Garnier
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- ******************************************************************************/
+////////////////////////////////////////////////////////////
+///
+/// Copyright 2024-present, Joseph Garnier
+/// All rights reserved.
+///
+/// This source code is licensed under the license found in the
+/// LICENSE file in the root directory of this source tree.
+///
+////////////////////////////////////////////////////////////
 
 #pragma once
 
@@ -55,7 +57,7 @@ namespace FastSimDesign {
     virtual ~State() = default; // Destructor
 
     virtual bool handleEvent(sf::Event const& event) noexcept = 0;
-    virtual bool update(sf::Time dt) noexcept = 0;
+    virtual bool update(sf::Time const & dt) noexcept = 0;
     virtual void draw() noexcept = 0;
 
   protected:

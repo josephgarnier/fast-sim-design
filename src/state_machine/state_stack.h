@@ -1,10 +1,12 @@
-/******************************************************************************
- * Copyright 2024-present, Joseph Garnier
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- ******************************************************************************/
+////////////////////////////////////////////////////////////
+///
+/// Copyright 2024-present, Joseph Garnier
+/// All rights reserved.
+///
+/// This source code is licensed under the license found in the
+/// LICENSE file in the root directory of this source tree.
+///
+////////////////////////////////////////////////////////////
 
 #pragma once
 
@@ -59,7 +61,7 @@ namespace FastSimDesign {
     };
 
     void handleEvent(sf::Event const& event) noexcept;
-    void update(sf::Time dt) noexcept;
+    void update(sf::Time const & dt) noexcept;
     void draw() noexcept;
 
     void pushState(States::ID state_id) noexcept;

@@ -8,22 +8,17 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#pragma once
-
-#ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-#define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
+#include "resource_exception.h"
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : int
-    {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
-    };
+  ResourceException::ResourceException(std::string what) noexcept
+    : Parent{}
+    , m_message{std::move(what)}
+  {
+  }
+
+  const char* ResourceException::what() const noexcept
+  {
+    return m_message.c_str();
   }
 }
-#endif

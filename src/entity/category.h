@@ -10,19 +10,19 @@
 
 #pragma once
 
-#ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-#define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
+#ifndef FAST_SIM_DESIGN_CATEGORY_H
+#define FAST_SIM_DESIGN_CATEGORY_H
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : int
+  namespace Category {
+    enum class Type : unsigned int
     {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
+      NONE = 0,
+      SCENE = 1 << 0,
+      PLAYER_AIRCRAFT = 1 << 1,
+      ALLIED_AIRCRAFT = 1 << 2,
+      ENEMY_AIRCRAFT = 1 << 3,
+      ALL = NONE | SCENE | PLAYER_AIRCRAFT | ALLIED_AIRCRAFT | ENEMY_AIRCRAFT,
     };
   }
 }

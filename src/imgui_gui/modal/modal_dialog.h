@@ -1,0 +1,43 @@
+////////////////////////////////////////////////////////////
+///
+/// Copyright 2024-present, Joseph Garnier
+/// All rights reserved.
+///
+/// This source code is licensed under the license found in the
+/// LICENSE file in the root directory of this source tree.
+///
+////////////////////////////////////////////////////////////
+
+#pragma once
+
+#ifndef FAST_SIM_DESIGN_MODAL_DIALOG_H
+#define FAST_SIM_DESIGN_MODAL_DIALOG_H
+
+#include <SFML/System/Time.hpp>
+#include <string>
+
+namespace FastSimDesign {
+  class ModalDialog
+  {
+  public:
+    explicit ModalDialog(std::string title); // Default constructor
+    ModalDialog(ModalDialog const&) = default; // Copy constructor
+    ModalDialog(ModalDialog&&) = default; // Move constructor
+    ModalDialog& operator=(ModalDialog const&) = default; // Copy assignment operator
+    ModalDialog& operator=(ModalDialog&&) = default; // Move assignment operator
+    virtual ~ModalDialog() = default; // Destructor
+
+    bool isOpen() const noexcept { return m_open; }
+    void close() noexcept;
+    std::string const& getTitle() const noexcept { return m_title; }
+
+    void updateModal(sf::Time const& dt) noexcept;
+  private:
+    virtual void draw(sf::Time const& dt) noexcept = 0;
+
+  protected:
+    std::string m_title;
+    bool m_open = true;
+  };
+}
+#endif

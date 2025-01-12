@@ -1,22 +1,24 @@
-/******************************************************************************
- * Copyright 2024-present, Joseph Garnier
- * All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- ******************************************************************************/
+////////////////////////////////////////////////////////////
+///
+/// Copyright 2024-present, Joseph Garnier
+/// All rights reserved.
+///
+/// This source code is licensed under the license found in the
+/// LICENSE file in the root directory of this source tree.
+///
+////////////////////////////////////////////////////////////
 
 #include "log.h"
+#include "log_formatter.h"
 
-// #include <memory>
 #include <spdlog/pattern_formatter.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace FastSimDesign {
-  /*****************************************************************************
-  Statics
-  *****************************************************************************/
+  ////////////////////////////////////////////////////////////
+  /// Statics
+  ////////////////////////////////////////////////////////////
   std::shared_ptr<spdlog::logger> Log::s_logger{};
 
   void Log::init()
@@ -26,7 +28,8 @@ namespace FastSimDesign {
     log_sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
     log_sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("fast-sim-design.log", false));
 
-    log_sinks[0]->set_pattern("%^[%T] [%s::%!()] %v%$"); // console pattern
+    auto formatter = std::make_unique<FastSimeDesign::LogFormater>();
+    log_sinks[0]->set_formatter(std::move(formatter)); // console formatter to "%^[%T] [%s::%!()] %v%$"
     log_sinks[0]->set_level(spdlog::level::trace);
     log_sinks[1]->set_pattern("[%Y-%m-%d %T] [%l] [%s::%!()] %v"); // file pattern
     log_sinks[1]->set_level(spdlog::level::trace);
@@ -42,7 +45,7 @@ namespace FastSimDesign {
     spdlog::shutdown();
   }
 
-  /*****************************************************************************
-  Methods
-  *****************************************************************************/
+  ////////////////////////////////////////////////////////////
+  /// Methods
+  ////////////////////////////////////////////////////////////
 }

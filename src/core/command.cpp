@@ -8,22 +8,14 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#pragma once
-
-#ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-#define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
+#include "command.h"
+#include "../entity/category.h"
+#include "../utils/generic_utility.h"
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : int
-    {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
-    };
+  Command::Command() noexcept
+    : action{}
+    , category{toUnderlyingType(Category::Type::NONE)}
+  {
   }
 }
-#endif

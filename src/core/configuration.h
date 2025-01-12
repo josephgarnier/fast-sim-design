@@ -10,20 +10,19 @@
 
 #pragma once
 
-#ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-#define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
+#ifndef FAST_SIM_DESIGN_CONFIGURATION_H
+#define FAST_SIM_DESIGN_CONFIGURATION_H
+
+#include <cstdint>
+#include <string>
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : int
-    {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
-    };
-  }
+  struct Configuration
+  {
+    const std::string title = "Fast-Sim-Design";
+    const uint32_t width = 1280;
+    const uint32_t height = 720;
+    const bool fullscreen = false;
+  };
 }
 #endif

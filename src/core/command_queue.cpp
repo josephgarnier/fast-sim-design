@@ -8,22 +8,23 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#pragma once
-
-#ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-#define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
+#include "command_queue.h"
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : int
-    {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
-    };
+  void CommandQueue::push(Command const& command) noexcept
+  {
+    m_queue.push(command);
+  }
+
+  Command CommandQueue::pop() noexcept
+  {
+    Command command = m_queue.front();
+    m_queue.pop();
+    return command;
+  }
+
+  bool CommandQueue::isEmpty() const noexcept
+  {
+    return m_queue.empty();
   }
 }
-#endif
