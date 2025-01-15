@@ -18,7 +18,7 @@
 #include "../utils/sfml_util.h"
 
 namespace FastSimDesign {
-  MenuState::MenuState(StateStack* stack, Context context) noexcept
+  MenuState::MenuState(StateStack* stack, Context context)
     : Parent{stack, std::move(context)}
     , m_background_sprite{}
     , m_options{}
@@ -46,7 +46,7 @@ namespace FastSimDesign {
     updateOptionText();
   }
 
-  bool MenuState::handleEvent(sf::Event const& event) noexcept
+  bool MenuState::handleEvent(sf::Event const& event)
   {
     if (event.type != sf::Event::KeyPressed)
       return false;
@@ -82,12 +82,12 @@ namespace FastSimDesign {
     return true;
   }
 
-  bool MenuState::update(sf::Time const & dt) noexcept
+  bool MenuState::update(sf::Time const &) noexcept
   {
     return true;
   }
 
-  void MenuState::draw() noexcept
+  void MenuState::draw()
   {
     sf::RenderWindow& window = *getContext().window;
     window.setView(window.getDefaultView());
@@ -96,7 +96,7 @@ namespace FastSimDesign {
       window.draw(text);
   }
 
-  void MenuState::updateOptionText() noexcept
+  void MenuState::updateOptionText()
   {
     if (m_options.empty())
       return;

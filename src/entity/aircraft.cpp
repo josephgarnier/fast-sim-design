@@ -11,6 +11,7 @@
 #include "aircraft.h"
 #include "category.h"
 #include "../utils/generic_utility.h"
+
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace FastSimDesign {
@@ -23,11 +24,12 @@ namespace FastSimDesign {
       case Aircraft::Type::RAPTOR:
         return Textures::ID::RAPTOR;
     }
-    return Textures::EAGLE;
+    return Textures::ID::EAGLE;
   }
 
-  Aircraft::Aircraft(Aircraft::Type type, TextureHolder const& textures) noexcept
-    : m_type{type}
+  Aircraft::Aircraft(Aircraft::Type type, TextureHolder const& textures)
+    : Parent{}
+    , m_type{type}
     , m_sprite{textures.get(Aircraft::toTextureID(type))}
   {
     sf::FloatRect bounds = m_sprite.getLocalBounds();
@@ -45,7 +47,7 @@ namespace FastSimDesign {
     }
   }
 
-  void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const noexcept
+  void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
   {
     target.draw(m_sprite, states);
   }

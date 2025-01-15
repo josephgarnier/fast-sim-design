@@ -27,7 +27,7 @@ namespace FastSimDesign {
     return m_velocity;
   }
 
-  void Entity::accelerate(sf::Vector2f velocity) noexcept
+  void Entity::accelerate(sf::Vector2f const& velocity) noexcept
   {
     m_velocity += velocity;
   }
@@ -38,7 +38,7 @@ namespace FastSimDesign {
     m_velocity.y += vy;
   }
 
-  void Entity::updateCurrent(sf::Time const & dt) noexcept
+  void Entity::updateCurrent(sf::Time const& dt)
   {
     move(m_velocity * dt.asSeconds());
   }

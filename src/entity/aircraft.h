@@ -15,13 +15,14 @@
 
 #include "entity.h"
 #include "../core/resource_identifiers.h"
+
 #include <SFML/Graphics/Sprite.hpp>
 
 namespace FastSimDesign {
   class Aircraft : public Entity
   {
   public:
-    enum class Type : int
+    enum class Type : uint16_t
     {
       EAGLE,
       RAPTOR,
@@ -34,17 +35,15 @@ namespace FastSimDesign {
     static Textures::ID toTextureID(Aircraft::Type type);
 
   public:
-    explicit Aircraft(Aircraft::Type type, TextureHolder const& textures) noexcept; // Default constructor
+    explicit Aircraft(Aircraft::Type type, TextureHolder const& textures); // Default constructor
     virtual ~Aircraft() = default; // Destructor
-    
+
     virtual unsigned int getCategory() const noexcept override;
 
   protected:
   private:
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
+    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-  public:
-  protected:
   private:
     Aircraft::Type m_type;
     sf::Sprite m_sprite;

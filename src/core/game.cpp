@@ -31,7 +31,7 @@ namespace FastSimDesign {
   {
   }
 
-  void Game::run() noexcept
+  void Game::run()
   {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -50,7 +50,7 @@ namespace FastSimDesign {
     }
   }
 
-  void Game::processEvents() noexcept
+  void Game::processEvents()
   {
     CommandQueue& commands = m_world.getCommandQueue();
 
@@ -64,12 +64,12 @@ namespace FastSimDesign {
     m_player.handleRealtimeInput(commands);
   }
 
-  void Game::update(sf::Time const& elapsed_time) noexcept
+  void Game::update(sf::Time const& elapsed_time)
   {
     m_world.update(elapsed_time);
   }
 
-  void Game::render() noexcept
+  void Game::render()
   {
     m_window.clear();
     m_world.draw();

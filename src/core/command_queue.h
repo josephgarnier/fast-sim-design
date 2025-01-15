@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_COMMAND_QUEUE_H
 
 #include "command.h"
+
 #include <queue>
 
 namespace FastSimDesign {
@@ -26,13 +27,10 @@ namespace FastSimDesign {
     CommandQueue& operator=(CommandQueue const&) = default; // Copy assignment operator
     CommandQueue& operator=(CommandQueue&&) = default; // Move assignment operator
     virtual ~CommandQueue() = default; // Destructor
-    
-    void push(Command const & command) noexcept;
+
+    void push(Command const& command) noexcept;
     Command pop() noexcept;
     bool isEmpty() const noexcept;
-    
-  protected:
-  private:
 
   private:
     std::queue<Command> m_queue;

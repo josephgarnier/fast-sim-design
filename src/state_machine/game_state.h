@@ -27,9 +27,9 @@ namespace FastSimDesign {
     explicit GameState(StateStack* stack, Context context) noexcept; // Default constructor
     virtual ~GameState() = default; // Destructor
 
-    virtual bool handleEvent(sf::Event const& event) noexcept override;
-    virtual bool update(sf::Time const & dt) noexcept override;
-    virtual void draw() noexcept override;
+    virtual bool handleEvent(sf::Event const& event) override;
+    virtual bool update(sf::Time const & dt) override;
+    virtual void draw() override;
 
   public:
   protected:

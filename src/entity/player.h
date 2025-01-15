@@ -15,14 +15,16 @@
 
 #include "aircraft.h"
 #include "../core/command_queue.h"
+
 #include <SFML/Window/Event.hpp>
 #include <map>
+#include <cstdint>
 
 namespace FastSimDesign {
   class Player
   {
   public:
-    enum class Action : int
+    enum class Action : uint16_t
     {
       MOVE_LEFT,
       MOVE_RIGHT,
@@ -35,22 +37,22 @@ namespace FastSimDesign {
     static bool isRealtimeAction(Player::Action action) noexcept;
 
   public:
-    explicit Player() noexcept; // Default constructor
+    explicit Player(); // Default constructor
     Player(Player const&) = default; // Copy constructor
     Player(Player&&) = default; // Move constructor
     Player& operator=(Player const&) = default; // Copy assignment operator
     Player& operator=(Player&&) = default; // Move assignment operator
     virtual ~Player() = default; // Destructor
 
-    void handleEvent(sf::Event const& event, CommandQueue& commands) noexcept;
-    void handleRealtimeInput(CommandQueue& commands) noexcept;
+    void handleEvent(sf::Event const& event, CommandQueue& commands);
+    void handleRealtimeInput(CommandQueue& commands);
 
-    void assignKey(Player::Action action, sf::Keyboard::Key key) noexcept;
+    void assignKey(Player::Action action, sf::Keyboard::Key key);
     sf::Keyboard::Key getAssignedKey(Player::Action action) const noexcept;
 
   protected:
   private:
-    void initializeActions() noexcept;
+    void initializeActions();
 
   public:
   protected:
@@ -66,7 +68,7 @@ namespace FastSimDesign {
     {
     }
 
-    void operator()(Aircraft& aircraft, sf::Time) const
+    void operator()(Aircraft& aircraft, sf::Time) const noexcept
     {
       aircraft.accelerate(m_velocity);
     }

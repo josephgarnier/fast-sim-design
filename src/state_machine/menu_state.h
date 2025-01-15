@@ -22,7 +22,7 @@ namespace FastSimDesign {
   class MenuState : public State
   {
   public:
-    enum class OptionNames : int
+    enum class OptionNames : uint16_t
     {
       PLAY,
       EXIT,
@@ -32,14 +32,14 @@ namespace FastSimDesign {
     using Parent = State;
 
   public:
-    explicit MenuState(StateStack* stack, Context context) noexcept; // Default constructor
+    explicit MenuState(StateStack* stack, Context context); // Default constructor
     virtual ~MenuState() = default; // Destructor
 
-    virtual bool handleEvent(sf::Event const& event) noexcept override;
+    virtual bool handleEvent(sf::Event const& event) override;
     virtual bool update(sf::Time const & dt) noexcept override;
-    virtual void draw() noexcept override;
+    virtual void draw() override;
 
-    void updateOptionText() noexcept;
+    void updateOptionText();
 
   public:
   protected:

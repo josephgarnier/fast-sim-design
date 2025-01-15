@@ -25,12 +25,12 @@ namespace FastSimDesign {
     using Parent = State;
 
   public:
-    explicit PauseState(StateStack* stack, Context context) noexcept; // Default constructor
+    explicit PauseState(StateStack* stack, Context context); // Default constructor
     virtual ~PauseState() = default; // Destructor
 
-    virtual bool handleEvent(sf::Event const& event) noexcept override;
+    virtual bool handleEvent(sf::Event const& event) override;
     virtual bool update(sf::Time const & dt) noexcept override;
-    virtual void draw() noexcept override;
+    virtual void draw() override;
 
   public:
   protected:

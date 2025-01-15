@@ -13,9 +13,11 @@
 #ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
 #define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
 
+#include <cstdint>
+
 namespace FastSimDesign {
   namespace States {
-    enum class ID : int
+    enum class ID : uint16_t
     {
       NONE,
       TITLE,

@@ -12,12 +12,13 @@
 #include "../../core/log.h"
 #include "../../core/log_imgu_sink.h"
 #include "../../utils/generic_utility.h"
+
 #include <imgui.h>
 #include <spdlog/common.h>
 
 namespace FastSimDesign {
 
-  LogWindow::LogWindow(ImGuiLayer* imgui_layer) noexcept
+  LogWindow::LogWindow(ImGuiLayer* imgui_layer)
     : Parent{imgui_layer, "Log Window"}
     , m_log_text{}
     , m_log_metadata{}
@@ -29,10 +30,11 @@ namespace FastSimDesign {
     backupFilterState();
     clearLogBuffers();
     Log::registerSink<FastSimDesign::imgui_sink_mt>(this);
+    show();
   }
 
   /// This function is inspired from \link https://gist.github.com/Lima-X/73f2bbf9ac03818ab8ef42ab15d09935 \endlink and from \link https://github.com/ocornut/imgui/blob/6982ce43f5b143c5dce5fab0ce07dd4867b705ae/imgui_demo.cpp#L8683 \endlink.
-  void LogWindow::draw(sf::RenderWindow& window, sf::Time const& dt) noexcept
+  void LogWindow::draw(sf::RenderWindow&, sf::Time const&)
   {
     if (ImGui::Begin(Parent::m_title.c_str(), &(Parent::m_open)))
     {
@@ -76,24 +78,24 @@ namespace FastSimDesign {
     ImGui::End();
   }
 
-  void LogWindow::backupFilterState() noexcept
+  void LogWindow::backupFilterState()
   {
     m_previous_filter_state.log_level_filter = m_log_level_filter;
     memcpy(m_previous_filter_state.text_filter, m_text_filter.InputBuf, sizeof(m_previous_filter_state));
   }
 
-  void LogWindow::drawButton(char const* label, std::function<void()> const& action) const noexcept
+  void LogWindow::drawButton(char const* label, std::function<void()> const& action) const
   {
     if (ImGui::Button(label))
       action();
     ImGui::SameLine();
   }
 
-  void LogWindow::drawLogFilter() noexcept
+  void LogWindow::drawLogFilter()
   {
     // Filter out physical messages through logger.
     ImVec2 window_size = ImGui::GetWindowSize();
-    ImVec2 outer_size = ImVec2{0.0f, window_size.y - (ImGui::GetFontSize() + ImGui::GetFrameHeight() * 2)};
+    [[maybe_unused]] ImVec2 outer_size = ImVec2{0.0f, window_size.y - (ImGui::GetFontSize() + ImGui::GetFrameHeight() * 2)};
     static char const* log_levels[] = {
       SPDLOG_LEVEL_NAME_TRACE.data(),
       SPDLOG_LEVEL_NAME_DEBUG.data(),
@@ -123,7 +125,7 @@ namespace FastSimDesign {
     ImGui::Combo("##LevelFilter", toUnderlyingType<spdlog::level::level_enum>(&m_log_level_filter), log_levels, sizeof(log_levels) / sizeof(log_levels[0]));
   }
 
-  bool LogWindow::isFilterModified() const noexcept
+  bool LogWindow::isFilterModified() const
   {
     const auto& [p_log_level, p_text_filter] = m_previous_filter_state;
 
@@ -134,7 +136,7 @@ namespace FastSimDesign {
     return filters_modified;
   }
 
-  void LogWindow::rebuildFilteredView() noexcept
+  void LogWindow::rebuildFilteredView()
   {
     m_filtered_view.resize(0);
     for (int line_number = 0; line_number < m_log_metadata.Size; ++line_number)
@@ -147,7 +149,7 @@ namespace FastSimDesign {
     }
   }
 
-  bool LogWindow::doesPassFilter(std::pair<int, LogData const&> log_metadata) const noexcept
+  bool LogWindow::doesPassFilter(std::pair<int, LogData const&> log_metadata) const
   {
     auto isPassLevelFilter = [this](spdlog::level::level_enum level) {
       return m_log_level_filter == spdlog::level::off || level == m_log_level_filter;
@@ -168,7 +170,7 @@ namespace FastSimDesign {
     return true;
   }
 
-  void LogWindow::drawLogLines() const noexcept
+  void LogWindow::drawLogLines() const
   {
     char const* buf = m_log_text.begin();
     char const* buf_end = m_log_text.end();
@@ -190,14 +192,14 @@ namespace FastSimDesign {
     clipper.End();
   }
 
-  void LogWindow::clearLogBuffers() noexcept
+  void LogWindow::clearLogBuffers()
   {
     m_log_text.clear();
     m_log_metadata.clear();
     m_filtered_view.clear();
   }
 
-  void LogWindow::addLog(LogMessage message) noexcept
+  void LogWindow::addLog(LogMessage message)
   {
     int old_size = m_log_text.size();
     m_log_text.append(message.m_message.c_str(), message.m_message.c_str() + message.m_message.size());

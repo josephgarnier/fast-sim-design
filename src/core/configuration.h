@@ -23,6 +23,7 @@ namespace FastSimDesign {
     const uint32_t width = 1280;
     const uint32_t height = 720;
     const bool fullscreen = false;
+    const bool use_custom_style = false;
   };
 }
 #endif

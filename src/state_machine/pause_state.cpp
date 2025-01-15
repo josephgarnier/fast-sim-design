@@ -18,7 +18,7 @@
 #include <SFML/Window/Keyboard.hpp>
 
 namespace FastSimDesign {
-  PauseState::PauseState(StateStack* stack, Context context) noexcept
+  PauseState::PauseState(StateStack* stack, Context context)
     : Parent{stack, std::move(context)}
     , m_background_sprite{}
     , m_paused_text{}
@@ -39,7 +39,7 @@ namespace FastSimDesign {
     m_instruction_text.setPosition(0.5f * view_size.x, 0.6f * view_size.y);
   }
 
-  bool PauseState::handleEvent(sf::Event const& event) noexcept
+  bool PauseState::handleEvent(sf::Event const& event)
   {
     if (event.type != sf::Event::KeyPressed)
       return false;
@@ -57,12 +57,12 @@ namespace FastSimDesign {
     return false;
   }
 
-  bool PauseState::update(sf::Time const & dt) noexcept
+  bool PauseState::update(sf::Time const&) noexcept
   {
     return false;
   }
 
-  void PauseState::draw() noexcept
+  void PauseState::draw()
   {
     sf::RenderWindow& window = *getContext().window;
     window.setView(window.getDefaultView());

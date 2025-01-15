@@ -11,6 +11,8 @@
 #include "world.h"
 #include "../entity/aircraft.h"
 #include "../gui/sprite_node.h"
+#include "resource_identifiers.h"
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
@@ -35,7 +37,7 @@ namespace FastSimDesign {
     m_world_view.setCenter(m_spawn_position);
   }
 
-  void World::update(sf::Time const & dt) noexcept
+  void World::update(sf::Time const& dt)
   {
     // Scroll the world, reset player velocity.
     m_world_view.move(0.f, m_scroll_speed * dt.asSeconds());
@@ -51,7 +53,7 @@ namespace FastSimDesign {
     adaptPlayerPosition();
   }
 
-  void World::draw() noexcept
+  void World::draw()
   {
     m_window.setView(m_world_view);
     m_window.draw(m_scene_graph);
@@ -62,14 +64,14 @@ namespace FastSimDesign {
     return m_command_queue;
   }
 
-  void World::loadTextures() noexcept
+  void World::loadTextures()
   {
-    m_textures.load(Textures::EAGLE, "../assets/sprites/npcs/eagle.png");
-    m_textures.load(Textures::RAPTOR, "../assets/sprites/npcs/raptor.png");
-    m_textures.load(Textures::DESERT, "../assets/sprites/npcs/desert.png");
+    m_textures.load(Textures::ID::EAGLE, "../assets/sprites/npcs/eagle.png");
+    m_textures.load(Textures::ID::RAPTOR, "../assets/sprites/npcs/raptor.png");
+    m_textures.load(Textures::ID::DESERT, "../assets/sprites/npcs/desert.png");
   }
 
-  void World::buildScene() noexcept
+  void World::buildScene()
   {
     // Intilialize the different layers.
     for (std::size_t i = 0; i < static_cast<std::size_t>(World::Layer::LAYER_COUNT); ++i)
@@ -81,7 +83,7 @@ namespace FastSimDesign {
     }
 
     // Prepare the tiled background
-    sf::Texture& texture = m_textures.get(Textures::DESERT);
+    sf::Texture& texture = m_textures.get(Textures::ID::DESERT);
     sf::IntRect texture_rect{m_world_bounds};
     texture.setRepeated(true);
 
@@ -106,7 +108,7 @@ namespace FastSimDesign {
     m_player_aircraft->attachChild(std::move(right_escort));
   }
 
-  void World::adaptPlayerPosition() noexcept
+  void World::adaptPlayerPosition()
   {
     // Keep player's position inside the screen bounds, at least borderDistance units from the border.
     sf::FloatRect view_bounds{m_world_view.getCenter() - m_world_view.getSize() / 2.f, m_world_view.getSize()};

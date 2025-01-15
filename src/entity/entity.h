@@ -13,9 +13,10 @@
 #ifndef FAST_SIM_DESIGN_ENTITY_H
 #define FAST_SIM_DESIGN_ENTITY_H
 
+#include "../gui/scene_node.h"
+
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
-#include "../gui/scene_node.h"
 
 namespace FastSimDesign {
   class Entity : public SceneNode
@@ -32,12 +33,12 @@ namespace FastSimDesign {
     void setVelocity(float vx, float vy) noexcept;
     sf::Vector2f getVelocity() const noexcept;
 
-    void accelerate(sf::Vector2f velocity) noexcept;
+    void accelerate(sf::Vector2f const& velocity) noexcept;
     void accelerate(float vx, float vy) noexcept;
 
   protected:
   private:
-    virtual void updateCurrent(sf::Time const & dt) noexcept override;
+    virtual void updateCurrent(sf::Time const& dt) override;
 
   public:
   protected:

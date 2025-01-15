@@ -20,6 +20,9 @@ namespace FastSimeDesign {
   class LogFormater : public spdlog::formatter
   {
   private:
+    using Parent = spdlog::formatter;
+
+  private:
     static std::array<fmt::text_style, spdlog::level::n_levels> m_colors;
 
   public:

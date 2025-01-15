@@ -14,12 +14,14 @@
 
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
+#include <vector>
 
 namespace FastSimDesign {
 
   ImGuiLayer::ImGuiLayer() noexcept
-    : m_controllerWindow{this}
-    , m_logWindow{this}
+    : m_controller_window{this}
+    , m_log_window{this}
+    , m_state_machine_window{this}
     , m_open_modal_dialogs{}
   {
   }
@@ -31,8 +33,9 @@ namespace FastSimDesign {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    // setSpectrumStyle();
 
+    if (config.use_custom_style)
+      setSpectrumStyle();
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
@@ -62,37 +65,29 @@ namespace FastSimDesign {
 
   void ImGuiLayer::updateImGui(sf::RenderWindow& window, sf::Time const& dt)
   {
-    for (auto const& modal : m_open_modal_dialogs)
-    {
-      modal->updateModal(dt);
-    }
-
     createDockSpace();
-    m_controllerWindow.updateWindow(window, dt);
-    m_logWindow.updateWindow(window, dt);
+    m_controller_window.updateWindow(window, dt);
+    m_log_window.updateWindow(window, dt);
+    m_state_machine_window.updateWindow(window, dt);
 
-    // for (auto it = m_open_modal_dialogs.begin(); it != m_open_modal_dialogs.end();) // Note: It would be easier to read with `std::erase_if` but it is not supported by ImVector.
-    // {
-    //   (*it)->updateModal(dt);
-    //   // if (!(*it)->isOpen())
-    //   //   it = m_open_modal_dialogs.erase(it);
-    //   // else
-    //     ++it;
-    // }
+    std::erase_if(m_open_modal_dialogs, [dt](std::unique_ptr<ModalDialog> const& modal) {
+      modal->updateModal(dt);
+      return !modal->isOpen();
+    });
   }
 
-  void ImGuiLayer::endImGuiUpdate() noexcept
+  void ImGuiLayer::endImGuiUpdate()
   {
     ImGui::EndFrame();
   }
 
-  void ImGuiLayer::createDockSpace() const noexcept
+  void ImGuiLayer::createDockSpace() const
   {
     ImGuiID dockspace_id = configureDockSpace();
     configureDockNodes(dockspace_id);
   }
 
-  ImGuiID ImGuiLayer::configureDockSpace() const noexcept
+  ImGuiID ImGuiLayer::configureDockSpace() const
   {
     static ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoDecoration;
 
@@ -119,7 +114,7 @@ namespace FastSimDesign {
     return dockspace_id;
   }
 
-  void ImGuiLayer::configureDockNodes(ImGuiID dockspace_id) const noexcept
+  void ImGuiLayer::configureDockNodes(ImGuiID dockspace_id) const
   {
     static bool initialized = false;
     if (!initialized)
@@ -129,18 +124,18 @@ namespace FastSimDesign {
       // Divide the space into two parts.
       ImGui::DockBuilderRemoveNode(dockspace_id);
       ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
-      ImGuiID dock_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.5f, nullptr, &dockspace_id);
-      ImGuiID dock_right = dockspace_id;
+      [[maybe_unused]] ImGuiID dock_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.5f, nullptr, &dockspace_id);
+      [[maybe_unused]] ImGuiID dock_right = dockspace_id;
       ImGui::DockBuilderFinish(dockspace_id);
     }
   }
 
-  void ImGuiLayer::renderImGui(sf::RenderWindow& window) noexcept
+  void ImGuiLayer::renderImGui(sf::RenderWindow& window)
   {
     ImGui::SFML::Render(window);
   }
 
-  void ImGuiLayer::disposeImGui() noexcept
+  void ImGuiLayer::disposeImGui()
   {
     ImGui::SFML::Shutdown();
   }

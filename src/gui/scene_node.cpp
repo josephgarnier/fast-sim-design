@@ -12,6 +12,7 @@
 #include "../entity/category.h"
 #include "../core/command.h"
 #include "../utils/generic_utility.h"
+
 #include <cassert>
 
 namespace FastSimDesign {
@@ -27,7 +28,7 @@ namespace FastSimDesign {
     m_children.push_back(std::move(child));
   }
 
-  SceneNode::Ptr SceneNode::detachChild(SceneNode const& node) noexcept
+  SceneNode::Ptr SceneNode::detachChild(SceneNode const& node)
   {
     auto found = std::find_if(std::begin(m_children), std::end(m_children), [&](Ptr& p) {
       return p.get() == &node;
@@ -40,7 +41,7 @@ namespace FastSimDesign {
     return result;
   }
 
-  void SceneNode::update(sf::Time const & dt) noexcept
+  void SceneNode::update(sf::Time const& dt)
   {
     updateCurrent(dt);
     updateChildren(dt);
@@ -60,7 +61,7 @@ namespace FastSimDesign {
     return transform;
   }
 
-  void SceneNode::onCommand(Command const& command, sf::Time const & dt) noexcept
+  void SceneNode::onCommand(Command const& command, sf::Time const& dt) noexcept
   {
     if (command.category & getCategory())
       command.action(*this, dt);
@@ -74,18 +75,18 @@ namespace FastSimDesign {
     return toUnderlyingType(Category::Type::SCENE);
   }
 
-  void SceneNode::updateCurrent(sf::Time const & dt) noexcept
+  void SceneNode::updateCurrent(sf::Time const&)
   {
     // Do nothing by default.
   }
 
-  void SceneNode::updateChildren(sf::Time const & dt) noexcept
+  void SceneNode::updateChildren(sf::Time const& dt)
   {
     for (Ptr const& child : m_children)
       child->update(dt);
   }
 
-  void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const noexcept
+  void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
   {
     states.transform *= getTransform();
 
@@ -93,12 +94,12 @@ namespace FastSimDesign {
     drawChildren(target, states);
   }
 
-  void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const noexcept
+  void SceneNode::drawCurrent(sf::RenderTarget&, sf::RenderStates) const
   {
     // Do nothing by default.
   }
 
-  void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states) const noexcept
+  void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states) const
   {
     for (Ptr const& child : m_children)
       child->draw(target, states);

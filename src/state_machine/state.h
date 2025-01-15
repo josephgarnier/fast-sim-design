@@ -56,14 +56,14 @@ namespace FastSimDesign {
     State& operator=(State&&) = default; // Move assignment operator
     virtual ~State() = default; // Destructor
 
-    virtual bool handleEvent(sf::Event const& event) noexcept = 0;
-    virtual bool update(sf::Time const & dt) noexcept = 0;
-    virtual void draw() noexcept = 0;
+    virtual bool handleEvent(sf::Event const& event) = 0;
+    virtual bool update(sf::Time const & dt) = 0;
+    virtual void draw() = 0;
 
   protected:
-    void requestStackPush(States::ID state_id) noexcept;
-    void requestStackPop() noexcept;
-    void requestStateClear() noexcept;
+    void requestStackPush(States::ID state_id);
+    void requestStackPop();
+    void requestStateClear();
 
     State::Context getContext() const noexcept;
 

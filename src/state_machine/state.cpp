@@ -32,17 +32,17 @@ namespace FastSimDesign {
   {
   }
 
-  void State::requestStackPush(States::ID state_id) noexcept
+  void State::requestStackPush(States::ID state_id)
   {
     m_stack->pushState(state_id);
   }
 
-  void State::requestStackPop() noexcept
+  void State::requestStackPop()
   {
     m_stack->popState();
   }
 
-  void State::requestStateClear() noexcept
+  void State::requestStateClear()
   {
     m_stack->clearStates();
   }

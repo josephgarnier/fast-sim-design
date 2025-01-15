@@ -15,12 +15,12 @@
 
 #include "../entity/player.h"
 #include "world.h"
+
 #include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
   class Game : private sf::NonCopyable
   {
-  public:
   private:
     static float const PLAYER_SPEED;
     static sf::Time const TIME_PER_FRAME;
@@ -29,13 +29,13 @@ namespace FastSimDesign {
     explicit Game(); // Throw Exception
     virtual ~Game() = default; // Destructor
 
-    void run() noexcept;
+    void run();
 
   protected:
   private:
-    void processEvents() noexcept;
-    void update(sf::Time const& elapsed_time) noexcept;
-    void render() noexcept;
+    void processEvents();
+    void update(sf::Time const& elapsed_time);
+    void render();
     void updateStatistic(sf::Time const& elapsed_time);
 
   public:

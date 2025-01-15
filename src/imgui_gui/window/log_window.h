@@ -45,26 +45,26 @@ namespace FastSimDesign {
     using Parent = Window;
 
   public:
-    explicit LogWindow(ImGuiLayer* imgui_layer) noexcept; // Default constructor, throw GuiException
+    explicit LogWindow(ImGuiLayer* imgui_layer); // Default constructor, throw GuiException
     LogWindow(LogWindow const&) = default; // Copy constructor
     LogWindow(LogWindow&&) = default; // Move constructor
     LogWindow& operator=(LogWindow const&) = default; // Copy assignment operator
     LogWindow& operator=(LogWindow&&) = default; // Move assignment operator
     virtual ~LogWindow() = default; // Destructor
 
-    void addLog(LogMessage message) noexcept;
+    void addLog(LogMessage message);
 
   private:
-    virtual void draw(sf::RenderWindow& window, sf::Time const& dt) noexcept override;
+    virtual void draw(sf::RenderWindow& window, sf::Time const& dt) override;
 
-    void backupFilterState() noexcept;
-    void clearLogBuffers() noexcept;
-    void drawButton(char const* label, std::function<void()> const& action) const noexcept;
-    void drawLogFilter() noexcept;
-    bool isFilterModified() const noexcept;
-    void rebuildFilteredView() noexcept;
-    bool doesPassFilter(std::pair<int, LogData const&> log_metadata) const noexcept;
-    void drawLogLines() const noexcept;
+    void backupFilterState();
+    void drawButton(char const* label, std::function<void()> const& action) const;
+    void drawLogFilter();
+    bool isFilterModified() const;
+    void rebuildFilteredView();
+    bool doesPassFilter(std::pair<int, LogData const&> log_metadata) const;
+    void drawLogLines() const;
+    void clearLogBuffers();
 
   private:
     ImGuiTextBuffer m_log_text;

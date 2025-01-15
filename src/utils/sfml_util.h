@@ -19,7 +19,7 @@
 namespace FastSimDesign {
 
   template<typename T>
-  inline void centerOrigin(T& ui_transformable) noexcept
+  inline void centerOrigin(T& ui_transformable)
   {
     sf::FloatRect bounds = ui_transformable.getLocalBounds();
     ui_transformable.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));

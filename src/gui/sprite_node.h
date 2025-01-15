@@ -13,8 +13,9 @@
 #ifndef FAST_SIM_DESIGN_SPRITE_NODE_H
 #define FAST_SIM_DESIGN_SPRITE_NODE_H
 
-#include <SFML/Graphics/Sprite.hpp>
 #include "scene_node.h"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace FastSimDesign {
   class SpriteNode : public SceneNode
@@ -29,7 +30,7 @@ namespace FastSimDesign {
 
   protected:
   private:
-    virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const noexcept override;
+    virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
 
   public:
   protected:

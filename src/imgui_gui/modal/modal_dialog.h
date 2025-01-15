@@ -20,7 +20,7 @@ namespace FastSimDesign {
   class ModalDialog
   {
   public:
-    explicit ModalDialog(std::string title); // Default constructor
+    explicit ModalDialog(std::string title) noexcept; // Default constructor
     ModalDialog(ModalDialog const&) = default; // Copy constructor
     ModalDialog(ModalDialog&&) = default; // Move constructor
     ModalDialog& operator=(ModalDialog const&) = default; // Copy assignment operator
@@ -28,12 +28,12 @@ namespace FastSimDesign {
     virtual ~ModalDialog() = default; // Destructor
 
     bool isOpen() const noexcept { return m_open; }
-    void close() noexcept;
+    void close();
     std::string const& getTitle() const noexcept { return m_title; }
 
-    void updateModal(sf::Time const& dt) noexcept;
+    void updateModal(sf::Time const& dt);
   private:
-    virtual void draw(sf::Time const& dt) noexcept = 0;
+    virtual void draw(sf::Time const& dt) = 0;
 
   protected:
     std::string m_title;

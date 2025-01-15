@@ -30,7 +30,7 @@ namespace FastSimDesign {
     virtual ~AboutDialog() = default; // Destructor
 
   private:
-    virtual void draw(sf::Time const& dt) noexcept override;
+    virtual void draw(sf::Time const& dt) override;
   public:
   protected:
   private:

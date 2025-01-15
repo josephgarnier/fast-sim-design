@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_LOG_IMGU_SINK_H
 
 #include "../imgui_gui/window/log_window.h"
+
 #include <spdlog/sinks/base_sink.h>
 #include <spdlog/details/null_mutex.h>
 #include <mutex>
@@ -27,7 +28,8 @@ namespace FastSimDesign {
 
   public:
     explicit LogImGuiSink(LogWindow* log_view) noexcept
-      : m_log_view{log_view}
+      : Parent{}
+      , m_log_view{log_view}
     {
     }
     virtual ~LogImGuiSink() = default; // Destructor

@@ -16,7 +16,7 @@
 #include <SFML/Window/Event.hpp>
 
 namespace FastSimDesign {
-  TitleState::TitleState(StateStack* stack, Context context) noexcept
+  TitleState::TitleState(StateStack* stack, Context context)
     : Parent{stack, std::move(context)}
     , m_background_sprite{}
     , m_text{}
@@ -31,7 +31,7 @@ namespace FastSimDesign {
     m_text.setPosition(context.window->getView().getSize() / 2.f);
   }
 
-  bool TitleState::handleEvent(sf::Event const& event) noexcept
+  bool TitleState::handleEvent(sf::Event const& event)
   {
     // If any key is pressed, trigger the next screen.
     if (event.type == sf::Event::KeyPressed)
@@ -53,7 +53,7 @@ namespace FastSimDesign {
     return true;
   }
 
-  void TitleState::draw() noexcept
+  void TitleState::draw()
   {
     sf::RenderWindow& window = *getContext().window;
     window.draw(m_background_sprite);

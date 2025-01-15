@@ -16,6 +16,7 @@
 #include "../state_machine/pause_state.h"
 #include "configuration.h"
 #include "log.h"
+
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/WindowStyle.hpp>
@@ -69,7 +70,7 @@ namespace FastSimDesign {
     m_state_stack.pushState(States::ID::TITLE);
   }
 
-  void Application::configure(Configuration& config) const noexcept
+  void Application::configure(Configuration&) const
   {
     LOG_INFO("*** (1/3) Configurating app ***");
     LOG_INFO("App configurated.");
@@ -97,7 +98,7 @@ namespace FastSimDesign {
     LOG_INFO("App pre-ran.");
   }
 
-  void Application::run() noexcept
+  void Application::run()
   {
     LOG_INFO("*** Run app with a tick timer at {}ms per frame ***", Application::TIME_PER_FRAME.asMilliseconds());
 
@@ -205,7 +206,7 @@ namespace FastSimDesign {
     LOG_INFO("App post-ran.");
   }
 
-  void Application::dispose() noexcept
+  void Application::dispose()
   {
     LOG_INFO("*** (2/2) Dispose app ***");
     m_imgui_layer.disposeImGui();
@@ -217,7 +218,7 @@ namespace FastSimDesign {
   {
   }
 
-  void Application::registerStates() noexcept
+  void Application::registerStates()
   {
     m_state_stack.registerState<TitleState>(States::ID::TITLE);
     m_state_stack.registerState<MenuState>(States::ID::MENU);

@@ -13,9 +13,11 @@
 #ifndef FAST_SIM_DESIGN_CATEGORY_H
 #define FAST_SIM_DESIGN_CATEGORY_H
 
+#include <cstdint>
+
 namespace FastSimDesign {
   namespace Category {
-    enum class Type : unsigned int
+    enum class Type : uint16_t
     {
       NONE = 0,
       SCENE = 1 << 0,

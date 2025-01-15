@@ -26,15 +26,12 @@ namespace FastSimDesign {
     : Parent{imgui_layer, "Controller Window"}
     , m_show_entity_inspector{true}
     , m_show_debug_window{true}
-    , m_show_state_machine_window{true}
     , m_show_imgui_demo{false}
   {
     show();
-    m_imgui_layer->getLogWindow().show();
   }
 
-
-void ControllerWindow::draw(sf::RenderWindow& window, sf::Time const& dt) noexcept 
+  void ControllerWindow::draw(sf::RenderWindow&, sf::Time const&)
   {
     static ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
 
@@ -67,7 +64,10 @@ void ControllerWindow::draw(sf::RenderWindow& window, sf::Time const& dt) noexce
         {
           m_imgui_layer->getLogWindow().setVisible(!m_imgui_layer->getLogWindow().isVisible());
         }
-        ImGui::MenuItem("Show State Machine Window", "Ctrl+M", &m_show_state_machine_window);
+        if (ImGui::MenuItem("Show State Machine Window", "Ctrl+M", m_imgui_layer->getStateMachineWindow().isVisible()))
+        {
+          m_imgui_layer->getStateMachineWindow().setVisible(!m_imgui_layer->getStateMachineWindow().isVisible());
+        }
         ImGui::EndMenu();
       }
 
@@ -84,7 +84,7 @@ void ControllerWindow::draw(sf::RenderWindow& window, sf::Time const& dt) noexce
 
     if (m_show_imgui_demo)
       ImGui::ShowDemoWindow();
-  
+
     ImGui::End();
   }
 }

@@ -32,7 +32,7 @@ namespace FastSimDesign {
     , m_factories{}
   {
   }
-  void StateStack::handleEvent(sf::Event const& event) noexcept
+  void StateStack::handleEvent(sf::Event const& event)
   {
     // Iterate from top to bottom, stop as soon as handleEvent() returns false.
     for (auto const& state : std::ranges::reverse_view{m_stack})
@@ -42,7 +42,7 @@ namespace FastSimDesign {
     }
     applyPendingChanges();
   }
-  void StateStack::update(sf::Time const& dt) noexcept
+  void StateStack::update(sf::Time const& dt)
   {
     // Iterate from top to bottom, stop as soon as update() returns false.
     for (auto const& state : std::ranges::reverse_view{m_stack})
@@ -53,24 +53,24 @@ namespace FastSimDesign {
     applyPendingChanges();
   }
 
-  void StateStack::draw() noexcept
+  void StateStack::draw()
   {
     // Draw all active states from bottom to top.
     for (auto const& state : m_stack)
       state->draw();
   }
 
-  void StateStack::pushState(States::ID state_id) noexcept
+  void StateStack::pushState(States::ID state_id)
   {
     m_pending_list.push_back(PendingChange(StateStack::Action::PUSH, state_id));
   }
 
-  void StateStack::popState() noexcept
+  void StateStack::popState()
   {
     m_pending_list.push_back(PendingChange(StateStack::Action::POP));
   }
 
-  void StateStack::clearStates() noexcept
+  void StateStack::clearStates()
   {
     m_pending_list.push_back(PendingChange(StateStack::Action::CLEAR));
   }
@@ -80,14 +80,14 @@ namespace FastSimDesign {
     return m_stack.empty();
   }
 
-  State::Ptr StateStack::createState(States::ID state_id) noexcept
+  State::Ptr StateStack::createState(States::ID state_id)
   {
     auto found = m_factories.find(state_id);
     assert(found != m_factories.end());
     return found->second();
   }
 
-  void StateStack::applyPendingChanges() noexcept
+  void StateStack::applyPendingChanges()
   {
     for (auto const& change : m_pending_list)
     {

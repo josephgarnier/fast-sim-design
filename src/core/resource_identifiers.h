@@ -14,12 +14,13 @@
 #define FAST_SIM_DESIGN_RESOURCE_IDENTIFIERS_H
 
 #include "resource_holder.h"
+
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 namespace FastSimDesign {
   namespace Textures {
-    enum ID : int
+    enum class ID : uint16_t
     {
       EAGLE,
       RAPTOR,
@@ -28,7 +29,7 @@ namespace FastSimDesign {
     };
   }
   namespace Fonts {
-    enum class ID : int
+    enum class ID : uint16_t
     {
       MAIN,
     };

@@ -9,22 +9,24 @@
 ////////////////////////////////////////////////////////////
 
 #include "sprite_node.h"
+
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace FastSimDesign {
   SpriteNode::SpriteNode(sf::Texture const& texture) noexcept
-    : m_sprite{texture}
+    : Parent{}
+    , m_sprite{texture}
   {
   }
 
   SpriteNode::SpriteNode(sf::Texture const& texture, const sf::IntRect& textureRect) noexcept
-    : m_sprite{texture, textureRect}
+    : Parent{}
+    , m_sprite{texture, textureRect}
   {
   }
 
-  void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const noexcept
+  void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
   {
     target.draw(m_sprite, states);
   }
-
 }

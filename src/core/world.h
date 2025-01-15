@@ -16,6 +16,7 @@
 #include "resource_identifiers.h"
 #include "command_queue.h"
 #include "../gui/scene_node.h"
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -27,7 +28,7 @@ namespace FastSimDesign {
   class World : private sf::NonCopyable
   {
   public:
-    enum class Layer : int
+    enum class Layer : uint16_t
     {
       BACKGROUND,
       AIR,
@@ -38,15 +39,15 @@ namespace FastSimDesign {
     explicit World(sf::RenderWindow& windows); // Default constructor
     virtual ~World() = default; // Destructor
 
-    void update(sf::Time const & dt) noexcept;
-    void draw() noexcept;
+    void update(sf::Time const& dt);
+    void draw();
     CommandQueue& getCommandQueue() noexcept;
 
   protected:
   private:
-    void loadTextures() noexcept;
-    void buildScene() noexcept;
-    void adaptPlayerPosition() noexcept;
+    void loadTextures();
+    void buildScene();
+    void adaptPlayerPosition();
     void adaptPlayerVelocity() noexcept;
 
   public:

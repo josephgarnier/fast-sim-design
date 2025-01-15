@@ -29,13 +29,12 @@ namespace FastSimDesign {
     ControllerWindow& operator=(ControllerWindow&&) = default; // Move assignment operator
     virtual ~ControllerWindow() = default; // Destructor
   private:
-    virtual void draw(sf::RenderWindow& window, sf::Time const& dt) noexcept override;
+    virtual void draw(sf::RenderWindow& window, sf::Time const& dt) override;
 
   protected:
   private:
     bool m_show_entity_inspector;
     bool m_show_debug_window;
-    bool m_show_state_machine_window;
     bool m_show_imgui_demo;
   };
 }

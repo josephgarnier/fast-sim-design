@@ -8,11 +8,12 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#include <iostream>
 #include "core/application.h"
 #include "core/log.h"
 
-int main(int argc, char* argv[])
+#include <iostream>
+
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
   try
   {

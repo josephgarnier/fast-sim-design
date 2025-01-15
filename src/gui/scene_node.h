@@ -34,9 +34,9 @@ namespace FastSimDesign {
     virtual ~SceneNode() = default; // Destructor
 
     void attachChild(Ptr child) noexcept;
-    SceneNode::Ptr detachChild(SceneNode const& node) noexcept;
+    SceneNode::Ptr detachChild(SceneNode const& node);
 
-    void update(sf::Time const & dt) noexcept;
+    void update(sf::Time const & dt);
 
     sf::Vector2f getWorldPosition() const noexcept;
     sf::Transform getWorldTransform() const noexcept;
@@ -46,12 +46,12 @@ namespace FastSimDesign {
 
   protected:
   private:
-    virtual void updateCurrent(sf::Time const & dt) noexcept;
-    void updateChildren(sf::Time const & dt) noexcept;
+    virtual void updateCurrent(sf::Time const & dt);
+    void updateChildren(sf::Time const & dt);
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const noexcept override;
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
-    void drawChildren(sf::RenderTarget& target, sf::RenderStates states) const noexcept;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+    void drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
 
   public:
   protected:

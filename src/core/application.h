@@ -17,6 +17,7 @@
 #include "../state_machine/state_stack.h"
 #include "../imgui_gui/imgui_layer.h"
 #include "resource_identifiers.h"
+
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -66,7 +67,7 @@ namespace FastSimDesign {
   protected:
     /// Method called before simulation initialization. Could be used to provide basic window information in editing `config`, like title name, main window size, etc.
     /// @param config The configuration object with basic application information.
-    void configure(Configuration& config) const noexcept;
+    void configure(Configuration& config) const;
 
     /// Method to initialize application.
     /// @param config The configuration object with basic application information.
@@ -80,7 +81,7 @@ namespace FastSimDesign {
     void preRun() noexcept;
 
     /// Main simulation loop.
-    void run() noexcept;
+    void run();
 
     /// Method used to run the next simulation frame.
     /// @param loop_clock The clock object used to measure time between frames.
@@ -111,13 +112,13 @@ namespace FastSimDesign {
     void postRun() noexcept;
 
     /// Method to dispose all used application resources and destroy its window.
-    void dispose() noexcept;
+    void dispose();
 
     /// Method to destroy SFML window.
     void disposeWindow() noexcept;
 
   private:
-    void registerStates() noexcept;
+    void registerStates();
 
   private:
     sf::RenderWindow m_window;

@@ -35,7 +35,7 @@ namespace FastSimDesign {
   template<typename GameObject, typename Function>
   std::function<void(SceneNode&, sf::Time)> derivedAction(Function fn)
   {
-    return [=](SceneNode& node, sf::Time const & dt) {
+    return [=](SceneNode& node, sf::Time const& dt) {
       // Check if cast is safe
       assert(dynamic_cast<GameObject*>(&node) != nullptr);
 

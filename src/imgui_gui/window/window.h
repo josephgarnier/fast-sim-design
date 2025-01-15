@@ -39,7 +39,7 @@ namespace FastSimDesign {
 
     void updateWindow(sf::RenderWindow& window, sf::Time const& dt);
   private:
-    virtual void draw(sf::RenderWindow& window, sf::Time const& dt) noexcept = 0;
+    virtual void draw(sf::RenderWindow& window, sf::Time const& dt) = 0;
 
   protected:
     ImGuiLayer* m_imgui_layer;

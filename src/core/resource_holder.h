@@ -30,7 +30,7 @@ namespace FastSimDesign {
     ResourceHolder& operator=(ResourceHolder&&) = default; // Move assignment operator
     virtual ~ResourceHolder() = default; // Destructor
 
-    void load(Identifier id, std::string const& filePath) // throw runtime_error
+    void load(Identifier id, std::string const& filePath)
     {
       std::unique_ptr<Resource> resource{std::make_unique<Resource>()};
       if (!resource->loadFromFile(filePath))
@@ -40,7 +40,7 @@ namespace FastSimDesign {
     }
 
     template<typename Parameter>
-    void load(Identifier id, std::string const& filePath, Parameter const& secondParam) // throw runtime_error
+    void load(Identifier id, std::string const& filePath, Parameter const& secondParam)
     {
       std::unique_ptr<Resource> resource{std::make_unique<Resource>()};
       if (!resource->loadFromFile(filePath, secondParam))
@@ -56,7 +56,7 @@ namespace FastSimDesign {
       return *found->second;
     }
 
-    Resource const& get(Identifier id) const noexcept
+    Resource const& get(Identifier id) const
     {
       auto found = m_resource_map.find(id);
       assert(found != m_resource_map.end());
@@ -65,7 +65,7 @@ namespace FastSimDesign {
 
   protected:
   private:
-    void insertResource(Identifier id, std::unique_ptr<Resource> resource) noexcept
+    void insertResource(Identifier id, std::unique_ptr<Resource> resource)
     {
       auto inserted = m_resource_map.emplace(id, std::move(resource));
       assert(inserted.second);

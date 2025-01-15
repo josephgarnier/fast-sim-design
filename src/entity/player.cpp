@@ -33,7 +33,7 @@ namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
   /// Methods
   ////////////////////////////////////////////////////////////
-  Player::Player() noexcept
+  Player::Player()
     : m_key_binding{}
     , m_action_binding{}
   {
@@ -50,7 +50,7 @@ namespace FastSimDesign {
       pair.second.category = toUnderlyingType(Category::Type::PLAYER_AIRCRAFT);
   }
 
-  void Player::handleEvent(sf::Event const& event, CommandQueue& commands) noexcept
+  void Player::handleEvent(sf::Event const& event, CommandQueue& commands)
   {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -61,7 +61,7 @@ namespace FastSimDesign {
     }
   }
 
-  void Player::handleRealtimeInput(CommandQueue& commands) noexcept
+  void Player::handleRealtimeInput(CommandQueue& commands)
   {
     // Traverse all assigned keys and check if they are pressed.
     for (auto const& pair : m_key_binding)
@@ -72,7 +72,7 @@ namespace FastSimDesign {
     }
   }
 
-  void Player::assignKey(Player::Action action, sf::Keyboard::Key key) noexcept
+  void Player::assignKey(Player::Action action, sf::Keyboard::Key key)
   {
     // Remove all keys that already map to action
     for (auto it = m_key_binding.begin(); it != m_key_binding.end();)
@@ -97,7 +97,7 @@ namespace FastSimDesign {
     return sf::Keyboard::Unknown;
   }
 
-  void Player::initializeActions() noexcept
+  void Player::initializeActions()
   {
     float const player_speed = 10.f;
     m_action_binding[Player::Action::MOVE_LEFT].action = derivedAction<Aircraft>(AircraftMover(-player_speed, 0.f));

@@ -15,6 +15,7 @@
 
 #include "state_identifiers.h"
 #include "state.h"
+
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/NonCopyable.hpp>
@@ -27,7 +28,7 @@ namespace FastSimDesign {
   class StateStack : private sf::NonCopyable
   {
   public:
-    enum class Action
+    enum class Action : uint16_t
     {
       PUSH,
       POP,
@@ -53,26 +54,26 @@ namespace FastSimDesign {
     virtual ~StateStack() = default; // Destructor
 
     template<typename T>
-    void registerState(States::ID state_id) noexcept
+    void registerState(States::ID state_id)
     {
       m_factories[state_id] = [this]() {
         return std::make_unique<T>(this, m_context);
       };
     };
 
-    void handleEvent(sf::Event const& event) noexcept;
-    void update(sf::Time const & dt) noexcept;
-    void draw() noexcept;
+    void handleEvent(sf::Event const& event);
+    void update(sf::Time const & dt);
+    void draw();
 
-    void pushState(States::ID state_id) noexcept;
-    void popState() noexcept;
-    void clearStates() noexcept;
+    void pushState(States::ID state_id);
+    void popState();
+    void clearStates();
 
     bool isEmpty() const noexcept;
 
   private:
-    State::Ptr createState(States::ID state_id) noexcept;
-    void applyPendingChanges() noexcept;
+    State::Ptr createState(States::ID state_id);
+    void applyPendingChanges();
 
   private:
     std::vector<State::Ptr> m_stack;

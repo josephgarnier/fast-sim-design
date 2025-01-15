@@ -21,7 +21,7 @@ namespace FastSimDesign {
   {
   }
 
-  bool GameState::handleEvent(sf::Event const& event) noexcept
+  bool GameState::handleEvent(sf::Event const& event)
   {
     CommandQueue& commands = m_world.getCommandQueue();
     m_player->handleEvent(event, commands);
@@ -32,7 +32,7 @@ namespace FastSimDesign {
     return true;
   }
 
-  bool GameState::update(sf::Time const & dt) noexcept
+  bool GameState::update(sf::Time const & dt)
   {
     m_world.update(dt);
     CommandQueue& commands = m_world.getCommandQueue();
@@ -40,7 +40,7 @@ namespace FastSimDesign {
     return true;
   }
 
-  void GameState::draw() noexcept
+  void GameState::draw()
   {
     m_world.draw();
   }
