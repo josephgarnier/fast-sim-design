@@ -13,9 +13,10 @@
 #ifndef FAST_SIM_DESIGN_PAUSE_STATE_H
 #define FAST_SIM_DESIGN_PAUSE_STATE_H
 
+#include "state.h"
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include "state.h"
 
 namespace FastSimDesign {
   class PauseState : public State

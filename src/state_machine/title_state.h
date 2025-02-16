@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_TITLE_STATE_H
 
 #include "state.h"
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Time.hpp>

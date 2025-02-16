@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_COMMAND_H
 
 #include <SFML/System/Time.hpp>
+
 #include <functional>
 #include <cassert>
 

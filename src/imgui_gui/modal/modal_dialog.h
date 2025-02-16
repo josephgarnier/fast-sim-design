@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_MODAL_DIALOG_H
 
 #include <SFML/System/Time.hpp>
+
 #include <string>
 
 namespace FastSimDesign {

@@ -15,14 +15,15 @@
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+
 #include <string>
 
 namespace FastSimDesign {
-  class ImGuiLayer;
+  class Application;
   class Window
   {
   public:
-    explicit Window(ImGuiLayer* imgui_layer, std::string title) noexcept; // Default constructor
+    explicit Window(Application* app, std::string title) noexcept; // Default constructor
     Window(Window const&) = default; // Copy constructor
     Window(Window&&) = default; // Move constructor
     Window& operator=(Window const&) = default; // Copy assignment operator
@@ -42,7 +43,7 @@ namespace FastSimDesign {
     virtual void draw(sf::RenderWindow& window, sf::Time const& dt) = 0;
 
   protected:
-    ImGuiLayer* m_imgui_layer;
+    Application* m_app;
     std::string m_title;
     bool m_visible = false;
     bool m_open = false;

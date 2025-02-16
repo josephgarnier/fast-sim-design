@@ -11,13 +11,14 @@
 #include "title_state.h"
 #include "../core/resource_identifiers.h"
 #include "../utils/sfml_util.h"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 
 namespace FastSimDesign {
   TitleState::TitleState(StateStack* stack, Context context)
-    : Parent{stack, std::move(context)}
+    : Parent{stack, std::move(context), "TITLE"}
     , m_background_sprite{}
     , m_text{}
     , m_show_text{true}

@@ -20,13 +20,14 @@
 #include "window/state_machine_window.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
+
 #include <memory>
 
 namespace FastSimDesign {
   class ImGuiLayer
   {
   public:
-    explicit ImGuiLayer() noexcept; // Default constructor
+    explicit ImGuiLayer(Application* app) noexcept; // Default constructor
     ImGuiLayer(ImGuiLayer const&) = default; // Copy constructor
     ImGuiLayer(ImGuiLayer&&) = default; // Move constructor
     ImGuiLayer& operator=(ImGuiLayer const&) = default; // Copy assignment operator

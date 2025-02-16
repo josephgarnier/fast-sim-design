@@ -10,12 +10,13 @@
 
 #include "game_state.h"
 #include "../entity/player.h"
+
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
 namespace FastSimDesign {
   GameState::GameState(StateStack* stack, Context context) noexcept
-    : Parent{stack, std::move(context)}
+    : Parent{stack, std::move(context), "GAME"}
     , m_world{*context.window}
     , m_player{context.player}
   {

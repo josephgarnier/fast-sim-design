@@ -9,16 +9,18 @@
 ////////////////////////////////////////////////////////////
 
 #include "window.h"
-#include <cassert>
+
 #include <imgui.h>
+
+#include <cassert>
 
 namespace FastSimDesign {
 
-  Window::Window(ImGuiLayer* imgui_layer, std::string title) noexcept
-    : m_imgui_layer{imgui_layer}
+  Window::Window(Application* app, std::string title) noexcept
+    : m_app{app}
     , m_title{std::move(title)}
   {
-    assert(m_imgui_layer != nullptr);
+    assert(m_app != nullptr);
   }
 
   void Window::close() noexcept

@@ -64,6 +64,9 @@ namespace FastSimDesign {
     explicit Application(); // Default constructor, throw CoreException
     virtual ~Application() = default; // Destructor
 
+    ImGuiLayer& getImGuiLayer() noexcept { return m_imgui_layer; }
+    StateStack const& getStateMachine() const noexcept { return m_state_stack; }
+
   protected:
     /// Method called before simulation initialization. Could be used to provide basic window information in editing `config`, like title name, main window size, etc.
     /// @param config The configuration object with basic application information.

@@ -17,6 +17,7 @@
 #include "../core/command_queue.h"
 
 #include <SFML/Window/Event.hpp>
+
 #include <map>
 #include <cstdint>
 

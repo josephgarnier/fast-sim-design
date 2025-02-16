@@ -19,6 +19,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/NonCopyable.hpp>
+
 #include <memory>
 #include <vector>
 #include <functional>
@@ -53,6 +54,8 @@ namespace FastSimDesign {
     explicit StateStack(State::Context context) noexcept; // Default constructor
     virtual ~StateStack() = default; // Destructor
 
+    std::vector<State::Ptr> const& getStack() const noexcept { return m_stack; }
+
     template<typename T>
     void registerState(States::ID state_id)
     {
@@ -62,7 +65,7 @@ namespace FastSimDesign {
     };
 
     void handleEvent(sf::Event const& event);
-    void update(sf::Time const & dt);
+    void update(sf::Time const& dt);
     void draw();
 
     void pushState(States::ID state_id);

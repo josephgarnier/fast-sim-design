@@ -282,4 +282,4 @@ This work is licensed under the terms of a <a href="https://www.gnu.org/licenses
 
 ## 🍻 Acknowledgments
 
-This project was inspired by [Tiled](https://www.mapeditor.org/).
+This project was inspired by [Tiled](https://www.mapeditor.org/), [Hazel Engine](https://github.com/TheCherno/Hazel) and [gugu::Engine](https://github.com/Legulysse/gugu-engine).

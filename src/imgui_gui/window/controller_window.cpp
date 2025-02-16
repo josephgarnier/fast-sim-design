@@ -11,23 +11,26 @@
 #include "controller_window.h"
 #include "../imgui_layer.h"
 #include "../modal/about_dialog.h"
-
-#include <iostream>
-#include <memory>
-#include <ostream>
+#include "../../core/application.h"
 
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_demo.cpp>
 
+#include <iostream>
+#include <memory>
+#include <ostream>
+
 namespace FastSimDesign {
-  ControllerWindow::ControllerWindow(ImGuiLayer* imgui_layer) noexcept
-    : Parent{imgui_layer, "Controller Window"}
+  ControllerWindow::ControllerWindow(Application* app) noexcept
+    : Parent{app, "Controller Window"}
+    , m_imgui_layer{&app->getImGuiLayer()}
     , m_show_entity_inspector{true}
     , m_show_debug_window{true}
     , m_show_imgui_demo{false}
   {
+    assert(m_imgui_layer != nullptr);
     show();
   }
 

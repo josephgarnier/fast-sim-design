@@ -26,9 +26,10 @@ namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
   /// State::Methods
   ////////////////////////////////////////////////////////////
-  State::State(StateStack* stack, Context context) noexcept
+  State::State(StateStack* stack, Context context, std::string name) noexcept
     : m_stack{stack}
     , m_context{context}
+    , m_name{std::move(name)}
   {
   }
 

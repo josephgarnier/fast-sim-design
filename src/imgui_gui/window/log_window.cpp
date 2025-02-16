@@ -18,8 +18,8 @@
 
 namespace FastSimDesign {
 
-  LogWindow::LogWindow(ImGuiLayer* imgui_layer)
-    : Parent{imgui_layer, "Log Window"}
+  LogWindow::LogWindow(Application* app)
+    : Parent{app, "Log Window"}
     , m_log_text{}
     , m_log_metadata{}
     , m_text_filter{}

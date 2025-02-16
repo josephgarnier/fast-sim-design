@@ -14,16 +14,18 @@
 
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
+
 #include <vector>
 
 namespace FastSimDesign {
 
-  ImGuiLayer::ImGuiLayer() noexcept
-    : m_controller_window{this}
-    , m_log_window{this}
-    , m_state_machine_window{this}
+  ImGuiLayer::ImGuiLayer(Application* app) noexcept
+    : m_controller_window{app}
+    , m_log_window{app}
+    , m_state_machine_window{app}
     , m_open_modal_dialogs{}
   {
+    assert(app != nullptr);
   }
 
   void ImGuiLayer::initImGui(Configuration const& config, sf::RenderWindow& window) const

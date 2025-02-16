@@ -9,17 +9,18 @@
 ////////////////////////////////////////////////////////////
 
 #include "menu_state.h"
+#include "../utils/sfml_util.h"
+
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "../utils/sfml_util.h"
 
 namespace FastSimDesign {
   MenuState::MenuState(StateStack* stack, Context context)
-    : Parent{stack, std::move(context)}
+    : Parent{stack, std::move(context), "MENU"}
     , m_background_sprite{}
     , m_options{}
     , m_option_index{0}
@@ -35,12 +36,13 @@ namespace FastSimDesign {
     play_option.setString("Play");
     centerOrigin(play_option);
     play_option.setPosition(context.window->getView().getSize() / 2.f);
+    m_options.push_back(play_option);
 
     sf::Text exit_option;
     exit_option.setFont(font);
     exit_option.setString("Exit");
     centerOrigin(exit_option);
-    exit_option.setPosition(play_option.getPosition() + sf::Vector2f{0.f, 30.f});
+    exit_option.setPosition(play_option.getPosition() + sf::Vector2f{0.f, 50.f});
     m_options.push_back(exit_option);
 
     updateOptionText();
@@ -102,8 +104,8 @@ namespace FastSimDesign {
       return;
 
     for (auto& text : m_options)
-      text.setOutlineColor(sf::Color::White);
+      text.setFillColor(sf::Color::White);
 
-    m_options[m_option_index].setOutlineColor(sf::Color::Red);
+    m_options[m_option_index].setFillColor(sf::Color::Red);
   }
 }

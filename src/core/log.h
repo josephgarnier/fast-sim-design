@@ -27,6 +27,7 @@
 
 #include <spdlog/sinks/sink.h>
 #include <spdlog/spdlog.h>
+
 #include <utility>
 
 namespace FastSimDesign {

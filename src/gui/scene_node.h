@@ -17,6 +17,7 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
+
 #include <memory>
 #include <vector>
 

@@ -15,6 +15,7 @@
 
 #include "state_identifiers.h"
 #include "../core/resource_identifiers.h"
+
 #include <memory>
 
 namespace sf {
@@ -24,7 +25,7 @@ namespace sf {
 }
 
 namespace FastSimDesign {
-  
+
   class StateStack;
   class Player;
   class State
@@ -49,15 +50,17 @@ namespace FastSimDesign {
     using Ptr = std::unique_ptr<State>;
 
   public:
-    explicit State(StateStack* stack, Context context) noexcept; // Default constructor
+    explicit State(StateStack* stack, Context context, std::string name) noexcept; // Default constructor
     State(State const&) = default; // Copy constructor
     State(State&&) = default; // Move constructor
     State& operator=(State const&) = default; // Copy assignment operator
     State& operator=(State&&) = default; // Move assignment operator
     virtual ~State() = default; // Destructor
 
+    std::string const& getName() const noexcept { return m_name; }
+
     virtual bool handleEvent(sf::Event const& event) = 0;
-    virtual bool update(sf::Time const & dt) = 0;
+    virtual bool update(sf::Time const& dt) = 0;
     virtual void draw() = 0;
 
   protected:
@@ -70,6 +73,7 @@ namespace FastSimDesign {
   private:
     StateStack* m_stack;
     Context m_context;
+    std::string m_name;
   };
 }
 #endif

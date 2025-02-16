@@ -54,7 +54,7 @@ namespace FastSimDesign {
     , m_statistics_text{}
     , m_statistics_update_time{}
     , m_statistics_num_frames{0}
-    , m_imgui_layer{}
+    , m_imgui_layer{this}
   {
     m_window.setKeyRepeatEnabled(false);
     m_window.setFramerateLimit(60);

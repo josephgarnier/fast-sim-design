@@ -16,13 +16,14 @@
 #include "window.h"
 
 namespace FastSimDesign {
+  class ImGuiLayer;
   class ControllerWindow : public Window
   {
     private:
       using Parent = Window;
       
   public:
-    explicit ControllerWindow(ImGuiLayer* imgui_layer) noexcept; // Default constructor, throw GuiException
+    explicit ControllerWindow(Application* app) noexcept; // Default constructor, throw GuiException
     ControllerWindow(ControllerWindow const&) = default; // Copy constructor
     ControllerWindow(ControllerWindow&&) = default; // Move constructor
     ControllerWindow& operator=(ControllerWindow const&) = default; // Copy assignment operator
@@ -33,6 +34,7 @@ namespace FastSimDesign {
 
   protected:
   private:
+    ImGuiLayer* m_imgui_layer;
     bool m_show_entity_inspector;
     bool m_show_debug_window;
     bool m_show_imgui_demo;

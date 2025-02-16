@@ -11,6 +11,7 @@
 #include "pause_state.h"
 #include "../core/resource_identifiers.h"
 #include "../utils/sfml_util.h"
+
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -19,7 +20,7 @@
 
 namespace FastSimDesign {
   PauseState::PauseState(StateStack* stack, Context context)
-    : Parent{stack, std::move(context)}
+    : Parent{stack, std::move(context), "PAUSE"}
     , m_background_sprite{}
     , m_paused_text{}
     , m_instruction_text{}
@@ -68,7 +69,7 @@ namespace FastSimDesign {
     window.setView(window.getDefaultView());
 
     sf::RectangleShape background_shape;
-    background_shape.setFillColor(sf::Color(0, 0, 0, 150));
+    background_shape.setFillColor(sf::Color{0, 0, 0, 150});
     background_shape.setSize(window.getView().getSize());
 
     window.draw(background_shape);

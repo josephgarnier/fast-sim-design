@@ -13,8 +13,9 @@
 #ifndef FAST_SIM_DESIGN_RENDER_UTIL_H
 #define FAST_SIM_DESIGN_RENDER_UTIL_H
 
-#include <cmath>
 #include <SFML/Graphics/Transformable.hpp>
+
+#include <cmath>
 
 namespace FastSimDesign {
 

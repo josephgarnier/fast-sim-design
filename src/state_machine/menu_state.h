@@ -14,8 +14,10 @@
 #define FAST_SIM_DESIGN_MENU_STATE_H
 
 #include "state.h"
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+
 #include <vector>
 
 namespace FastSimDesign {
@@ -36,9 +38,10 @@ namespace FastSimDesign {
     virtual ~MenuState() = default; // Destructor
 
     virtual bool handleEvent(sf::Event const& event) override;
-    virtual bool update(sf::Time const & dt) noexcept override;
+    virtual bool update(sf::Time const& dt) noexcept override;
     virtual void draw() override;
 
+  private:
     void updateOptionText();
 
   public:

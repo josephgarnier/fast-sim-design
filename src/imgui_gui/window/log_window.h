@@ -15,9 +15,10 @@
 
 #include "window.h"
 
-#include <functional>
 #include <spdlog/common.h>
 #include <imgui.h>
+
+#include <functional>
 
 namespace FastSimDesign {
   class LogWindow : public Window
@@ -45,7 +46,7 @@ namespace FastSimDesign {
     using Parent = Window;
 
   public:
-    explicit LogWindow(ImGuiLayer* imgui_layer); // Default constructor, throw GuiException
+    explicit LogWindow(Application* app); // Default constructor, throw GuiException
     LogWindow(LogWindow const&) = default; // Copy constructor
     LogWindow(LogWindow&&) = default; // Move constructor
     LogWindow& operator=(LogWindow const&) = default; // Copy assignment operator
