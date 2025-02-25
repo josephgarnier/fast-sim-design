@@ -8,25 +8,16 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#pragma once
-
-#ifndef FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-#define FAST_SIM_DESIGN_STATE_IDENTIFIERS_H
-
-#include <cstdint>
+#include "label.h"
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : uint16_t
-    {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
-      SETTINGS
-    };
+  namespace GUI {
+    ////////////////////////////////////////////////////////////
+    /// Statics
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
+    /// Methods
+    ////////////////////////////////////////////////////////////
   }
 }
-#endif

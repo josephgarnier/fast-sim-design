@@ -68,7 +68,8 @@ namespace FastSimDesign {
     void requestStackPop();
     void requestStateClear();
 
-    State::Context getContext() const noexcept;
+    State::Context getContextCopy() const noexcept;
+    State::Context& getContext() noexcept;
 
   private:
     StateStack* m_stack;

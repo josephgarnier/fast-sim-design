@@ -20,7 +20,7 @@
 
 namespace FastSimDesign {
   PauseState::PauseState(StateStack* stack, Context context)
-    : Parent{stack, std::move(context), "PAUSE"}
+    : Parent{stack, context, "PAUSE"}
     , m_background_sprite{}
     , m_paused_text{}
     , m_instruction_text{}
@@ -31,12 +31,12 @@ namespace FastSimDesign {
     m_paused_text.setFont(font);
     m_paused_text.setString("Game Paused");
     m_paused_text.setCharacterSize(70);
-    centerOrigin(m_paused_text);
+    SFML::centerOrigin(m_paused_text);
     m_paused_text.setPosition(0.5f * view_size.x, 0.4f * view_size.y);
 
     m_instruction_text.setFont(font);
     m_instruction_text.setString("(Press Backspace to return to the main menu)");
-    centerOrigin(m_instruction_text);
+    SFML::centerOrigin(m_instruction_text);
     m_instruction_text.setPosition(0.5f * view_size.x, 0.6f * view_size.y);
   }
 

@@ -31,7 +31,7 @@ namespace FastSimDesign {
     show();
   }
 
-  void StateMachineWindow::draw(sf::RenderWindow& window, sf::Time const& dt)
+  void StateMachineWindow::draw(sf::RenderWindow&, sf::Time const&)
   {
     if (ImGui::Begin(Parent::m_title.c_str(), &(Parent::m_open)))
     {

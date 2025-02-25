@@ -14,6 +14,7 @@
 #include "../state_machine/menu_state.h"
 #include "../state_machine/game_state.h"
 #include "../state_machine/pause_state.h"
+#include "../state_machine/settings_state.h"
 #include "configuration.h"
 #include "log.h"
 
@@ -61,6 +62,9 @@ namespace FastSimDesign {
 
     m_fonts.load(Fonts::ID::MAIN, "../assets/fonts/arial.ttf");
     m_textures.load(Textures::ID::TITLE_SCREEN, "../assets/sprites/npcs/title_screen.png");
+    m_textures.load(Textures::ID::BUTTON_NORMAL, "../assets/sprites/npcs/button_normal.png");
+    m_textures.load(Textures::ID::BUTTON_PRESSED, "../assets/sprites/npcs/button_pressed.png");
+    m_textures.load(Textures::ID::BUTTON_SELECTED, "../assets/sprites/npcs/button_selected.png");
 
     m_statistics_text.setFont(m_fonts.get(Fonts::ID::MAIN));
     m_statistics_text.setPosition(5.f, 5.f);
@@ -163,7 +167,7 @@ namespace FastSimDesign {
 
     // Update ImGui.
     m_imgui_layer.startImGuiUpdate(m_window, dt);
-    m_imgui_layer.updateImGui(m_window, dt);
+    m_imgui_layer.updateImGui(m_window, dt); // TODO should replace Window by Application?
     // m_state_stack.updateImGui(dt); TODO to implement layer : each layer can have its own ImGui Window.
     m_imgui_layer.endImGuiUpdate();
   }
@@ -224,5 +228,6 @@ namespace FastSimDesign {
     m_state_stack.registerState<MenuState>(States::ID::MENU);
     m_state_stack.registerState<GameState>(States::ID::GAME);
     m_state_stack.registerState<PauseState>(States::ID::PAUSE);
+    m_state_stack.registerState<SettingsState>(States::ID::SETTINGS);
   }
 }

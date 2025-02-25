@@ -28,7 +28,7 @@ namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
   State::State(StateStack* stack, Context context, std::string name) noexcept
     : m_stack{stack}
-    , m_context{context}
+    , m_context{std::move(context)}
     , m_name{std::move(name)}
   {
   }
@@ -48,7 +48,12 @@ namespace FastSimDesign {
     m_stack->clearStates();
   }
 
-  State::Context State::getContext() const noexcept
+  State::Context State::getContextCopy() const noexcept
+  {
+    return m_context;
+  }
+  
+  State::Context& State::getContext() noexcept
   {
     return m_context;
   }

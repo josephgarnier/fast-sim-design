@@ -18,7 +18,7 @@
 
 namespace FastSimDesign {
   TitleState::TitleState(StateStack* stack, Context context)
-    : Parent{stack, std::move(context), "TITLE"}
+    : Parent{stack, context, "TITLE"}
     , m_background_sprite{}
     , m_text{}
     , m_show_text{true}
@@ -28,7 +28,7 @@ namespace FastSimDesign {
 
     m_text.setFont(context.fonts->get(Fonts::ID::MAIN));
     m_text.setString("Press any key to start");
-    centerOrigin(m_text);
+    SFML::centerOrigin(m_text);
     m_text.setPosition(context.window->getView().getSize() / 2.f);
   }
 

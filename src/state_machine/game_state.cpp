@@ -16,7 +16,7 @@
 
 namespace FastSimDesign {
   GameState::GameState(StateStack* stack, Context context) noexcept
-    : Parent{stack, std::move(context), "GAME"}
+    : Parent{stack, context, "GAME"}
     , m_world{*context.window}
     , m_player{context.player}
   {

@@ -26,6 +26,9 @@ namespace FastSimDesign {
       RAPTOR,
       DESERT,
       TITLE_SCREEN,
+      BUTTON_NORMAL,
+      BUTTON_SELECTED,
+      BUTTON_PRESSED
     };
   }
   namespace Fonts {
@@ -35,7 +38,7 @@ namespace FastSimDesign {
     };
   }
 
-  using TextureHolder = ResourceHolder<sf::Texture, FastSimDesign::Textures::ID>;
-  using FontHolder = ResourceHolder<sf::Font, FastSimDesign::Fonts::ID>;
+  using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
+  using FontHolder = ResourceHolder<sf::Font, Fonts::ID>;
 }
 #endif

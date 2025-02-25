@@ -4,18 +4,13 @@
 			"path": "src/core/application.cpp",
 			"bookmarks": [
 				{
-					"line": 166,
-					"column": 65,
+					"line": 169,
+					"column": 91,
 					"label": ""
-				}
-			]
-		},
-		{
-			"path": "build/_deps/imgui-src/imgui_demo.cpp",
-			"bookmarks": [
+				},
 				{
-					"line": 5437,
-					"column": 19,
+					"line": 170,
+					"column": 65,
 					"label": ""
 				}
 			]
