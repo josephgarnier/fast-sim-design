@@ -51,6 +51,7 @@ The following dependencies are **required** for development, but their installat
 - **Dear ImGui v1.91.6+** for GUI - can be found [here](https://github.com/ocornut/imgui).
 - **ImGui-SFML v2.6+** for Dear ImGui + SFML - can be found [here](https://github.com/SFML/imgui-sfml).
 - **spdlog v1.15.0+** for logging - can be found [here](https://github.com/gabime/spdlog).
+- **OpenGL Mathematics (GLM) v1.0.1+** for mathematic - can be found [here](https://github.com/g-truc/glm).
 
 The following dependencies are **optional** and depends on project configuration. Their installation is optional because they will be **automatically downloaded** by CMake if they can't be found:
 

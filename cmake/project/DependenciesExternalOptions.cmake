@@ -268,3 +268,63 @@ target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
 		"spdlog::spdlog"
 )
 message(STATUS "Import and link spdlog - done")
+
+
+#---- Import and link OpenGL Mathematics (GLM). ----
+message(STATUS "Import and link GLM")
+if(DEFINED ENV{GLM_DIR}) 
+	set(GLM_DIR "$ENV{GLM_DIR}")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+	set(GLM_DIR "D:/Documents/Software_Libraries/glm/1.0.1")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+	set(GLM_DIR "/opt/glm/1.0.1")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+	set(GLM_DIR "/opt/glm/1.0.1")
+endif()
+if(DEFINED ENV{CMAKE_PREFIX_PATH}) 
+	set(CMAKE_PREFIX_PATH "$ENV{CMAKE_PREFIX_PATH}")
+else()
+	set(CMAKE_PREFIX_PATH "${GLM_DIR}")
+endif()
+
+# Find glm or auto-download it.
+message(STATUS "Find glm package")
+find_package(glm NO_MODULE)
+if(NOT ${glm_FOUND})
+	message(STATUS "glm not found, it will be auto-downloaded in the build-tree")
+	include(FetchContent)
+	set(FETCHCONTENT_QUIET off)
+	FetchContent_Declare(
+		glm
+		GIT_REPOSITORY https://github.com/g-truc/glm.git
+		GIT_TAG 1.0.1
+		GIT_SHALLOW on
+		GIT_PROGRESS on
+		EXCLUDE_FROM_ALL
+		SYSTEM
+		STAMP_DIR "${${PROJECT_NAME}_BUILD_DIR}"
+		DOWNLOAD_NO_PROGRESS off
+		LOG_DOWNLOAD on
+		LOG_UPDATE on
+		LOG_PATCH on
+		LOG_CONFIGURE on
+		LOG_BUILD on
+		LOG_INSTALL on
+		LOG_TEST on
+		LOG_MERGED_STDOUTERR on
+		LOG_OUTPUT_ON_FAILURE on
+		USES_TERMINAL_DOWNLOAD on
+	)
+	FetchContent_MakeAvailable(glm)
+	set(GLM_DIR "${glm_SOURCE_DIR}")
+else()
+  message(STATUS "glm found")
+endif()
+
+# Link glm to the main binary build target.
+message(STATUS "Link glm library to the target \"${${PROJECT_NAME}_MAIN_BIN_TARGET}\"")
+target_link_libraries("${${PROJECT_NAME}_MAIN_BIN_TARGET}"
+	PRIVATE
+		"glm::glm"
+)
+message(STATUS "Import and link glm - done")
