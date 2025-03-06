@@ -17,13 +17,8 @@
 
 namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
-  /// Statics
-  ////////////////////////////////////////////////////////////
-
-  ////////////////////////////////////////////////////////////
   /// Methods
   ////////////////////////////////////////////////////////////
-
   SettingsState::SettingsState(StateStack* stack, Context context)
     : Parent{stack, context, "SETTINGS"}
     , m_background_sprite{}
@@ -65,7 +60,7 @@ namespace FastSimDesign {
         if (event.type == sf::Event::KeyReleased)
         {
           getContext().player->assignKey(static_cast<Player::Action>(action), event.key.code);
-          m_binding_buttons[action]->desactivate();
+          m_binding_buttons[action]->deactivate();
         }
         break;
       }

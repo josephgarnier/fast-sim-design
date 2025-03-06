@@ -40,7 +40,7 @@ namespace FastSimDesign {
 
       virtual bool isActive() const noexcept;
       virtual void activate() noexcept;
-      virtual void desactivate() noexcept;
+      virtual void deactivate() noexcept;
 
       virtual void handleEvent(sf::Event const& event) = 0;
 

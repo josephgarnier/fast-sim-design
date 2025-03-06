@@ -31,7 +31,15 @@ namespace FastSimDesign {
       MOVE_RIGHT,
       MOVE_UP,
       MOVE_DOWN,
+      FIRE,
+      LAUNCH_MISSILE,
       ACTION_COUNT
+    };
+    enum class MissionStatus : uint16_t
+    {
+      MISSION_RUNNING,
+      MISSION_SUCCESS,
+      MISSION_FAILURE
     };
 
   public:
@@ -51,6 +59,9 @@ namespace FastSimDesign {
     void assignKey(Player::Action action, sf::Keyboard::Key key);
     sf::Keyboard::Key getAssignedKey(Player::Action action) const noexcept;
 
+    void setMissionStatus(Player::MissionStatus status) noexcept;
+    Player::MissionStatus getMissionStatus() const noexcept;
+
   protected:
   private:
     void initializeActions();
@@ -60,6 +71,7 @@ namespace FastSimDesign {
   private:
     std::map<sf::Keyboard::Key, Player::Action> m_key_binding;
     std::map<Player::Action, Command> m_action_binding;
+    Player::MissionStatus m_current_mission_status;
   };
 
   struct AircraftMover

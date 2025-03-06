@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_COMMAND_H
 
 #include <SFML/System/Time.hpp>
+#include "../entity/category.h"
 
 #include <functional>
 #include <cassert>
@@ -30,18 +31,18 @@ namespace FastSimDesign {
     virtual ~Command() = default; // Destructor
 
     std::function<void(SceneNode&, sf::Time)> action;
-    unsigned int category;
+    Category::Type category;
   };
 
   template<typename GameObject, typename Function>
-  std::function<void(SceneNode&, sf::Time)> derivedAction(Function fn)
+  std::function<void(SceneNode&, sf::Time)> derivedAction(Function action)
   {
     return [=](SceneNode& node, sf::Time const& dt) {
-      // Check if cast is safe
+      // Check if cast is safe.
       assert(dynamic_cast<GameObject*>(&node) != nullptr);
 
-      // Downcast node and invoke function on it
-      fn(static_cast<GameObject&>(node), dt);
+      // Downcast node and invoke function on it.
+      action(static_cast<GameObject&>(node), dt);
     };
   }
 }

@@ -134,6 +134,9 @@ namespace FastSimDesign {
     sf::Text m_statistics_text;
     sf::Time m_statistics_update_time;
     std::size_t m_statistics_num_frames;
+    std::size_t m_statistics_total_frames;
+    std::size_t m_statistics_total_update_frames;
+    std::size_t m_statistics_total_render_frames;
 
     ImGuiLayer m_imgui_layer;
   };

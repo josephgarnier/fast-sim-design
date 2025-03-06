@@ -84,12 +84,12 @@ namespace FastSimDesign {
 
       // If we are not a toggle then deactivate the button since we are just momentarily activated.
       if (!m_is_toggle)
-        desactivate();
+        deactivate();
     }
 
-    void Button::desactivate() noexcept
+    void Button::deactivate() noexcept
     {
-      Parent::desactivate();
+      Parent::deactivate();
       if (m_is_toggle)
       {
         // Reset texture to right one depending on if we are selected or not.

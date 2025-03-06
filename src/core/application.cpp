@@ -15,6 +15,7 @@
 #include "../state_machine/game_state.h"
 #include "../state_machine/pause_state.h"
 #include "../state_machine/settings_state.h"
+#include "../state_machine/game_over_state.h"
 #include "configuration.h"
 #include "log.h"
 
@@ -55,6 +56,9 @@ namespace FastSimDesign {
     , m_statistics_text{}
     , m_statistics_update_time{}
     , m_statistics_num_frames{0}
+    , m_statistics_total_frames{0}
+    , m_statistics_total_update_frames{0}
+    , m_statistics_total_render_frames{0}
     , m_imgui_layer{this}
   {
     m_window.setKeyRepeatEnabled(false);
@@ -143,6 +147,7 @@ namespace FastSimDesign {
   void Application::beginFrame() noexcept
   {
     LOG_TRACE("***** Begin frame {} *****", m_statistics_num_frames);
+    ++m_statistics_total_frames;
   }
 
   void Application::processInput()
@@ -161,6 +166,9 @@ namespace FastSimDesign {
   void Application::update(sf::Time const& dt)
   {
     LOG_TRACE("Update app wih a delta time of {}ms.", dt.asMilliseconds());
+
+    // Update statistics.
+    ++m_statistics_total_update_frames;
 
     // Update stack.
     m_state_stack.update(dt);
@@ -181,7 +189,10 @@ namespace FastSimDesign {
     {
       m_statistics_text.setString(
         "Frames / Second = " + std::to_string(m_statistics_num_frames) + "\n" +
-        "Time / Update = " + std::to_string(static_cast<size_t>(m_statistics_update_time.asMicroseconds()) / m_statistics_num_frames) + "us");
+        "Time / Update = " + std::to_string(static_cast<size_t>(m_statistics_update_time.asMicroseconds()) / m_statistics_num_frames) + "us" + "\n" +
+        "Nb Frames = " + std::to_string(m_statistics_total_frames) + "\n" +
+        "Nb Update Frame = " + std::to_string(m_statistics_total_update_frames) + "\n" +
+        "Nb Render Frame = " + std::to_string(m_statistics_total_render_frames));
 
       m_statistics_update_time -= sf::seconds(1.0f);
       m_statistics_num_frames = 0;
@@ -190,6 +201,8 @@ namespace FastSimDesign {
 
   void Application::render()
   {
+    ++m_statistics_total_render_frames;
+
     m_window.clear();
     m_state_stack.draw();
 
@@ -229,5 +242,6 @@ namespace FastSimDesign {
     m_state_stack.registerState<GameState>(States::ID::GAME);
     m_state_stack.registerState<PauseState>(States::ID::PAUSE);
     m_state_stack.registerState<SettingsState>(States::ID::SETTINGS);
+    m_state_stack.registerState<GameOverState>(States::ID::GAME_OVER);
   }
 }

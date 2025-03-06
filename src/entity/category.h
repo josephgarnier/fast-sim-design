@@ -20,12 +20,29 @@ namespace FastSimDesign {
     enum class Type : uint16_t
     {
       NONE = 0,
-      SCENE = 1 << 0,
+      SCENE_AIR_LAYER = 1 << 0,
       PLAYER_AIRCRAFT = 1 << 1,
       ALLIED_AIRCRAFT = 1 << 2,
       ENEMY_AIRCRAFT = 1 << 3,
-      ALL = NONE | SCENE | PLAYER_AIRCRAFT | ALLIED_AIRCRAFT | ENEMY_AIRCRAFT,
+      PICKUP = 1 << 4,
+      ALLIED_PROJECTILE = 1 << 5,
+      ENEMY_PROJECTILE = 1 << 6,
+
+      AIRCRAFT = PLAYER_AIRCRAFT | ALLIED_AIRCRAFT | ENEMY_AIRCRAFT,
+      PROJECTILE = ALLIED_PROJECTILE | ENEMY_PROJECTILE,
     };
+
+    inline constexpr Category::Type operator|(Category::Type left, Category::Type right) noexcept
+    {
+      return static_cast<Category::Type>(static_cast<uint16_t>(left) | static_cast<uint16_t>(right));
+    }
+
+    inline constexpr Category::Type& operator|=(Category::Type& left, Category::Type right)
+    {
+      left = static_cast<Category::Type>(static_cast<uint16_t>(left) | static_cast<uint16_t>(right));
+      return left;
+    }
+
   }
 }
 #endif

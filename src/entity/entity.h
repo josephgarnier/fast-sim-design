@@ -26,7 +26,7 @@ namespace FastSimDesign {
     using Parent = SceneNode;
 
   public:
-    explicit Entity() = default; // Default constructor
+    explicit Entity(int hitpoints) noexcept; // Default constructor
     virtual ~Entity() = default; // Destructor
 
     void setVelocity(sf::Vector2f velocity) noexcept;
@@ -36,14 +36,18 @@ namespace FastSimDesign {
     void accelerate(sf::Vector2f const& velocity) noexcept;
     void accelerate(float vx, float vy) noexcept;
 
-  protected:
-  private:
-    virtual void updateCurrent(sf::Time const& dt) override;
+    int getHitpoints() const noexcept;
+    void repair(int points);
+    void damage(int points);
+    void destroy();
+    virtual bool isDestroyed() const noexcept override;
 
-  public:
   protected:
+    virtual void updateCurrent(sf::Time const& dt, CommandQueue& commands) override;
+
   private:
     sf::Vector2f m_velocity;
+    int m_hitpoints;
   };
 }
 #endif

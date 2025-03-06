@@ -49,7 +49,7 @@ namespace FastSimDesign {
       virtual void deselect() noexcept override;
 
       virtual void activate() noexcept override;
-      virtual void desactivate() noexcept override;
+      virtual void deactivate() noexcept override;
 
       virtual void handleEvent(sf::Event const& event) noexcept override;
 

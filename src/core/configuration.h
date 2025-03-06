@@ -19,11 +19,18 @@
 namespace FastSimDesign {
   struct Configuration
   {
-    const std::string title = "Fast-Sim-Design";
-    const uint32_t width = 1280;
-    const uint32_t height = 720;
-    const bool fullscreen = false;
-    const bool use_custom_style = false;
+    explicit Configuration() = default; // Default constructor
+    Configuration(Configuration const&) = default; // Copy constructor
+    Configuration(Configuration&&) = default; // Move constructor
+    Configuration& operator=(Configuration const&) = default; // Copy assignment operator
+    Configuration& operator=(Configuration&&) = default; // Move assignment operator
+    virtual ~Configuration() = default; // Destructor
+
+    std::string title = "Fast-Sim-Design";
+    uint32_t width = 1280;
+    uint32_t height = 720;
+    bool fullscreen = false;
+    bool use_custom_style = false;
   };
 }
 #endif

@@ -10,28 +10,31 @@
 
 #pragma once
 
-#ifndef FAST_SIM_DESIGN_SPRITE_NODE_H
-#define FAST_SIM_DESIGN_SPRITE_NODE_H
+#ifndef FAST_SIM_DESIGN_TEXT_NODE_H
+#define FAST_SIM_DESIGN_TEXT_NODE_H
 
+#include "../core/resource_identifiers.h"
 #include "scene_node.h"
 
-#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
-  class SpriteNode : public SceneNode
+  class TextNode : public SceneNode
   {
   private:
     using Parent = SceneNode;
 
   public:
-    explicit SpriteNode(sf::Texture const& texture) noexcept; // Default constructor
-    explicit SpriteNode(sf::Texture const& texture, sf::IntRect const& textureRect) noexcept;
-    virtual ~SpriteNode() = default; // Destructor
+    explicit TextNode(FontHolder const& fonts, std::string text) noexcept; // Default constructor
+    virtual ~TextNode() = default; // Destructor
 
+    void setString(std::string text) noexcept;
+
+  private:
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 
   private:
-    sf::Sprite m_sprite;
+    sf::Text m_text;
   };
 }
 #endif

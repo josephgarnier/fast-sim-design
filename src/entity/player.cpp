@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////
 
 #include "player.h"
+#include "aircraft.h"
 #include "category.h"
 #include "../utils/generic_utility.h"
 
@@ -24,6 +25,7 @@ namespace FastSimDesign {
       case Player::Action::MOVE_RIGHT:
       case Player::Action::MOVE_UP:
       case Player::Action::MOVE_DOWN:
+      case Player::Action::FIRE:
         return true;
       default:
         return false;
@@ -36,18 +38,21 @@ namespace FastSimDesign {
   Player::Player()
     : m_key_binding{}
     , m_action_binding{}
+    , m_current_mission_status{Player::MissionStatus::MISSION_RUNNING}
   {
     // Set initial key bindings.
     m_key_binding[sf::Keyboard::Key::Left] = Player::Action::MOVE_LEFT;
     m_key_binding[sf::Keyboard::Key::Right] = Player::Action::MOVE_RIGHT;
     m_key_binding[sf::Keyboard::Key::Up] = Player::Action::MOVE_UP;
     m_key_binding[sf::Keyboard::Key::Down] = Player::Action::MOVE_DOWN;
+    m_key_binding[sf::Keyboard::Key::Space] = Player::Action::FIRE;
+    m_key_binding[sf::Keyboard::Key::M] = Player::Action::LAUNCH_MISSILE;
 
     // Set initial action bindings.
     initializeActions();
 
     for (auto& pair : m_action_binding)
-      pair.second.category = toUnderlyingType(Category::Type::PLAYER_AIRCRAFT);
+      pair.second.category = Category::Type::PLAYER_AIRCRAFT;
   }
 
   void Player::handleEvent(sf::Event const& event, CommandQueue& commands)
@@ -97,12 +102,28 @@ namespace FastSimDesign {
     return sf::Keyboard::Unknown;
   }
 
+  void Player::setMissionStatus(Player::MissionStatus status) noexcept
+  {
+    m_current_mission_status = status;
+  }
+  
+  Player::MissionStatus Player::getMissionStatus() const noexcept
+  {
+    return m_current_mission_status;
+  }
+  
   void Player::initializeActions()
   {
     float const player_speed = 10.f;
-    m_action_binding[Player::Action::MOVE_LEFT].action = derivedAction<Aircraft>(AircraftMover(-player_speed, 0.f));
-    m_action_binding[Player::Action::MOVE_RIGHT].action = derivedAction<Aircraft>(AircraftMover(+player_speed, 0.f));
-    m_action_binding[Player::Action::MOVE_UP].action = derivedAction<Aircraft>(AircraftMover(0.f, -player_speed));
-    m_action_binding[Player::Action::MOVE_DOWN].action = derivedAction<Aircraft>(AircraftMover(0.f, +player_speed));
+    m_action_binding[Player::Action::MOVE_LEFT].action = derivedAction<Aircraft>(AircraftMover{-player_speed, 0.f});
+    m_action_binding[Player::Action::MOVE_RIGHT].action = derivedAction<Aircraft>(AircraftMover{+player_speed, 0.f});
+    m_action_binding[Player::Action::MOVE_UP].action = derivedAction<Aircraft>(AircraftMover{0.f, -player_speed});
+    m_action_binding[Player::Action::MOVE_DOWN].action = derivedAction<Aircraft>(AircraftMover{0.f, +player_speed});
+    m_action_binding[Player::Action::FIRE].action = derivedAction<Aircraft>([](Aircraft& aircraft, sf::Time) {
+      aircraft.fire();
+    });
+    m_action_binding[Player::Action::LAUNCH_MISSILE].action = derivedAction<Aircraft>([](Aircraft& aircraft, sf::Time) {
+      aircraft.launchMissile();
+    });
   }
 }

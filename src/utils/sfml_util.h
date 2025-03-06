@@ -10,8 +10,8 @@
 
 #pragma once
 
-#ifndef FAST_SIM_DESIGN_RENDER_UTIL_H
-#define FAST_SIM_DESIGN_RENDER_UTIL_H
+#ifndef FAST_SIM_DESIGN_SFML_UTIL_H
+#define FAST_SIM_DESIGN_SFML_UTIL_H
 
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Keyboard.hpp>

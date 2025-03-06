@@ -10,8 +10,8 @@
 
 #pragma once
 
-#ifndef FAST_SIM_DESIGN_UTILITY_H
-#define FAST_SIM_DESIGN_UTILITY_H
+#ifndef FAST_SIM_DESIGN_GENERIC_UTILITY_H
+#define FAST_SIM_DESIGN_GENERIC_UTILITY_H
 
 #include <type_traits>
 

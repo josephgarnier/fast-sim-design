@@ -50,7 +50,7 @@ namespace FastSimDesign {
       m_is_active = true;
     }
 
-    void Component::desactivate() noexcept
+    void Component::deactivate() noexcept
     {
       m_is_active = false;
     }

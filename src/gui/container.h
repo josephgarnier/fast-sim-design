@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 
 #pragma once
-#include <cstddef>
+
 #ifndef FAST_SIM_DESIGN_CONTAINER_H
 #define FAST_SIM_DESIGN_CONTAINER_H
 
@@ -18,6 +18,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <cstddef>
 #include <vector>
 
 namespace FastSimDesign {

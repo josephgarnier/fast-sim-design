@@ -25,7 +25,8 @@ namespace FastSimDesign {
       GAME,
       LOADING,
       PAUSE,
-      SETTINGS
+      SETTINGS,
+      GAME_OVER
     };
   }
 }
