@@ -19,6 +19,7 @@
 #include "resource_identifiers.h"
 
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -58,6 +59,7 @@ namespace FastSimDesign {
     /// @param app The instance of the Application class to launch.
     static void launch(Application app);
     static sf::Time const TIME_PER_FRAME;
+    static int const MAX_UPDATES; // Protect from death spiral.
 
   private:
   public:
@@ -97,13 +99,17 @@ namespace FastSimDesign {
     /// Method called every frame to process user inputs.
     void processInput();
 
-    /// Method called every frame to update simulation state and Dear ImGui states from input.
+    /// Method called every frame to update simulation state from input.
     /// @param dt The time elapsed since last frame.
     void update(sf::Time const& dt);
 
+    /// Method called every frame to update Dear ImGui states from input.
+    /// @param dt The time elapsed since last frame.
+    void updateImGui(sf::Time const& dt);
+  
     /// Method called every frame to update basic simulation statistic.
     /// @param dt The time elapsed since last frame.
-    void updateStatistic(sf::Time const& dt) noexcept;
+    void updateStatistics(sf::Time const& dt) noexcept;
 
     /// Method called every frame to render simulation state and Dear ImGui states.
     void render();
@@ -132,6 +138,7 @@ namespace FastSimDesign {
     StateStack m_state_stack;
 
     sf::Text m_statistics_text;
+    sf::Clock m_statistics_sim_time;
     sf::Time m_statistics_update_time;
     std::size_t m_statistics_num_frames;
     std::size_t m_statistics_total_frames;

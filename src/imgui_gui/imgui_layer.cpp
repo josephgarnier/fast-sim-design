@@ -80,7 +80,6 @@ namespace FastSimDesign {
 
   void ImGuiLayer::endImGuiUpdate()
   {
-    ImGui::EndFrame();
   }
 
   void ImGuiLayer::createDockSpace() const

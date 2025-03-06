@@ -28,6 +28,7 @@ namespace FastSimDesign {
   /// Statics
   ////////////////////////////////////////////////////////////
   sf::Time const Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
+  constexpr int const Application::MAX_UPDATES = 5;
 
   void Application::launch(Application app)
   {
@@ -54,6 +55,7 @@ namespace FastSimDesign {
     , m_player{}
     , m_state_stack{State::Context{&m_window, &m_textures, &m_fonts, &m_player}}
     , m_statistics_text{}
+    , m_statistics_sim_time{}
     , m_statistics_update_time{}
     , m_statistics_num_frames{0}
     , m_statistics_total_frames{0}
@@ -110,44 +112,45 @@ namespace FastSimDesign {
   {
     LOG_INFO("*** Run app with a tick timer at {}ms per frame ***", Application::TIME_PER_FRAME.asMilliseconds());
 
-    sf::Clock clock;
+    m_statistics_sim_time.restart();
+    sf::Clock loop_clock;
     sf::Time time_since_last_update = sf::Time::Zero;
     while (m_window.isOpen())
     {
-      runFrame(clock, time_since_last_update);
+      runFrame(loop_clock, time_since_last_update);
     }
   }
 
   void Application::runFrame(sf::Clock& loop_clock, sf::Time& time_since_last_update)
   {
-    LOG_TRACE("*** Previous frame duration is {}ms ***", loop_clock.getElapsedTime().asMilliseconds());
-    sf::Time elapsed_time = loop_clock.restart();
+    sf::Time delta_time = loop_clock.restart();
     beginFrame();
-    time_since_last_update += elapsed_time;
-    if (time_since_last_update > Application::TIME_PER_FRAME)
-    {
-      do
-      {
-        time_since_last_update -= Application::TIME_PER_FRAME;
-        processInput();
-        update(Application::TIME_PER_FRAME);
+    LOG_TRACE("*** Previous frame duration is {}ms ***", elapsed_time.asMilliseconds());
 
-        if (m_state_stack.isEmpty())
-          m_window.close();
-      } while (time_since_last_update > Application::TIME_PER_FRAME);
-      updateStatistic(elapsed_time);
-      render();
-    } else
+    int nb_updates = 0;
+    time_since_last_update += delta_time;
+
+    processInput();
+    while (time_since_last_update > Application::TIME_PER_FRAME && nb_updates < Application::MAX_UPDATES)
     {
-      sf::sleep(Application::TIME_PER_FRAME - time_since_last_update - loop_clock.getElapsedTime());
+      time_since_last_update -= Application::TIME_PER_FRAME;
+      update(Application::TIME_PER_FRAME);
+      ++nb_updates;
+
+      // Check inside this loop, because stack might be empty before update() call
+      if (m_state_stack.isEmpty())
+        m_window.close();
     }
+    updateImGui(delta_time);
+    updateStatistics(delta_time);
+    render();
+
     endFrame();
   }
 
   void Application::beginFrame() noexcept
   {
-    LOG_TRACE("***** Begin frame {} *****", m_statistics_num_frames);
-    ++m_statistics_total_frames;
+    LOG_TRACE("***** Begin frame {} *****", m_statistics_total_frames);
   }
 
   void Application::processInput()
@@ -167,29 +170,30 @@ namespace FastSimDesign {
   {
     LOG_TRACE("Update app wih a delta time of {}ms.", dt.asMilliseconds());
 
-    // Update statistics.
     ++m_statistics_total_update_frames;
-
-    // Update stack.
     m_state_stack.update(dt);
+  }
 
-    // Update ImGui.
+  void Application::updateImGui(sf::Time const& dt)
+  {
     m_imgui_layer.startImGuiUpdate(m_window, dt);
     m_imgui_layer.updateImGui(m_window, dt); // TODO should replace Window by Application?
     // m_state_stack.updateImGui(dt); TODO to implement layer : each layer can have its own ImGui Window.
     m_imgui_layer.endImGuiUpdate();
   }
 
-  void Application::updateStatistic(sf::Time const& dt) noexcept
+  void Application::updateStatistics(sf::Time const& dt) noexcept
   {
     m_statistics_update_time += dt;
-    m_statistics_num_frames += 1;
+    ++m_statistics_num_frames;
+    ++m_statistics_total_frames;
 
     if (m_statistics_update_time >= sf::seconds(1.0f))
     {
       m_statistics_text.setString(
-        "Frames / Second = " + std::to_string(m_statistics_num_frames) + "\n" +
-        "Time / Update = " + std::to_string(static_cast<size_t>(m_statistics_update_time.asMicroseconds()) / m_statistics_num_frames) + "us" + "\n" +
+        "Sim Time = " + std::to_string(m_statistics_sim_time.getElapsedTime().asSeconds()) + "s" + "\n" +
+        "Frames / Second (FPS) = " + std::to_string(m_statistics_num_frames) + "\n" +
+        "Time / Update (TPF) = " + std::to_string(static_cast<size_t>(m_statistics_update_time.asMicroseconds()) / m_statistics_num_frames) + "us" + "\n" + // Time per frame
         "Nb Frames = " + std::to_string(m_statistics_total_frames) + "\n" +
         "Nb Update Frame = " + std::to_string(m_statistics_total_update_frames) + "\n" +
         "Nb Render Frame = " + std::to_string(m_statistics_total_render_frames));
