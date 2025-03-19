@@ -38,6 +38,7 @@ add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wnull-dereference>
 add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wdouble-promotion>") # warn if float is implicit promoted to double
 add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wformat=2>") # warn on security issues around functions that format output (ie printf)
 #add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wlifetime>") # shows object lifetime issues (only special branch of Clang currently)
+add_compile_options("$<$<STREQUAL:${PARAM_BUILD_TYPE},debug>:-Wdeprecated>") # warn on deprecated items
 
 # Debug information generation options.
 # @see https://clang.llvm.org/docs/ClangCommandLineReference.html#debug-information-generation
