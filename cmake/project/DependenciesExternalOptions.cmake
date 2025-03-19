@@ -39,12 +39,13 @@ message(STATUS "Find SFML package")
 find_package(SFML COMPONENTS system graphics window audio network REQUIRED)
 if(NOT ${SFML_FOUND})
 	message(STATUS "SFML not found, it will be auto-downloaded in the build-tree")
+	message(STATUS "Fetching SFML...")
 	include(FetchContent)
 	set(FETCHCONTENT_QUIET off)
 	FetchContent_Declare(
 		SFML
 		GIT_REPOSITORY https://github.com/SFML/SFML.git
-		GIT_TAG 2.6.2
+		GIT_TAG 5383d2b # 2.6.2
 		GIT_SHALLOW on
 		GIT_PROGRESS on
 		EXCLUDE_FROM_ALL
@@ -111,12 +112,13 @@ message(STATUS "Find Dear ImGui package")
 find_package(imgui NO_MODULE)
 if(NOT ${imgui_FOUND})
 	message(STATUS "Dear ImGui not found, it will be auto-downloaded in the build-tree")
+	message(STATUS "Fetching ImGui...")
 	include(FetchContent)
 	set(FETCHCONTENT_QUIET off)
 	FetchContent_Declare(
 		imgui
 		GIT_REPOSITORY https://github.com/ocornut/imgui.git
-		GIT_TAG v1.91.6-docking
+		GIT_TAG 947aa9c # v1.91.6-docking
 		GIT_SHALLOW on
 		GIT_PROGRESS on
 		EXCLUDE_FROM_ALL
@@ -172,12 +174,13 @@ message(STATUS "Find ImGui-SFML package")
 find_package(imgui-sfml NO_MODULE)
 if(NOT ${imgui-sfml_FOUND})
 	message(STATUS "ImGui-SFML not found, it will be auto-downloaded in the build-tree")
+	message(STATUS "Fetching ImGui-SFML...")
 	include(FetchContent)
 	set(FETCHCONTENT_QUIET off)
 	FetchContent_Declare(
 		imgui-sfml
 		GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
-		GIT_TAG 2.6.x
+		GIT_TAG 64e09fe # v2.6.1
 		GIT_SHALLOW on
 		GIT_PROGRESS on
 		EXCLUDE_FROM_ALL
@@ -232,12 +235,13 @@ message(STATUS "Find spdlog package")
 find_package(spdlog NO_MODULE)
 if(NOT ${spdlog_FOUND})
 	message(STATUS "spdlog not found, it will be auto-downloaded in the build-tree")
+	message(STATUS "Fetching spdlog...")
 	include(FetchContent)
 	set(FETCHCONTENT_QUIET off)
 	FetchContent_Declare(
 		spdlog
 		GIT_REPOSITORY https://github.com/gabime/spdlog.git
-		GIT_TAG v1.15.0
+		GIT_TAG 8e56133 # v1.15.0
 		GIT_SHALLOW on
 		GIT_PROGRESS on
 		EXCLUDE_FROM_ALL
@@ -292,12 +296,13 @@ message(STATUS "Find glm package")
 find_package(glm NO_MODULE)
 if(NOT ${glm_FOUND})
 	message(STATUS "glm not found, it will be auto-downloaded in the build-tree")
+	message(STATUS "Fetching glm...")
 	include(FetchContent)
 	set(FETCHCONTENT_QUIET off)
 	FetchContent_Declare(
 		glm
 		GIT_REPOSITORY https://github.com/g-truc/glm.git
-		GIT_TAG 1.0.1
+		GIT_TAG 0af55cc # 1.0.1
 		GIT_SHALLOW on
 		GIT_PROGRESS on
 		EXCLUDE_FROM_ALL
