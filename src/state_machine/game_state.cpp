@@ -17,7 +17,7 @@
 namespace FastSimDesign {
   GameState::GameState(StateStack* stack, Context context) noexcept
     : Parent{stack, context, "GAME"}
-    , m_world{*context.window, *context.fonts}
+    , m_world{*context.monitor, *context.window, *context.fonts}
     , m_player{context.player}
   {
     m_player->setMissionStatus(Player::MissionStatus::MISSION_RUNNING);

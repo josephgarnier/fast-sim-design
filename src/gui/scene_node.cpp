@@ -11,6 +11,7 @@
 #include "scene_node.h"
 #include "../core/command.h"
 #include "../utils/math_util.h"
+#include "monitor/frame.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -19,6 +20,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <typeinfo>
 
 namespace FastSimDesign {
 
@@ -36,7 +38,8 @@ namespace FastSimDesign {
   /// Methods
   ////////////////////////////////////////////////////////////
   SceneNode::SceneNode(Category::Type category) noexcept
-    : m_children{}
+    : SimMonitor::Monitorable{}
+    , m_children{}
     , m_parent{nullptr}
     , m_default_category{category}
   {
@@ -67,6 +70,21 @@ namespace FastSimDesign {
     updateChildren(dt, commands);
   }
 
+  void SceneNode::monitorState(SimMonitor::Monitor& monitor, SimMonitor::Frame::SceneNode& frame_object) const
+  {
+    // Current node.
+    frame_object.category = Category::toString(getCategory());
+    frame_object.type = typeid(*this).name();
+
+    // Children node.
+    for (auto const& child : m_children)
+    {
+      SimMonitor::Frame::SceneNode::Ptr child_frame_object = std::make_unique<SimMonitor::Frame::SceneNode>();
+      child->monitorState(monitor, *child_frame_object);
+      frame_object.attachChild(std::move(child_frame_object));
+    }
+  }
+
   sf::Vector2f SceneNode::getWorldPosition() const noexcept
   {
     return getWorldTransform() * sf::Vector2f{};
@@ -83,14 +101,14 @@ namespace FastSimDesign {
 
   void SceneNode::onCommand(Command const& command, sf::Time const& dt) noexcept
   {
-    if (command.category == getCategory())
+    if (command.category & getCategory())
       command.action(*this, dt);
 
     for (auto const& child : m_children)
       child->onCommand(command, dt);
   }
 
-  Category::Type SceneNode::getCategory() const noexcept
+  BitFlags<Category::Type> SceneNode::getCategory() const noexcept
   {
     return m_default_category;
   }

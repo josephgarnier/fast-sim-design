@@ -18,6 +18,9 @@
 #include "../state_machine/game_over_state.h"
 #include "configuration.h"
 #include "log.h"
+#include "../monitor/window/state_machine_window.h"
+#include "../monitor/window/scene_graph_window.h"
+#include "monitor/window/window.h"
 
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -53,7 +56,8 @@ namespace FastSimDesign {
     , m_textures{}
     , m_fonts{}
     , m_player{}
-    , m_state_stack{State::Context{&m_window, &m_textures, &m_fonts, &m_player}}
+    , m_monitor{}
+    , m_state_stack{State::Context{&m_monitor, &m_window, &m_textures, &m_fonts, &m_player}}
     , m_statistics_text{}
     , m_statistics_sim_time{}
     , m_statistics_update_time{}
@@ -61,7 +65,6 @@ namespace FastSimDesign {
     , m_statistics_total_frames{0}
     , m_statistics_total_update_frames{0}
     , m_statistics_total_render_frames{0}
-    , m_imgui_layer{this}
   {
     m_window.setKeyRepeatEnabled(false);
     m_window.setFramerateLimit(60);
@@ -90,7 +93,7 @@ namespace FastSimDesign {
   {
     LOG_INFO("*** (2/3) Initializing app ***");
     initWindow(config);
-    m_imgui_layer.initImGui(config, m_window);
+    initMonitor(config);
     LOG_INFO("App initialized.");
   }
 
@@ -100,6 +103,12 @@ namespace FastSimDesign {
     if (config.fullscreen)
       style = sf::Style::Fullscreen;
     m_window.create(sf::VideoMode{config.width, config.height}, config.title, style);
+  }
+
+  void Application::initMonitor(Configuration const& config) noexcept
+  {
+    m_monitor.initImGui(config, m_window);
+    m_monitor.getWindow<SimMonitor::StateMachineWindow>(SimMonitor::Window::ID::STATE_MACHINE).setDataModel(&m_state_stack);
   }
 
   void Application::preRun() noexcept
@@ -141,7 +150,7 @@ namespace FastSimDesign {
       if (m_state_stack.isEmpty())
         m_window.close();
     }
-    updateImGui(delta_time);
+    updateMonitor(delta_time);
     updateStatistics(delta_time);
     render();
 
@@ -159,7 +168,7 @@ namespace FastSimDesign {
     sf::Event event;
     while (m_window.pollEvent(event))
     {
-      m_imgui_layer.handleEvent(m_window, event);
+      m_monitor.handleEvent(m_window, event);
       m_state_stack.handleEvent(event);
       if (event.type == sf::Event::Closed)
         m_window.close();
@@ -174,12 +183,9 @@ namespace FastSimDesign {
     m_state_stack.update(dt);
   }
 
-  void Application::updateImGui(sf::Time const& dt)
+  void Application::updateMonitor(sf::Time const& dt)
   {
-    m_imgui_layer.startImGuiUpdate(m_window, dt);
-    m_imgui_layer.updateImGui(m_window, dt); // TODO should replace Window by Application?
-    // m_state_stack.updateImGui(dt); TODO to implement layer : each layer can have its own ImGui Window.
-    m_imgui_layer.endImGuiUpdate();
+    m_monitor.updateImGui(m_window, dt);
   }
 
   void Application::updateStatistics(sf::Time const& dt) noexcept
@@ -212,7 +218,7 @@ namespace FastSimDesign {
 
     m_window.setView(m_window.getDefaultView());
     m_window.draw(m_statistics_text);
-    m_imgui_layer.renderImGui(m_window);
+    m_monitor.renderImGui(m_window);
     m_window.display();
   }
 
@@ -230,7 +236,7 @@ namespace FastSimDesign {
   void Application::dispose()
   {
     LOG_INFO("*** (2/2) Dispose app ***");
-    m_imgui_layer.disposeImGui();
+    m_monitor.disposeImGui();
     disposeWindow();
     LOG_INFO("App disposed.");
   }

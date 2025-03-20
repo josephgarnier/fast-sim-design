@@ -13,7 +13,7 @@
 #ifndef FAST_SIM_DESIGN_LOG_IMGU_SINK_H
 #define FAST_SIM_DESIGN_LOG_IMGU_SINK_H
 
-#include "../imgui_gui/window/log_window.h"
+#include "../monitor/window/log_window.h"
 
 #include <spdlog/sinks/base_sink.h>
 #include <spdlog/details/null_mutex.h>
@@ -28,7 +28,7 @@ namespace FastSimDesign {
     using Parent = spdlog::sinks::base_sink<Mutex>;
 
   public:
-    explicit LogImGuiSink(LogWindow* log_view) noexcept
+    explicit LogImGuiSink(SimMonitor::LogWindow* log_view) noexcept
       : Parent{}
       , m_log_view{log_view}
     {
@@ -39,7 +39,7 @@ namespace FastSimDesign {
     {
       spdlog::memory_buf_t formatted;
       Parent::formatter_->format(message, formatted);
-      m_log_view->addLog(LogWindow::LogMessage{message.level, fmt::to_string(formatted)});
+      m_log_view->addLog(SimMonitor::LogWindow::LogMessage{message.level, fmt::to_string(formatted)});
     }
 
     void flush_() override
@@ -47,7 +47,7 @@ namespace FastSimDesign {
     }
 
   private:
-    LogWindow* m_log_view;
+    SimMonitor::LogWindow* m_log_view;
   };
 
   // Using declarations.

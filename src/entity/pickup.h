@@ -40,7 +40,7 @@ namespace FastSimDesign {
     explicit Pickup(Pickup::Type type, TextureHolder const& textures) noexcept; // Default constructor
     virtual ~Pickup() = default; // Destructor
 
-    virtual Category::Type getCategory() const noexcept override;
+    virtual BitFlags<Category::Type> getCategory() const noexcept override;
     virtual sf::FloatRect getBoundingRect() const noexcept override;
     
     void apply(Aircraft& player) const;

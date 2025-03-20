@@ -15,6 +15,7 @@
 
 #include "state_identifiers.h"
 #include "../core/resource_identifiers.h"
+#include "../monitor/monitorable.h"
 
 #include <memory>
 
@@ -25,21 +26,21 @@ namespace sf {
 }
 
 namespace FastSimDesign {
-
   class StateStack;
   class Player;
-  class State
+  class State : public SimMonitor::Monitorable
   {
   public:
     struct Context
     {
-      explicit Context(sf::RenderWindow* window_, TextureHolder* textures_, FontHolder* fonts_, Player* player_) noexcept; // Default constructor
+      explicit Context(SimMonitor::Monitor* monitor_, sf::RenderWindow* window_, TextureHolder* textures_, FontHolder* fonts_, Player* player_) noexcept; // Default constructor
       Context(Context const&) = default; // Copy constructor
       Context(Context&&) = default; // Move constructor
       Context& operator=(Context const&) = default; // Copy assignment operator
       Context& operator=(Context&&) = default; // Move assignment operator
       virtual ~Context() = default; // Destructor
 
+      SimMonitor::Monitor* monitor;
       sf::RenderWindow* window;
       TextureHolder* textures;
       FontHolder* fonts;
@@ -48,6 +49,10 @@ namespace FastSimDesign {
 
   public:
     using Ptr = std::unique_ptr<State>;
+    using Monitorable::monitorState;
+
+  private:
+    using Parent = SimMonitor::Monitorable;
 
   public:
     explicit State(StateStack* stack, Context context, std::string name) noexcept; // Default constructor
@@ -57,11 +62,11 @@ namespace FastSimDesign {
     State& operator=(State&&) = default; // Move assignment operator
     virtual ~State() = default; // Destructor
 
-    std::string const& getName() const noexcept { return m_name; }
-
     virtual bool handleEvent(sf::Event const& event) = 0;
     virtual bool update(sf::Time const& dt) = 0;
     virtual void draw() = 0;
+
+    virtual void monitorState(SimMonitor::Monitor& monitor, SimMonitor::Frame::StateMachineState& frame_object) const override final;
 
   protected:
     void requestStackPush(States::ID state_id);

@@ -17,6 +17,7 @@
 #include "command_queue.h"
 #include "../gui/scene_node.h"
 #include "../entity/aircraft.h"
+#include "../monitor/monitorable.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -28,7 +29,8 @@
 
 namespace FastSimDesign {
   class Aircraft;
-  class World : private sf::NonCopyable
+  class World final : private sf::NonCopyable
+    , public SimMonitor::Monitorable
   {
   public:
     enum class Layer : uint16_t
@@ -45,22 +47,28 @@ namespace FastSimDesign {
       SpawnPoint& operator=(SpawnPoint const&) = default; // Copy assignment operator
       SpawnPoint& operator=(SpawnPoint&&) = default; // Move assignment operator
       virtual ~SpawnPoint() = default; // Destructor
-    
+
       Aircraft::Type type;
       float x;
       float y;
     };
 
   public:
-    explicit World(sf::RenderWindow& windows, FontHolder& fonts); // Default constructor
-    virtual ~World() = default; // Destructor
+    using SimMonitor::Monitorable::monitorState;
+
+  public:
+    explicit World(SimMonitor::Monitor& monitor, sf::RenderWindow& windows, FontHolder& fonts); // Default constructor
+    virtual ~World(); // Destructor
 
     void update(sf::Time const& dt);
     void draw();
     CommandQueue& getCommandQueue() noexcept;
 
+    virtual void monitorState(SimMonitor::Monitor& monitor, SimMonitor::Frame::World& frame_object) const override final;
+
     bool hasAlivePlayer() const noexcept;
     bool hasPlayerReachedEnd() const;
+
   protected:
   private:
     void loadTextures();
@@ -68,8 +76,8 @@ namespace FastSimDesign {
     void adaptPlayerPosition();
     void adaptPlayerVelocity() noexcept;
     void handleCollisions() noexcept;
-    bool matchesCategories(SceneNode::Pair & colliders, Category::Type type_1, Category::Type type_2) const noexcept;
-    
+    bool matchesCategories(SceneNode::Pair& colliders, BitFlags<Category::Type>  type_1, BitFlags<Category::Type>  type_2) const noexcept;
+
     void addEnemies() noexcept;
     void addEnemy(Aircraft::Type type, float rel_x, float rel_y) noexcept;
     void spawnEnemies() noexcept;
@@ -85,6 +93,7 @@ namespace FastSimDesign {
     sf::View m_world_view;
     TextureHolder m_textures;
     FontHolder& m_fonts;
+    SimMonitor::Monitor& m_monitor;
 
     SceneNode m_scene_graph;
     std::array<SceneNode*, static_cast<std::size_t>(Layer::LAYER_COUNT)> m_scene_layers;
@@ -94,7 +103,7 @@ namespace FastSimDesign {
     sf::Vector2f m_spawn_position;
     float m_scroll_speed;
     Aircraft* m_player_aircraft;
-    
+
     std::vector<SpawnPoint> m_enemy_spawn_points;
     std::vector<Aircraft*> m_active_enemies;
   };

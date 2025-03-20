@@ -33,9 +33,9 @@ namespace FastSimDesign {
     SFML::centerOrigin(m_sprite);
   }
 
-  Category::Type Pickup::getCategory() const noexcept
+  BitFlags<Category::Type> Pickup::getCategory() const noexcept
   {
-    return Category::Type::PICKUP;
+    return BitFlags<Category::Type>{Category::Type::PICKUP};
   }
 
   sf::FloatRect Pickup::getBoundingRect() const noexcept

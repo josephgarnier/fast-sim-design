@@ -13,6 +13,10 @@
 #ifndef FAST_SIM_DESIGN_CATEGORY_H
 #define FAST_SIM_DESIGN_CATEGORY_H
 
+#include "../utils/generic_utility.h"
+#include "../utils/bit_flags.h"
+
+#include <ostream>
 #include <cstdint>
 
 namespace FastSimDesign {
@@ -32,14 +36,49 @@ namespace FastSimDesign {
       PROJECTILE = ALLIED_PROJECTILE | ENEMY_PROJECTILE,
     };
 
-    inline constexpr Category::Type operator|(Category::Type left, Category::Type right) noexcept
+    inline std::string toStringg(uint16_t const& type)
     {
-      return static_cast<Category::Type>(static_cast<uint16_t>(left) | static_cast<uint16_t>(right));
+      // Using the underlying type avoids having to deal with cast errors,
+      // before calling this function, which can occur for undeclared
+      // compound values.
+      switch (type)
+      {
+        case toUnderlyingType(Type::NONE): return "NONE";
+        case toUnderlyingType(Type::SCENE_AIR_LAYER): return "SCENE_AIR_LAYER";
+        case toUnderlyingType(Type::PLAYER_AIRCRAFT): return "PLAYER_AIRCRAFT";
+        case toUnderlyingType(Type::ALLIED_AIRCRAFT): return "ALLIED_AIRCRAFT";
+        case toUnderlyingType(Type::ENEMY_AIRCRAFT): return "ENEMY_AIRCRAFT";
+        case toUnderlyingType(Type::PICKUP): return "PICKUP";
+        case toUnderlyingType(Type::ALLIED_PROJECTILE): return "ALLIED_PROJECTILE";
+        case toUnderlyingType(Type::ENEMY_PROJECTILE): return "ENEMY_PROJECTILE";
+        case toUnderlyingType(Type::AIRCRAFT): return "AIRCRAFT";
+        case toUnderlyingType(Type::PROJECTILE): return "PROJECTILE";
+        default: return "UNKNOWN";
+      }
     }
 
-    inline constexpr Category::Type& operator|=(Category::Type& left, Category::Type right)
+    template<typename T>
+    inline std::string toString(BitFlags<T> const& flags)
     {
-      left = static_cast<Category::Type>(static_cast<uint16_t>(left) | static_cast<uint16_t>(right));
+      using UnderlyingT = typename BitFlags<T>::UnderlyingT;
+      UnderlyingT raw = flags.toRaw();
+
+      return toStringg(raw);
+    }
+
+    inline std::ostream& operator<<(std::ostream& stream, Type const& left)
+    {
+      return stream << toStringg(toUnderlyingType(left));
+    }
+
+    inline constexpr Type operator|(Type left, Type right) noexcept
+    {
+      return static_cast<Type>(static_cast<uint16_t>(left) | static_cast<uint16_t>(right));
+    }
+
+    inline constexpr Type& operator|=(Type& left, Type right)
+    {
+      left = static_cast<Type>(static_cast<uint16_t>(left) | static_cast<uint16_t>(right));
       return left;
     }
 

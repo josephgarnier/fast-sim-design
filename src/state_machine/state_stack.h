@@ -15,6 +15,7 @@
 
 #include "state_identifiers.h"
 #include "state.h"
+#include "../monitor/monitorable.h"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
@@ -26,7 +27,8 @@
 #include <map>
 
 namespace FastSimDesign {
-  class StateStack : private sf::NonCopyable
+  class StateStack final : private sf::NonCopyable
+    , public SimMonitor::Monitorable
   {
   public:
     enum class Action : uint16_t
@@ -51,14 +53,19 @@ namespace FastSimDesign {
     };
 
   public:
+    using Monitorable::monitorState;
+
+  private:
+    using Parent = SimMonitor::Monitorable;
+
+  public:
     explicit StateStack(State::Context context) noexcept; // Default constructor
     virtual ~StateStack() = default; // Destructor
-
-    std::vector<State::Ptr> const& getStack() const noexcept { return m_stack; }
 
     template<typename T>
     void registerState(States::ID state_id)
     {
+      static_assert(std::is_base_of_v<State, T>, "T must derive from State");
       m_factories[state_id] = [this]() {
         return std::make_unique<T>(this, m_context);
       };
@@ -67,6 +74,8 @@ namespace FastSimDesign {
     void handleEvent(sf::Event const& event);
     void update(sf::Time const& dt);
     void draw();
+
+    virtual void monitorState(SimMonitor::Monitor& monitor, SimMonitor::Frame::StateMachine& frame_states_stack) const override final;
 
     void pushState(States::ID state_id);
     void popState();

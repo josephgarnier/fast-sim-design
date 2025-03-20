@@ -14,7 +14,11 @@
 #include "../entity/category.h"
 #include "../entity/pickup.h"
 #include "command.h"
+#include "../monitor/frame.h"
+#include "../monitor/monitor.h"
+#include "../monitor/window/scene_graph_window.h"
 #include "resource_identifiers.h"
+#include "../utils/generic_utility.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -36,11 +40,13 @@ namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
   /// World::Methods
   ////////////////////////////////////////////////////////////
-  World::World(sf::RenderWindow& windows, FontHolder& fonts)
-    : m_window{windows}
+  World::World(SimMonitor::Monitor& monitor, sf::RenderWindow& windows, FontHolder& fonts)
+    : SimMonitor::Monitorable{}
+    , m_window{windows}
     , m_world_view{m_window.getDefaultView()}
     , m_textures{}
     , m_fonts{fonts}
+    , m_monitor{monitor}
     , m_scene_graph{}
     , m_scene_layers{}
     , m_command_queue{}
@@ -56,6 +62,87 @@ namespace FastSimDesign {
 
     // Prepare the view.
     m_world_view.setCenter(m_spawn_position);
+
+    // Set model to monitor view.
+    m_monitor.getWindow<SimMonitor::SceneGraphWindow>(SimMonitor::Window::ID::SCENE_GRAPH).setDataModel(&m_scene_graph);
+  }
+
+  World::~World()
+  {
+    m_monitor.getWindow<SimMonitor::SceneGraphWindow>(SimMonitor::Window::ID::SCENE_GRAPH).unsetDataModel();
+  }
+
+  void World::loadTextures()
+  {
+    m_textures.load(Textures::ID::EAGLE, "../assets/sprites/npcs/eagle.png");
+    m_textures.load(Textures::ID::RAPTOR, "../assets/sprites/npcs/raptor.png");
+    m_textures.load(Textures::ID::AVENGER, "../assets/sprites/npcs/avenger.png");
+    m_textures.load(Textures::ID::DESERT, "../assets/sprites/npcs/desert.png");
+
+    m_textures.load(Textures::ID::BULLET, "../assets/sprites/npcs/bullet.png");
+    m_textures.load(Textures::ID::MISSILE, "../assets/sprites/npcs/missile.png");
+
+    m_textures.load(Textures::ID::HEALTH_REFILL, "../assets/sprites/npcs/health_refill.png");
+    m_textures.load(Textures::ID::MISSILE_REFILL, "../assets/sprites/npcs/missile_refill.png");
+    m_textures.load(Textures::ID::FIRE_SPREAD, "../assets/sprites/npcs/fire_spread.png");
+    m_textures.load(Textures::ID::FIRE_RATE, "../assets/sprites/npcs/fire_rate.png");
+  }
+
+  void World::buildScene()
+  {
+    // Intilialize the different layers.
+    for (std::size_t i = 0; i < static_cast<std::size_t>(World::Layer::LAYER_COUNT); ++i)
+    {
+      Category::Type category = (i == toUnderlyingType(World::Layer::AIR)) ? Category::Type::SCENE_AIR_LAYER : Category::Type::NONE;
+
+      SceneNode::Ptr layer = std::make_unique<SceneNode>(category);
+      m_scene_layers[i] = layer.get();
+
+      m_scene_graph.attachChild(std::move(layer));
+    }
+
+    // Prepare the tiled background
+    sf::Texture& texture = m_textures.get(Textures::ID::DESERT);
+    sf::IntRect texture_rect{m_world_bounds};
+    texture.setRepeated(true);
+
+    // Add the background sprite to the scene
+    std::unique_ptr<SpriteNode> background_sprite = std::make_unique<SpriteNode>(texture, texture_rect);
+    background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top);
+    m_scene_layers[static_cast<size_t>(World::Layer::BACKGROUND)]->attachChild(std::move(background_sprite));
+
+    // Add player's aircraft
+    std::unique_ptr<Aircraft> leader = std::make_unique<Aircraft>(Aircraft::Type::EAGLE, m_textures, m_fonts);
+    m_player_aircraft = leader.get();
+    m_player_aircraft->setPosition(m_spawn_position);
+    m_scene_layers[static_cast<std::size_t>(World::Layer::AIR)]->attachChild(std::move(leader));
+
+    // Add enemy aircraft.
+    addEnemies();
+  }
+
+  void World::addEnemies() noexcept
+  {
+    // Add enemies to the spawn point container.
+    addEnemy(Aircraft::Type::RAPTOR, 0.f, 500.f);
+    addEnemy(Aircraft::Type::RAPTOR, 0.f, 1000.f);
+    addEnemy(Aircraft::Type::RAPTOR, 100.f, 1100.f);
+    addEnemy(Aircraft::Type::RAPTOR, -100.f, 1100.f);
+    addEnemy(Aircraft::Type::AVENGER, -70.f, 1400.f);
+    addEnemy(Aircraft::Type::AVENGER, -70.f, 1600.f);
+    addEnemy(Aircraft::Type::AVENGER, 70.f, 1400.f);
+    addEnemy(Aircraft::Type::AVENGER, 70.f, 1600.f);
+
+    // Sort all enemies according to their y value, such that lower enemies are checked first for spawning.
+    std::sort(m_enemy_spawn_points.begin(), m_enemy_spawn_points.end(), [](SpawnPoint left, SpawnPoint right) {
+      return left.y < right.y;
+    });
+  }
+
+  void World::addEnemy(Aircraft::Type type, float rel_x, float rel_y) noexcept
+  {
+    SpawnPoint spawn{type, m_spawn_position.x + rel_x, m_spawn_position.y - rel_y};
+    m_enemy_spawn_points.push_back(std::move(spawn));
   }
 
   void World::update(sf::Time const& dt)
@@ -91,6 +178,10 @@ namespace FastSimDesign {
     m_window.draw(m_scene_graph);
   }
 
+  void World::monitorState(SimMonitor::Monitor&, SimMonitor::Frame::World&) const
+  {
+  }
+
   CommandQueue& World::getCommandQueue() noexcept
   {
     return m_command_queue;
@@ -104,53 +195,6 @@ namespace FastSimDesign {
   bool World::hasPlayerReachedEnd() const
   {
     return !m_world_bounds.contains(m_player_aircraft->getPosition());
-  }
-
-  void World::loadTextures()
-  {
-    m_textures.load(Textures::ID::EAGLE, "../assets/sprites/npcs/eagle.png");
-    m_textures.load(Textures::ID::RAPTOR, "../assets/sprites/npcs/raptor.png");
-    m_textures.load(Textures::ID::AVENGER, "../assets/sprites/npcs/avenger.png");
-    m_textures.load(Textures::ID::DESERT, "../assets/sprites/npcs/desert.png");
-
-    m_textures.load(Textures::ID::BULLET, "../assets/sprites/npcs/bullet.png");
-    m_textures.load(Textures::ID::MISSILE, "../assets/sprites/npcs/missile.png");
-
-    m_textures.load(Textures::ID::HEALTH_REFILL, "../assets/sprites/npcs/health_refill.png");
-    m_textures.load(Textures::ID::MISSILE_REFILL, "../assets/sprites/npcs/missile_refill.png");
-    m_textures.load(Textures::ID::FIRE_SPREAD, "../assets/sprites/npcs/fire_spread.png");
-    m_textures.load(Textures::ID::FIRE_RATE, "../assets/sprites/npcs/fire_rate.png");
-  }
-
-  void World::buildScene()
-  {
-    // Intilialize the different layers.
-    for (std::size_t i = 0; i < static_cast<std::size_t>(World::Layer::LAYER_COUNT); ++i)
-    {
-      SceneNode::Ptr layer = std::make_unique<SceneNode>();
-      m_scene_layers[i] = layer.get();
-
-      m_scene_graph.attachChild(std::move(layer));
-    }
-
-    // Prepare the tiled background
-    sf::Texture& texture = m_textures.get(Textures::ID::DESERT);
-    sf::IntRect texture_rect{m_world_bounds};
-    texture.setRepeated(true);
-
-    // Add the background sprite to the scene
-    std::unique_ptr<SpriteNode> background_sprite = std::make_unique<SpriteNode>(texture, texture_rect);
-    background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top);
-    m_scene_layers[static_cast<size_t>(World::Layer::BACKGROUND)]->attachChild(std::move(background_sprite));
-
-    // Add player's aircraft
-    std::unique_ptr<Aircraft> leader = std::make_unique<Aircraft>(Aircraft::Type::EAGLE, m_textures, m_fonts);
-    m_player_aircraft = leader.get();
-    m_player_aircraft->setPosition(m_spawn_position);
-    m_scene_layers[static_cast<std::size_t>(World::Layer::AIR)]->attachChild(std::move(leader));
-
-    // Add enemy aircraft.
-    addEnemies();
   }
 
   void World::adaptPlayerPosition()
@@ -186,7 +230,7 @@ namespace FastSimDesign {
 
     for (SceneNode::Pair pair : collision_pairs)
     {
-      if (matchesCategories(pair, Category::Type::PLAYER_AIRCRAFT, Category::Type::ENEMY_AIRCRAFT))
+      if (matchesCategories(pair, BitFlags<Category::Type>{Category::Type::PLAYER_AIRCRAFT}, BitFlags<Category::Type>{Category::Type::ENEMY_AIRCRAFT}))
       {
         auto& player = static_cast<Aircraft&>(*pair.first);
         auto& enemy = static_cast<Aircraft&>(*pair.second);
@@ -194,7 +238,7 @@ namespace FastSimDesign {
         // Collision: Player damage = enemy's remaining HP.
         player.damage(enemy.getHitpoints());
         enemy.destroy();
-      } else if (matchesCategories(pair, Category::Type::PLAYER_AIRCRAFT, Category::Type::PICKUP))
+      } else if (matchesCategories(pair, BitFlags<Category::Type>{Category::Type::PLAYER_AIRCRAFT}, BitFlags<Category::Type>{Category::Type::PICKUP}))
       {
         auto& player = static_cast<Aircraft&>(*pair.first);
         auto& pickup = static_cast<Pickup&>(*pair.second);
@@ -202,7 +246,7 @@ namespace FastSimDesign {
         // Apply pickup effect to player, destroy projectile.
         pickup.apply(player);
         pickup.destroy();
-      } else if (matchesCategories(pair, Category::Type::ENEMY_AIRCRAFT, Category::Type::ALLIED_PROJECTILE) || matchesCategories(pair, Category::Type::PLAYER_AIRCRAFT, Category::Type::ENEMY_PROJECTILE))
+      } else if (matchesCategories(pair, BitFlags<Category::Type>{Category::Type::ENEMY_AIRCRAFT}, BitFlags<Category::Type>{Category::Type::ALLIED_PROJECTILE}) || matchesCategories(pair, BitFlags<Category::Type>{Category::Type::PLAYER_AIRCRAFT}, BitFlags<Category::Type>{Category::Type::ENEMY_PROJECTILE}))
       {
         auto& aircraft = static_cast<Aircraft&>(*pair.first);
         auto& projectile = static_cast<Projectile&>(*pair.second);
@@ -214,10 +258,10 @@ namespace FastSimDesign {
     }
   }
 
-  bool World::matchesCategories(SceneNode::Pair& colliders, Category::Type type_1, Category::Type type_2) const noexcept
+  bool World::matchesCategories(SceneNode::Pair& colliders, BitFlags<Category::Type> type_1, BitFlags<Category::Type> type_2) const noexcept
   {
-    Category::Type category_1 = colliders.first->getCategory();
-    Category::Type category_2 = colliders.second->getCategory();
+    BitFlags<Category::Type> category_1 = colliders.first->getCategory();
+    BitFlags<Category::Type> category_2 = colliders.second->getCategory();
 
     // Make sure first pair entry has category type_1 and second has type_2.
     if (type_1 == category_1 && type_2 == category_2)
@@ -229,32 +273,8 @@ namespace FastSimDesign {
       return true;
     } else
     {
-      return true;
+      return false;
     }
-  }
-
-  void World::addEnemies() noexcept
-  {
-    // Add enemies to the spawn point container.
-    addEnemy(Aircraft::Type::RAPTOR, 0.f, 500.f);
-    addEnemy(Aircraft::Type::RAPTOR, 0.f, 1000.f);
-    addEnemy(Aircraft::Type::RAPTOR, 100.f, 1100.f);
-    addEnemy(Aircraft::Type::RAPTOR, -100.f, 1100.f);
-    addEnemy(Aircraft::Type::AVENGER, -70.f, 1400.f);
-    addEnemy(Aircraft::Type::AVENGER, -70.f, 1600.f);
-    addEnemy(Aircraft::Type::AVENGER, 70.f, 1400.f);
-    addEnemy(Aircraft::Type::AVENGER, 70.f, 1600.f);
-
-    // Sort all enemies according to their y value, such that lower enemies are checked first for spawning.
-    std::sort(m_enemy_spawn_points.begin(), m_enemy_spawn_points.end(), [](SpawnPoint left, SpawnPoint right) {
-      return left.y < right.y;
-    });
-  }
-
-  void World::addEnemy(Aircraft::Type type, float rel_x, float rel_y) noexcept
-  {
-    SpawnPoint spawn{type, m_spawn_position.x + rel_x, m_spawn_position.y - rel_y};
-    m_enemy_spawn_points.push_back(std::move(spawn));
   }
 
   void World::spawnEnemies() noexcept
@@ -278,7 +298,8 @@ namespace FastSimDesign {
   void World::destroyEntitiesOusideView() noexcept
   {
     Command command;
-    command.category = Category::Type{Category::Type::PROJECTILE | Category::Type::ENEMY_AIRCRAFT};
+    command.name = "DestroyEntitiesOutsideView";
+    command.category = BitFlags<Category::Type>{Category::Type::PROJECTILE, Category::Type::ENEMY_AIRCRAFT};
     command.action = derivedAction<Entity>([this](Entity& e, sf::Time) {
       if (!getBattlefieldBounds().intersects(e.getBoundingRect()))
         e.destroy();
@@ -289,9 +310,10 @@ namespace FastSimDesign {
 
   void World::guideMissiles() noexcept
   {
-    // Setup command that stores all enemies in mActiveEnemies.
+    // Setup command that stores all enemies in m_active_enemies.
     Command enemy_collector;
-    enemy_collector.category = Category::Type::ENEMY_AIRCRAFT;
+    enemy_collector.name = "CollectEnemies";
+    enemy_collector.category = BitFlags<Category::Type>{Category::Type::ENEMY_AIRCRAFT};
     enemy_collector.action = derivedAction<Aircraft>([this](Aircraft& enemy, sf::Time) {
       if (!enemy.isDestroyed())
         m_active_enemies.push_back(&enemy);
@@ -299,7 +321,8 @@ namespace FastSimDesign {
 
     // Setup command that guides all missiles to the enemy which is currently closest to the player.
     Command missile_guider;
-    missile_guider.category = Category::Type::ALLIED_PROJECTILE;
+    missile_guider.name = "GuideMissiles";
+    missile_guider.category = BitFlags<Category::Type>{Category::Type::ALLIED_PROJECTILE};
     missile_guider.action = derivedAction<Projectile>([this](Projectile& missile, sf::Time) {
       // Ignore unguided bullets.
       if (!missile.isGuided())

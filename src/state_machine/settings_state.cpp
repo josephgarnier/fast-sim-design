@@ -26,19 +26,21 @@ namespace FastSimDesign {
     , m_binding_buttons{}
     , m_binding_labels{}
   {
-    sf::Texture const & texture = context.textures->get(Textures::ID::TITLE_SCREEN);
+    sf::Texture const& texture = context.textures->get(Textures::ID::TITLE_SCREEN);
     m_background_sprite.setTexture(texture);
 
     // Build key binding buttons and labels.
-    addButtonLabel(Player::Action::MOVE_LEFT, 150.f, "Move Left", context);
-    addButtonLabel(Player::Action::MOVE_RIGHT, 200.f, "Move Right", context);
-    addButtonLabel(Player::Action::MOVE_UP, 250.f, "Move Up", context);
-    addButtonLabel(Player::Action::MOVE_DOWN, 300.f, "Move Down", context);
+    addButtonLabel(Player::Action::MOVE_LEFT, 300.f, "Move Left", context);
+    addButtonLabel(Player::Action::MOVE_RIGHT, 350.f, "Move Right", context);
+    addButtonLabel(Player::Action::MOVE_UP, 400.f, "Move Up", context);
+    addButtonLabel(Player::Action::MOVE_DOWN, 450.f, "Move Down", context);
+    addButtonLabel(Player::Action::FIRE, 500.f, "Fire", context);
+    addButtonLabel(Player::Action::LAUNCH_MISSILE, 550.f, "Missile", context);
 
     updateLabels();
 
     auto back_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    back_button->setPosition(80.f, 375.f);
+    back_button->setPosition(80.f, 620.f);
     back_button->setText("Back");
     back_button->setCallback([this]() {
       requestStackPop();
@@ -106,7 +108,7 @@ namespace FastSimDesign {
     m_binding_buttons[toUnderlyingType(action)]->setText(std::move(text));
     m_binding_buttons[toUnderlyingType(action)]->setToggle(true);
 
-    m_binding_labels[toUnderlyingType(action)] = std::make_shared<GUI::Label>("TEST", *context.fonts);
+    m_binding_labels[toUnderlyingType(action)] = std::make_shared<GUI::Label>("", *context.fonts);
     m_binding_labels[toUnderlyingType(action)]->setPosition(300.f, y + 15.f);
 
     m_gui_container.pack(m_binding_buttons[toUnderlyingType(action)]);

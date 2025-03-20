@@ -9,31 +9,32 @@
 ////////////////////////////////////////////////////////////
 
 #include "state_machine_window.h"
-#include "../../core/application.h"
+#include "../monitorable.h"
 
 #include <imgui.h>
 
 #include <ranges>
 
 namespace FastSimDesign {
-  ////////////////////////////////////////////////////////////
-  /// Statics
-  ////////////////////////////////////////////////////////////
+  namespace SimMonitor {
+    ////////////////////////////////////////////////////////////
+    /// Statics
+    ////////////////////////////////////////////////////////////
 
-  ////////////////////////////////////////////////////////////
-  /// Methods
-  ////////////////////////////////////////////////////////////
-  StateMachineWindow::StateMachineWindow(Application* app) noexcept
-    : Parent{app, "State Machine Window"}
-    , m_state_machine{&app->getStateMachine()}
-  {
-    assert(m_state_machine != nullptr);
-    show();
-  }
+    ////////////////////////////////////////////////////////////
+    /// Methods
+    ////////////////////////////////////////////////////////////
+    StateMachineWindow::StateMachineWindow(Monitor* monitor) noexcept
+      : Parent{monitor, "State Machine Window", true}
+    {
+      show();
+    }
 
-  void StateMachineWindow::draw(sf::RenderWindow&, sf::Time const&)
-  {
-    if (ImGui::Begin(Parent::m_title.c_str(), &(Parent::m_open)))
+    void StateMachineWindow::updateMenuBar(sf::Time const&)
+    {
+    }
+
+    void StateMachineWindow::updateContentArea(sf::Time const&)
     {
       static ImGuiTableFlags table_flags = ImGuiTableFlags_Borders | ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInner | ImGuiTableFlags_RowBg;
 
@@ -42,17 +43,19 @@ namespace FastSimDesign {
         ImGui::TableSetupColumn("Current Stack");
         ImGui::TableHeadersRow();
 
-        std::vector<State::Ptr> const& states_stack = m_state_machine->getStack();
-        for (auto const& state : std::views::reverse(states_stack))
+        // Get model data.
+        Frame::StateMachine frame_state_machine;
+        m_data_model->monitorState(*m_monitor, frame_state_machine);
+
+        // Draw data.
+        for (auto const& state : std::views::reverse(frame_state_machine.states))
         {
           ImGui::TableNextRow();
           ImGui::TableSetColumnIndex(0);
-          ImGui::TextUnformatted(state->getName().c_str());
+          ImGui::TextUnformatted(state.name.data());
         }
         ImGui::EndTable();
       }
     }
-    ImGui::End();
   }
-
 }

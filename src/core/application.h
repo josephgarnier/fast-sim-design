@@ -15,7 +15,7 @@
 
 #include "../entity/player.h"
 #include "../state_machine/state_stack.h"
-#include "../imgui_gui/imgui_layer.h"
+#include "../monitor/monitor.h"
 #include "resource_identifiers.h"
 
 #include <SFML/Graphics/Text.hpp>
@@ -52,7 +52,7 @@ namespace FastSimDesign {
   /// This class in inspired from \link https://github.com/SpaiR/imgui-java/blob/main/imgui-app/src/main/java/imgui/app/Application.java \endlink and \link https://github.com/SpaiR/imgui-java/blob/main/imgui-app/src/main/java/imgui/app/Window.java \endlink.
   ////////////////////////////////////////////////////////////
   struct Configuration;
-  class Application
+  class Application final
   {
   public:
     /// Entry point of application. Use it to start the simulation.
@@ -61,14 +61,9 @@ namespace FastSimDesign {
     static sf::Time const TIME_PER_FRAME;
     static int const MAX_UPDATES; // Protect from death spiral.
 
-  private:
   public:
     explicit Application(); // Default constructor, throw CoreException
     virtual ~Application() = default; // Destructor
-
-    ImGuiLayer& getImGuiLayer() noexcept { return m_imgui_layer; }
-    StateStack const& getStateMachine() const noexcept { return m_state_stack; }
-
   protected:
     /// Method called before simulation initialization. Could be used to provide basic window information in editing `config`, like title name, main window size, etc.
     /// @param config The configuration object with basic application information.
@@ -81,6 +76,10 @@ namespace FastSimDesign {
     /// Method to create and initialize SFML window.
     /// @param config The configuration object with basic application information.
     void initWindow(Configuration const& config) noexcept;
+
+    /// Method to initialize Dear ImGui context.
+    /// @param config The configuration object with basic application information.
+    void initMonitor(Configuration const& config) noexcept;
 
     /// Method called once, before simulation loop.
     void preRun() noexcept;
@@ -105,8 +104,8 @@ namespace FastSimDesign {
 
     /// Method called every frame to update Dear ImGui states from input.
     /// @param dt The time elapsed since last frame.
-    void updateImGui(sf::Time const& dt);
-  
+    void updateMonitor(sf::Time const& dt);
+
     /// Method called every frame to update basic simulation statistic.
     /// @param dt The time elapsed since last frame.
     void updateStatistics(sf::Time const& dt) noexcept;
@@ -134,6 +133,7 @@ namespace FastSimDesign {
     TextureHolder m_textures;
     FontHolder m_fonts;
     Player m_player;
+    SimMonitor::Monitor m_monitor;
 
     StateStack m_state_stack;
 
@@ -144,8 +144,6 @@ namespace FastSimDesign {
     std::size_t m_statistics_total_frames;
     std::size_t m_statistics_total_update_frames;
     std::size_t m_statistics_total_render_frames;
-
-    ImGuiLayer m_imgui_layer;
   };
 }
 #endif

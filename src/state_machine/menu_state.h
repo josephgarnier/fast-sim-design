@@ -22,7 +22,7 @@
 #include <vector>
 
 namespace FastSimDesign {
-  class MenuState : public State
+  class MenuState final : public State
   {
   public:
     enum class OptionNames : uint16_t

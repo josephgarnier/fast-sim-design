@@ -55,7 +55,7 @@ namespace FastSimDesign {
         } else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down)
         {
           selectNext();
-        } else if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space)
+        } else if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Enter)
         {
           if (hasSelection())
             m_children[static_cast<std::size_t>(m_selected_child)]->activate();

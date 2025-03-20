@@ -85,23 +85,23 @@ namespace FastSimDesign {
     std::unordered_map<Pickup::Type, PickupData> data{toUnderlyingType(Pickup::Type::TYPE_COUNT)};
 
     data[Pickup::Type::HEALTH_REFILL].texture = Textures::ID::HEALTH_REFILL;
-    data[Pickup::Type::HEALTH_REFILL].action = [](Aircraft& a) {
-      a.repair(25);
+    data[Pickup::Type::HEALTH_REFILL].action = [](Aircraft& aircraft) {
+      aircraft.repair(25);
     };
 
     data[Pickup::Type::MISSILE_REFILL].texture = Textures::ID::MISSILE_REFILL;
-    data[Pickup::Type::MISSILE_REFILL].action = [](Aircraft& a) {
-      a.collectMissiles(3);
+    data[Pickup::Type::MISSILE_REFILL].action = [](Aircraft& aircraft) {
+      aircraft.collectMissiles(3);
     };
 
     data[Pickup::Type::FIRE_SPREAD].texture = Textures::ID::FIRE_SPREAD;
-    data[Pickup::Type::FIRE_SPREAD].action = [](Aircraft& a) {
-      a.increaseSpread();
+    data[Pickup::Type::FIRE_SPREAD].action = [](Aircraft& aircraft) {
+      aircraft.increaseSpread();
     };
 
     data[Pickup::Type::FIRE_RATE].texture = Textures::ID::FIRE_RATE;
-    data[Pickup::Type::FIRE_RATE].action = [](Aircraft& a) {
-      a.increaseFireRate();
+    data[Pickup::Type::FIRE_RATE].action = [](Aircraft& aircraft) {
+      aircraft.increaseFireRate();
     };
 
     return data;

@@ -52,7 +52,7 @@ namespace FastSimDesign {
     initializeActions();
 
     for (auto& pair : m_action_binding)
-      pair.second.category = Category::Type::PLAYER_AIRCRAFT;
+      pair.second.category = BitFlags<Category::Type>{Category::Type::PLAYER_AIRCRAFT};
   }
 
   void Player::handleEvent(sf::Event const& event, CommandQueue& commands)
@@ -114,14 +114,20 @@ namespace FastSimDesign {
   
   void Player::initializeActions()
   {
-    float const player_speed = 10.f;
+    float const player_speed = 80.f;
+    m_action_binding[Player::Action::MOVE_LEFT].name = "MoveLeft";
     m_action_binding[Player::Action::MOVE_LEFT].action = derivedAction<Aircraft>(AircraftMover{-player_speed, 0.f});
+    m_action_binding[Player::Action::MOVE_RIGHT].name = "MoveRight";
     m_action_binding[Player::Action::MOVE_RIGHT].action = derivedAction<Aircraft>(AircraftMover{+player_speed, 0.f});
+    m_action_binding[Player::Action::MOVE_UP].name = "MoveUp";
     m_action_binding[Player::Action::MOVE_UP].action = derivedAction<Aircraft>(AircraftMover{0.f, -player_speed});
+    m_action_binding[Player::Action::MOVE_DOWN].name = "MoveDown";
     m_action_binding[Player::Action::MOVE_DOWN].action = derivedAction<Aircraft>(AircraftMover{0.f, +player_speed});
+    m_action_binding[Player::Action::FIRE].name = "Fire";
     m_action_binding[Player::Action::FIRE].action = derivedAction<Aircraft>([](Aircraft& aircraft, sf::Time) {
       aircraft.fire();
     });
+    m_action_binding[Player::Action::LAUNCH_MISSILE].name = "LaunchMissile";
     m_action_binding[Player::Action::LAUNCH_MISSILE].action = derivedAction<Aircraft>([](Aircraft& aircraft, sf::Time) {
       aircraft.launchMissile();
     });

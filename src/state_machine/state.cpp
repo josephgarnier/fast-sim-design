@@ -15,8 +15,9 @@ namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
   /// Context::Methods
   ////////////////////////////////////////////////////////////
-  State::Context::Context(sf::RenderWindow* window_, TextureHolder* textures_, FontHolder* fonts_, Player* player_) noexcept
-    : window{window_}
+  State::Context::Context(SimMonitor::Monitor* monitor_, sf::RenderWindow* window_, TextureHolder* textures_, FontHolder* fonts_, Player* player_) noexcept
+    : monitor{monitor_}
+    , window{window_}
     , textures{textures_}
     , fonts{fonts_}
     , player{player_}
@@ -27,10 +28,16 @@ namespace FastSimDesign {
   /// State::Methods
   ////////////////////////////////////////////////////////////
   State::State(StateStack* stack, Context context, std::string name) noexcept
-    : m_stack{stack}
+    : Parent{}
+    , m_stack{stack}
     , m_context{std::move(context)}
     , m_name{std::move(name)}
   {
+  }
+
+  void State::monitorState(SimMonitor::Monitor&, SimMonitor::Frame::StateMachineState& frame_object) const
+  {
+    frame_object.name = m_name;
   }
 
   void State::requestStackPush(States::ID state_id)
@@ -52,7 +59,7 @@ namespace FastSimDesign {
   {
     return m_context;
   }
-  
+
   State::Context& State::getContext() noexcept
   {
     return m_context;

@@ -14,6 +14,7 @@
 #define FAST_SIM_DESIGN_SCENE_NODE_H
 
 #include "../entity/category.h"
+#include "../monitor/monitorable.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -32,10 +33,12 @@ namespace FastSimDesign {
   class SceneNode : public sf::Transformable
     , public sf::Drawable
     , private sf::NonCopyable
+    , public SimMonitor::Monitorable
   {
   public:
     using Ptr = std::unique_ptr<SceneNode>;
     using Pair = std::pair<SceneNode*, SceneNode*>;
+    using SimMonitor::Monitorable::monitorState;
 
   public:
     explicit SceneNode(Category::Type category = Category::Type::NONE) noexcept; // Default constructor
@@ -46,11 +49,13 @@ namespace FastSimDesign {
 
     void update(sf::Time const& dt, CommandQueue& commands);
 
+    virtual void monitorState(SimMonitor::Monitor& monitor, SimMonitor::Frame::SceneNode& frame_object) const override final;
+
     sf::Vector2f getWorldPosition() const noexcept;
     sf::Transform getWorldTransform() const noexcept;
 
     void onCommand(Command const& command, sf::Time const& dt) noexcept;
-    virtual Category::Type getCategory() const noexcept;
+    virtual BitFlags<Category::Type> getCategory() const noexcept;
 
     virtual sf::FloatRect getBoundingRect() const noexcept;
     virtual bool isMarkedForRemoval() const noexcept;
@@ -71,7 +76,7 @@ namespace FastSimDesign {
   private:
     std::vector<Ptr> m_children;
     SceneNode* m_parent;
-    Category::Type m_default_category;
+    BitFlags<Category::Type> m_default_category;
   };
 
   ////////////////////////////////////////////////////////////

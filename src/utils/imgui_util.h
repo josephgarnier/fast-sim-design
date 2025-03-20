@@ -8,14 +8,22 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#include "command.h"
-#include "../entity/category.h"
+#pragma once
+
+#ifndef FAST_SIM_DESIGN_IMGUI_UTIL_H
+#define FAST_SIM_DESIGN_IMGUI_UTIL_H
+
+#include <format>
+#include <cstdint>
+#include <string>
+#include <string_view>
 
 namespace FastSimDesign {
-  Command::Command() noexcept
-    : name{""}
-    , category{Category::Type::NONE}
-    , action{}
-  {
+  namespace ImGuiUtil {
+    inline std::string labelize(std::string_view label, uintmax_t id)
+    {
+      return std::format("{}##{}{}", label, label, id);
+    }
   }
 }
+#endif

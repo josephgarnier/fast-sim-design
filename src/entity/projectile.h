@@ -41,7 +41,7 @@ namespace FastSimDesign {
     void guideTowards(sf::Vector2f position);
     bool isGuided() const;
     
-    virtual Category::Type getCategory() const noexcept override;
+    virtual BitFlags<Category::Type> getCategory() const noexcept override;
     virtual sf::FloatRect getBoundingRect() const noexcept override;
 
     float getMaxSpeed() const;

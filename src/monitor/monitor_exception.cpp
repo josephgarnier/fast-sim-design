@@ -8,19 +8,19 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#include "imgui_layer_exception.h"
+#include "monitor_exception.h"
 
 namespace FastSimDesign {
   ////////////////////////////////////////////////////////////
   /// Methods
   ////////////////////////////////////////////////////////////
-  ImGuiLayerException::ImGuiLayerException(std::string what) noexcept
+  MonitorException::MonitorException(std::string what) noexcept
     : Parent{}
     , m_message(std::move(what))
   {
   }
 
-  char const* ImGuiLayerException::what() const noexcept
+  char const* MonitorException::what() const noexcept
   {
     return m_message.c_str();
   }

@@ -39,7 +39,7 @@ namespace FastSimDesign {
     explicit Aircraft(Aircraft::Type type, TextureHolder const& textures, FontHolder const& fonts); // Default constructor
     virtual ~Aircraft() = default; // Destructor
 
-    virtual Category::Type getCategory() const noexcept override;
+    virtual BitFlags<Category::Type> getCategory() const noexcept override;
     virtual sf::FloatRect getBoundingRect() const noexcept override;
     virtual bool isMarkedForRemoval() const noexcept override;
     float getMaxSpeed() const noexcept;

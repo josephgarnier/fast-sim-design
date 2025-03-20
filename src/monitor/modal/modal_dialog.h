@@ -15,11 +15,15 @@
 
 #include <SFML/System/Time.hpp>
 
+#include <memory>
 #include <string>
 
 namespace FastSimDesign {
   class ModalDialog
   {
+  public:
+    using Ptr = std::unique_ptr<ModalDialog>;
+
   public:
     explicit ModalDialog(std::string title) noexcept; // Default constructor
     ModalDialog(ModalDialog const&) = default; // Copy constructor
@@ -33,6 +37,7 @@ namespace FastSimDesign {
     std::string const& getTitle() const noexcept { return m_title; }
 
     void updateModal(sf::Time const& dt);
+
   private:
     virtual void draw(sf::Time const& dt) = 0;
 

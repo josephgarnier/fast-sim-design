@@ -20,7 +20,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
-  class LoadingState : public State
+  class LoadingState final : public State
   {
   private:
     using Parent = State;

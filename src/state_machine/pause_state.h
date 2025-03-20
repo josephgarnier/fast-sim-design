@@ -19,7 +19,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
-  class PauseState : public State
+  class PauseState final : public State
   {
   public:
   private:

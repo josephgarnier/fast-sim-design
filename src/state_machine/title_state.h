@@ -20,7 +20,7 @@
 #include <SFML/System/Time.hpp>
 
 namespace FastSimDesign {
-  class TitleState : public State
+  class TitleState final : public State
   {
   private:
     using Parent = State;

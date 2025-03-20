@@ -17,9 +17,8 @@
 #include "../core/world.h"
 
 namespace FastSimDesign {
-  class GameState : public State
+  class GameState final : public State
   {
-  public:
   private:
     using Parent = State;
 
@@ -28,7 +27,7 @@ namespace FastSimDesign {
     virtual ~GameState() = default; // Destructor
 
     virtual bool handleEvent(sf::Event const& event) override;
-    virtual bool update(sf::Time const & dt) override;
+    virtual bool update(sf::Time const& dt) override;
     virtual void draw() override;
 
   public:

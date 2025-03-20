@@ -40,7 +40,7 @@ namespace FastSimDesign {
     m_game_over_text.setPosition(0.5f * window_size.x, 0.4f * window_size.y);
   }
 
-  bool GameOverState::handleEvent(sf::Event const& event)
+  bool GameOverState::handleEvent(sf::Event const&)
   {
     return false;
   }

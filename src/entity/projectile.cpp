@@ -45,12 +45,12 @@ namespace FastSimDesign {
     return m_type == Projectile::Type::MISSILE;
   }
 
-  Category::Type Projectile::getCategory() const noexcept
+  BitFlags<Category::Type> Projectile::getCategory() const noexcept
   {
     if (m_type == Projectile::Type::ENEMY_BULLET)
-      return Category::Type::ENEMY_PROJECTILE;
+      return BitFlags<Category::Type>{Category::Type::ENEMY_PROJECTILE};
     else
-      return Category::Type::ALLIED_PROJECTILE;
+      return BitFlags<Category::Type>{Category::Type::ALLIED_PROJECTILE};
   }
 
   sf::FloatRect Projectile::getBoundingRect() const noexcept

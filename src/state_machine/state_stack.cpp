@@ -61,6 +61,18 @@ namespace FastSimDesign {
       state->draw();
   }
 
+  void StateStack::monitorState(SimMonitor::Monitor& monitor, SimMonitor::Frame::StateMachine& frame_states_stack) const
+  {
+    frame_states_stack.states.clear();
+    frame_states_stack.states.reserve(m_stack.size());
+    for (auto const& state : std::views::reverse(m_stack))
+    {
+      SimMonitor::Frame::StateMachineState state_machine_state{};
+      state->monitorState(monitor, state_machine_state);
+      frame_states_stack.states.push_back(std::move(state_machine_state));
+    }
+  }
+
   void StateStack::pushState(States::ID state_id)
   {
     m_pending_list.push_back(PendingChange(StateStack::Action::PUSH, state_id));

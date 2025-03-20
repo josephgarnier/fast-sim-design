@@ -24,7 +24,7 @@
 #include <array>
 
 namespace FastSimDesign {
-  class SettingsState : public State
+  class SettingsState final : public State
   {
   public:
   private:

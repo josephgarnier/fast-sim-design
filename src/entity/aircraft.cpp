@@ -55,17 +55,20 @@ namespace FastSimDesign {
   {
     SFML::centerOrigin(m_sprite);
 
-    m_fire_command.category = Category::Type::SCENE_AIR_LAYER;
+    m_fire_command.name = "CreateBullets";
+    m_fire_command.category = BitFlags<Category::Type>{Category::Type::SCENE_AIR_LAYER};
     m_fire_command.action = [this, &textures](SceneNode& node, sf::Time) {
       createBullets(node, textures);
     };
 
-    m_missile_command.category = Category::Type::SCENE_AIR_LAYER;
+    m_missile_command.name = "CreateProjectile";
+    m_missile_command.category = BitFlags<Category::Type>{Category::Type::SCENE_AIR_LAYER};
     m_missile_command.action = [this, &textures](SceneNode& node, sf::Time) {
       createProjectile(node, Projectile::Type::MISSILE, 0.f, 0.5f, textures);
     };
 
-    m_drop_pickup_command.category = Category::Type::SCENE_AIR_LAYER;
+    m_drop_pickup_command.name = "DropPickup";
+    m_drop_pickup_command.category = BitFlags<Category::Type>{Category::Type::SCENE_AIR_LAYER};
     m_drop_pickup_command.action = [this, &textures](SceneNode& node, sf::Time) {
       createPickup(node, textures);
     };
@@ -74,7 +77,7 @@ namespace FastSimDesign {
     m_health_display = health_display.get();
     attachChild(std::move(health_display));
 
-    if (getCategory() == Category::Type::PLAYER_AIRCRAFT)
+    if (getCategory() == BitFlags<Category::Type>{Category::Type::PLAYER_AIRCRAFT})
     {
       std::unique_ptr<TextNode> missile_display = std::make_unique<TextNode>(fonts, "");
       missile_display->setPosition(0, 70.f);
@@ -144,12 +147,12 @@ namespace FastSimDesign {
     }
   }
 
-  Category::Type Aircraft::getCategory() const noexcept
+  BitFlags<Category::Type> Aircraft::getCategory() const noexcept
   {
     if (isAllied())
-      return Category::Type::PLAYER_AIRCRAFT;
+      return BitFlags<Category::Type>{Category::Type::PLAYER_AIRCRAFT};
     else
-      return Category::Type::ENEMY_AIRCRAFT;
+      return BitFlags<Category::Type>{Category::Type::ENEMY_AIRCRAFT};
   }
 
   sf::FloatRect Aircraft::getBoundingRect() const noexcept

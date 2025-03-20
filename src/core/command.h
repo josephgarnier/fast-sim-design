@@ -18,6 +18,7 @@
 
 #include <functional>
 #include <cassert>
+#include <string>
 
 namespace FastSimDesign {
   class SceneNode;
@@ -30,8 +31,9 @@ namespace FastSimDesign {
     Command& operator=(Command&&) = default; // Move assignment operator
     virtual ~Command() = default; // Destructor
 
+    std::string name;
+    BitFlags<Category::Type> category;
     std::function<void(SceneNode&, sf::Time)> action;
-    Category::Type category;
   };
 
   template<typename GameObject, typename Function>
