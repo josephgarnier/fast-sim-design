@@ -51,27 +51,27 @@ namespace FastSimDesign {
 
   public:
     // Construct BitFlags from raw values.
-    static constexpr BitFlags FromRaw(UnderlyingT flags)
+    static constexpr BitFlags FromRaw(UnderlyingT flags) noexcept
     {
       return BitFlags(flags);
     }
 
   private:
-    static constexpr UnderlyingT ToUnderlying(T value)
+    static constexpr UnderlyingT ToUnderlying(T value) noexcept
     {
       return static_cast<UnderlyingT>(value);
     }
 
   public:
-    constexpr explicit BitFlags() // Default constructor
+    constexpr explicit BitFlags() noexcept
       : m_flags(static_cast<UnderlyingT>(0))
     {
     }
-    constexpr explicit BitFlags(T value)
+    constexpr explicit BitFlags(T value) noexcept
       : m_flags(ToUnderlying(value))
     {
     }
-    constexpr explicit BitFlags(std::initializer_list<T> values)
+    constexpr explicit BitFlags(std::initializer_list<T> values) noexcept
       : BitFlags{}
     {
       for (T value : values)
@@ -86,33 +86,33 @@ namespace FastSimDesign {
     virtual ~BitFlags() = default; // Destructor
 
     // Checks if a specific flag is set.
-    constexpr bool isSet(T value) const
+    constexpr bool isSet(T value) const noexcept
     {
       return (m_flags & ToUnderlying(value)) == ToUnderlying(value);
     }
     // Sets a single flag value.
-    constexpr void set(T value)
+    constexpr void set(T value) noexcept
     {
       m_flags |= ToUnderlying(value);
     }
     // Unsets a single flag value.
-    constexpr void unset(T value)
+    constexpr void unset(T value) noexcept
     {
       m_flags &= ~ToUnderlying(value);
     }
     // Clears all flag values.
-    constexpr void clear()
+    constexpr void clear() noexcept
     {
       m_flags = static_cast<UnderlyingT>(0);
     }
 
     // Retrieve the raw underlying flags.
-    constexpr UnderlyingT toRaw() const
+    constexpr UnderlyingT toRaw() const noexcept
     {
       return m_flags;
     }
 
-    constexpr T toUnderType() const
+    constexpr T toUnderType() const noexcept
     {
       return m_flags;
     }
@@ -126,37 +126,37 @@ namespace FastSimDesign {
     friend inline constexpr std::ostream& operator<<(std::ostream& stream, BitFlags<U> const& left) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U> operator|(BitFlags<U> const& left, U const& right);
+    friend inline constexpr BitFlags<U> operator|(BitFlags<U> const& left, U const& right) noexcept;
     template<typename U>
-    friend inline constexpr BitFlags<U> operator|(BitFlags<U> const& left, BitFlags<U> const& right);
+    friend inline constexpr BitFlags<U> operator|(BitFlags<U> const& left, BitFlags<U> const& right) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U> operator&(BitFlags<U> const& left, U const& right);
+    friend inline constexpr BitFlags<U> operator&(BitFlags<U> const& left, U const& right) noexcept;
     template<typename U>
-    friend inline constexpr BitFlags<U> operator&(BitFlags<U> const& left, BitFlags<U> const& right);
+    friend inline constexpr BitFlags<U> operator&(BitFlags<U> const& left, BitFlags<U> const& right) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U> operator^(BitFlags<U> const& left, U const& right);
+    friend inline constexpr BitFlags<U> operator^(BitFlags<U> const& left, U const& right) noexcept;
     template<typename U>
-    friend inline constexpr BitFlags<U> operator^(BitFlags<U> const& left, BitFlags<U> const& right);
+    friend inline constexpr BitFlags<U> operator^(BitFlags<U> const& left, BitFlags<U> const& right) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U>& operator|=(BitFlags<U>& left, U const& right);
+    friend inline constexpr BitFlags<U>& operator|=(BitFlags<U>& left, U const& right) noexcept;
     template<typename U>
-    friend inline constexpr BitFlags<U>& operator|=(BitFlags<U>& left, BitFlags<U> const& right);
+    friend inline constexpr BitFlags<U>& operator|=(BitFlags<U>& left, BitFlags<U> const& right) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U>& operator&=(BitFlags<U>& left, U const& right);
+    friend inline constexpr BitFlags<U>& operator&=(BitFlags<U>& left, U const& right) noexcept;
     template<typename U>
-    friend inline constexpr BitFlags<U>& operator&=(BitFlags<U>& left, BitFlags<U> const& right);
+    friend inline constexpr BitFlags<U>& operator&=(BitFlags<U>& left, BitFlags<U> const& right) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U>& operator^=(BitFlags<U>& left, U const& right);
+    friend inline constexpr BitFlags<U>& operator^=(BitFlags<U>& left, U const& right) noexcept;
     template<typename U>
-    friend inline constexpr BitFlags<U>& operator^=(BitFlags<U>& left, BitFlags<U> const& right);
+    friend inline constexpr BitFlags<U>& operator^=(BitFlags<U>& left, BitFlags<U> const& right) noexcept;
 
     template<typename U>
-    friend inline constexpr BitFlags<U> operator~(BitFlags<U> const& bf);
+    friend inline constexpr BitFlags<U> operator~(BitFlags<U> const& bf) noexcept;
 
     template<typename U>
     friend inline constexpr bool operator==(BitFlags<U> const& left, BitFlags<U> const& right) noexcept;
@@ -165,7 +165,7 @@ namespace FastSimDesign {
 
   protected:
   private:
-    constexpr explicit BitFlags(UnderlyingT flags)
+    constexpr explicit BitFlags(UnderlyingT flags) noexcept
       : m_flags{flags}
     {
     }
@@ -188,79 +188,79 @@ namespace FastSimDesign {
   }
 
   template<typename T>
-  inline constexpr BitFlags<T> operator|(BitFlags<T> const& left, T const& right)
+  inline constexpr BitFlags<T> operator|(BitFlags<T> const& left, T const& right) noexcept
   {
     return BitFlags<T>(left.m_flags | BitFlags<T>::ToUnderlying(right));
   }
   template<typename T>
-  inline constexpr BitFlags<T> operator|(BitFlags<T> const& left, BitFlags<T> const& right)
+  inline constexpr BitFlags<T> operator|(BitFlags<T> const& left, BitFlags<T> const& right) noexcept
   {
     return BitFlags<T>(left.m_flags | right.m_flags);
   }
 
   template<typename T>
-  inline constexpr BitFlags<T> operator&(BitFlags<T> const& left, T const& right)
+  inline constexpr BitFlags<T> operator&(BitFlags<T> const& left, T const& right) noexcept
   {
     return BitFlags<T>(left.m_flags & BitFlags<T>::ToUnderlying(right));
   }
   template<typename T>
-  inline constexpr BitFlags<T> operator&(BitFlags<T> const& left, BitFlags<T> const& right)
+  inline constexpr BitFlags<T> operator&(BitFlags<T> const& left, BitFlags<T> const& right) noexcept
   {
     return BitFlags<T>(left.m_flags & right.m_flags);
   }
 
   template<typename T>
-  inline constexpr BitFlags<T> operator^(BitFlags<T> const& left, T const& right)
+  inline constexpr BitFlags<T> operator^(BitFlags<T> const& left, T const& right) noexcept
   {
     return BitFlags<T>(left.m_flags ^ BitFlags<T>::ToUnderlying(right));
   }
   template<typename T>
-  inline constexpr BitFlags<T> operator^(BitFlags<T> const& left, BitFlags<T> const& right)
+  inline constexpr BitFlags<T> operator^(BitFlags<T> const& left, BitFlags<T> const& right) noexcept
   {
     return BitFlags<T>(left.m_flags ^ right.m_flags);
   }
 
   template<typename T>
-  inline constexpr BitFlags<T>& operator|=(BitFlags<T>& left, T const& right)
+  inline constexpr BitFlags<T>& operator|=(BitFlags<T>& left, T const& right) noexcept
   {
     left.m_flags |= BitFlags<T>::ToUnderlying(right);
     return left;
   }
   template<typename T>
-  inline constexpr BitFlags<T>& operator|=(BitFlags<T>& left, BitFlags<T> const& right)
+  inline constexpr BitFlags<T>& operator|=(BitFlags<T>& left, BitFlags<T> const& right) noexcept
   {
     left.m_flags |= right.m_flags;
     return left;
   }
 
   template<typename T>
-  inline constexpr BitFlags<T>& operator&=(BitFlags<T>& left, T const& right)
+  inline constexpr BitFlags<T>& operator&=(BitFlags<T>& left, T const& right) noexcept
   {
     left.m_flags &= BitFlags<T>::ToUnderlying(right);
     return left;
   }
   template<typename T>
-  inline constexpr BitFlags<T>& operator&=(BitFlags<T>& left, BitFlags<T> const& right)
+  inline constexpr BitFlags<T>& operator&=(BitFlags<T>& left, BitFlags<T> const& right) noexcept
   {
     left.m_flags &= right.m_flags;
     return left;
   }
 
   template<typename T>
-  inline constexpr BitFlags<T>& operator^=(BitFlags<T>& left, T const& right)
+  inline constexpr BitFlags<T>& operator^=(BitFlags<T>& left, T const& right) noexcept
   {
     left.m_flags ^= BitFlags<T>::ToUnderlying(right);
     return left;
   }
   template<typename T>
-  inline constexpr BitFlags<T>& operator^=(BitFlags<T>& left, BitFlags<T> const& right)
+  inline constexpr BitFlags<T>& operator^=(BitFlags<T>& left, BitFlags<T> const& right) noexcept
   {
     left.m_flags ^= right.m_flags;
     return left;
   }
 
   template<typename T>
-  inline constexpr BitFlags<T> operator~(BitFlags<T> const& bf)
+  inline constexpr BitFlags<T> operator~(BitFlags<T> const& bf) noexcept
   {
     return BitFlags<T>(~bf.m_flags);
   }
@@ -275,6 +275,5 @@ namespace FastSimDesign {
   {
     return left.m_flags != right.m_flags;
   }
-
 }
 #endif
