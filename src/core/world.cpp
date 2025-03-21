@@ -19,11 +19,14 @@
 #include "../monitor/window/scene_graph_window.h"
 #include "resource_identifiers.h"
 #include "../utils/generic_utility.h"
+#include "../entity/particle_node.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include <cmath>
+#include <cstddef>
+#include <memory>
 #include <utility>
 
 namespace FastSimDesign {
@@ -86,6 +89,7 @@ namespace FastSimDesign {
     m_textures.load(Textures::ID::MISSILE_REFILL, "../assets/sprites/npcs/missile_refill.png");
     m_textures.load(Textures::ID::FIRE_SPREAD, "../assets/sprites/npcs/fire_spread.png");
     m_textures.load(Textures::ID::FIRE_RATE, "../assets/sprites/npcs/fire_rate.png");
+    m_textures.load(Textures::ID::PARTICLE, "../assets/particles/smoke.png");
   }
 
   void World::buildScene()
@@ -93,7 +97,7 @@ namespace FastSimDesign {
     // Intilialize the different layers.
     for (std::size_t i = 0; i < static_cast<std::size_t>(World::Layer::LAYER_COUNT); ++i)
     {
-      Category::Type category = (i == toUnderlyingType(World::Layer::AIR)) ? Category::Type::SCENE_AIR_LAYER : Category::Type::NONE;
+      Category::Type category = (i == toUnderlyingType(World::Layer::LOWER_AIR)) ? Category::Type::SCENE_AIR_LAYER : Category::Type::NONE;
 
       SceneNode::Ptr layer = std::make_unique<SceneNode>(category);
       m_scene_layers[i] = layer.get();
@@ -111,11 +115,19 @@ namespace FastSimDesign {
     background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top);
     m_scene_layers[static_cast<size_t>(World::Layer::BACKGROUND)]->attachChild(std::move(background_sprite));
 
+    // Add smoke particle node to the scene.
+    std::unique_ptr<ParticleNode> smoke_node = std::make_unique<ParticleNode>(Particle::Type::SMOKE, m_textures);
+    m_scene_layers[static_cast<std::size_t>(World::Layer::LOWER_AIR)]->attachChild(std::move(smoke_node));
+    
+    // Add propellant particle node to the scene.
+    std::unique_ptr<ParticleNode> propellant_node = std::make_unique<ParticleNode>(Particle::Type::PROPELLANT, m_textures);
+    m_scene_layers[static_cast<std::size_t>(World::Layer::LOWER_AIR)]->attachChild(std::move(propellant_node));
+
     // Add player's aircraft
     std::unique_ptr<Aircraft> leader = std::make_unique<Aircraft>(Aircraft::Type::EAGLE, m_textures, m_fonts);
     m_player_aircraft = leader.get();
     m_player_aircraft->setPosition(m_spawn_position);
-    m_scene_layers[static_cast<std::size_t>(World::Layer::AIR)]->attachChild(std::move(leader));
+    m_scene_layers[static_cast<std::size_t>(World::Layer::UPPER_AIR)]->attachChild(std::move(leader));
 
     // Add enemy aircraft.
     addEnemies();
@@ -287,8 +299,7 @@ namespace FastSimDesign {
       std::unique_ptr<Aircraft> enemy = std::make_unique<Aircraft>(spawn.type, m_textures, m_fonts);
       enemy->setPosition(spawn.x, spawn.y);
       enemy->setRotation(180.f);
-
-      m_scene_layers[static_cast<std::size_t>(World::Layer::AIR)]->attachChild(std::move(enemy));
+      m_scene_layers[static_cast<std::size_t>(World::Layer::UPPER_AIR)]->attachChild(std::move(enemy));
 
       // Enemy is spawned, remove from the list to spawn.
       m_enemy_spawn_points.pop_back();

@@ -17,7 +17,9 @@
 #include "aircraft.h"
 #include "projectile.h"
 #include "pickup.h"
+#include "particle.h"
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Time.hpp>
 
 #include <functional>
@@ -38,13 +40,6 @@ namespace FastSimDesign {
 
   struct AircraftData
   {
-    explicit AircraftData() = default; // Default constructor
-    AircraftData(AircraftData const&) = default; // Copy constructor
-    AircraftData(AircraftData&&) = default; // Move constructor
-    AircraftData& operator=(AircraftData const&) = default; // Copy assignment operator
-    AircraftData& operator=(AircraftData&&) = default; // Move assignment operator
-    virtual ~AircraftData() = default; // Destructor
-
     int hit_point;
     float speed;
     Textures::ID texture;
@@ -54,13 +49,6 @@ namespace FastSimDesign {
 
   struct ProjectileData
   {
-    explicit ProjectileData() = default; // Default constructor
-    ProjectileData(ProjectileData const&) = default; // Copy constructor
-    ProjectileData(ProjectileData&&) = default; // Move constructor
-    ProjectileData& operator=(ProjectileData const&) = default; // Copy assignment operator
-    ProjectileData& operator=(ProjectileData&&) = default; // Move assignment operator
-    virtual ~ProjectileData() = default; // Destructor
-
     int damage;
     float speed;
     Textures::ID texture;
@@ -68,19 +56,19 @@ namespace FastSimDesign {
 
   struct PickupData
   {
-    explicit PickupData() = default; // Default constructor
-    PickupData(PickupData const&) = default; // Copy constructor
-    PickupData(PickupData&&) = default; // Move constructor
-    PickupData& operator=(PickupData const&) = default; // Copy assignment operator
-    PickupData& operator=(PickupData&&) = default; // Move assignment operator
-    virtual ~PickupData() = default; // Destructor
-
     std::function<void(Aircraft&)> action;
     Textures::ID texture;
+  };
+
+  struct ParticleData
+  {
+    sf::Color m_color;
+    sf::Time m_lifetime;
   };
 
   std::unordered_map<Aircraft::Type, AircraftData> initializeAircraftData();
   std::unordered_map<Projectile::Type, ProjectileData> initializeProjectileData();
   std::unordered_map<Pickup::Type, PickupData> initializePickupData();
+  std::unordered_map<Particle::Type, ParticleData> initializeParticleData();
 }
 #endif

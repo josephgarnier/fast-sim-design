@@ -36,7 +36,8 @@ namespace FastSimDesign {
     enum class Layer : uint16_t
     {
       BACKGROUND,
-      AIR,
+      LOWER_AIR,
+      UPPER_AIR,
       LAYER_COUNT,
     };
     struct SpawnPoint

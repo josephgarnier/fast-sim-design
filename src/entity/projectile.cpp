@@ -9,13 +9,17 @@
 ////////////////////////////////////////////////////////////
 
 #include "projectile.h"
+#include "emitter_node.h"
 #include "entity_data.h"
+#include "particle.h"
 #include "../utils/sfml_util.h"
 #include "../utils/math_util.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <glm/trigonometric.hpp>
+
+#include <memory>
 
 namespace FastSimDesign {
   namespace {
@@ -32,6 +36,18 @@ namespace FastSimDesign {
     , m_target_direction{}
   {
     SFML::centerOrigin(m_sprite);
+
+    // Add particle system for missiles.
+    if (isGuided())
+    {
+      std::unique_ptr<EmitterNode> smoke = std::make_unique<EmitterNode>(Particle::Type::SMOKE);
+      smoke->setPosition(0.f, getBoundingRect().height / 2.f);
+      attachChild(std::move(smoke));
+
+      std::unique_ptr<EmitterNode> propellant = std::make_unique<EmitterNode>(Particle::Type::PROPELLANT);
+      propellant->setPosition(0.f, getBoundingRect().height / 2.f);
+      attachChild(std::move(propellant));
+    }
   }
 
   void Projectile::guideTowards(sf::Vector2f position)

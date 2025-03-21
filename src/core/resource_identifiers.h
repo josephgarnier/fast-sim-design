@@ -35,7 +35,8 @@ namespace FastSimDesign {
       TITLE_SCREEN,
       BUTTON_NORMAL,
       BUTTON_SELECTED,
-      BUTTON_PRESSED
+      BUTTON_PRESSED,
+      PARTICLE
     };
   }
   namespace Fonts {

@@ -107,4 +107,17 @@ namespace FastSimDesign {
     return data;
   }
 
+  std::unordered_map<Particle::Type, ParticleData> initializeParticleData()
+  {
+    std::unordered_map<Particle::Type, ParticleData> data{toUnderlyingType(Particle::Type::TYPE_COUNT)};
+
+    data[Particle::Type::PROPELLANT].m_color = sf::Color{255, 255, 50};
+    data[Particle::Type::PROPELLANT].m_lifetime = sf::seconds(0.6f);
+
+    data[Particle::Type::SMOKE].m_color = sf::Color{50, 50, 50};
+    data[Particle::Type::SMOKE].m_lifetime = sf::seconds(0.6f);
+
+    return data;
+  }
+
 }

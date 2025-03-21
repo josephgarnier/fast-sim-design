@@ -43,7 +43,6 @@ namespace FastSimDesign {
     
     virtual BitFlags<Category::Type> getCategory() const noexcept override;
     virtual sf::FloatRect getBoundingRect() const noexcept override;
-
     float getMaxSpeed() const;
     int getDamage() const;
   protected:
