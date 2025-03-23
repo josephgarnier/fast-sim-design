@@ -32,7 +32,7 @@ namespace FastSimDesign {
   Projectile::Projectile(Projectile::Type type, TextureHolder const& textures)
     : Parent{1}
     , m_type{type}
-    , m_sprite{textures.get(Data_Table[type].texture)}
+    , m_sprite{textures.get(Data_Table[type].texture), Data_Table[type].m_texture_rect}
     , m_target_direction{}
   {
     SFML::centerOrigin(m_sprite);

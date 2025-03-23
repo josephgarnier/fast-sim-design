@@ -17,12 +17,14 @@
 #include "../monitor/frame.h"
 #include "../monitor/monitor.h"
 #include "../monitor/window/scene_graph_window.h"
+#include "gui/post_effect.h"
 #include "resource_identifiers.h"
 #include "../utils/generic_utility.h"
 #include "../entity/particle_node.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Shader.hpp>
 
 #include <cmath>
 #include <cstddef>
@@ -46,6 +48,7 @@ namespace FastSimDesign {
   World::World(SimMonitor::Monitor& monitor, sf::RenderWindow& windows, FontHolder& fonts)
     : SimMonitor::Monitorable{}
     , m_window{windows}
+    , m_scene_texture{}
     , m_world_view{m_window.getDefaultView()}
     , m_textures{}
     , m_fonts{fonts}
@@ -59,7 +62,10 @@ namespace FastSimDesign {
     , m_player_aircraft{nullptr}
     , m_enemy_spawn_points{}
     , m_active_enemies{}
+    , m_bloom_effect{}
   {
+    m_scene_texture.create(m_window.getSize().x, m_window.getSize().y);
+
     loadTextures();
     buildScene();
 
@@ -77,19 +83,11 @@ namespace FastSimDesign {
 
   void World::loadTextures()
   {
-    m_textures.load(Textures::ID::EAGLE, "../assets/sprites/npcs/eagle.png");
-    m_textures.load(Textures::ID::RAPTOR, "../assets/sprites/npcs/raptor.png");
-    m_textures.load(Textures::ID::AVENGER, "../assets/sprites/npcs/avenger.png");
-    m_textures.load(Textures::ID::DESERT, "../assets/sprites/npcs/desert.png");
-
-    m_textures.load(Textures::ID::BULLET, "../assets/sprites/npcs/bullet.png");
-    m_textures.load(Textures::ID::MISSILE, "../assets/sprites/npcs/missile.png");
-
-    m_textures.load(Textures::ID::HEALTH_REFILL, "../assets/sprites/npcs/health_refill.png");
-    m_textures.load(Textures::ID::MISSILE_REFILL, "../assets/sprites/npcs/missile_refill.png");
-    m_textures.load(Textures::ID::FIRE_SPREAD, "../assets/sprites/npcs/fire_spread.png");
-    m_textures.load(Textures::ID::FIRE_RATE, "../assets/sprites/npcs/fire_rate.png");
+    m_textures.load(Textures::ID::ENTITIES, "../assets/sprites/npcs/entities.png");
+    m_textures.load(Textures::ID::JUNGLE, "../assets/sprites/npcs/jungle.png");
+    m_textures.load(Textures::ID::EXPLOSION, "../assets/sprites/npcs/explosion.png");
     m_textures.load(Textures::ID::PARTICLE, "../assets/particles/smoke.png");
+    m_textures.load(Textures::ID::FINISH_LINE, "../assets/sprites/npcs/finish_line.png");
   }
 
   void World::buildScene()
@@ -105,20 +103,29 @@ namespace FastSimDesign {
       m_scene_graph.attachChild(std::move(layer));
     }
 
-    // Prepare the tiled background
-    sf::Texture& texture = m_textures.get(Textures::ID::DESERT);
-    sf::IntRect texture_rect{m_world_bounds};
-    texture.setRepeated(true);
+    // Prepare the tiled background.
+    sf::Texture& jungle_texture = m_textures.get(Textures::ID::JUNGLE);
+    jungle_texture.setRepeated(true);
 
-    // Add the background sprite to the scene
-    std::unique_ptr<SpriteNode> background_sprite = std::make_unique<SpriteNode>(texture, texture_rect);
-    background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top);
+    float view_height = m_world_view.getSize().y;
+    sf::IntRect texture_rect{m_world_bounds};
+    texture_rect.height += static_cast<int>(view_height);
+
+    // Add the background sprite to the scene.
+    std::unique_ptr<SpriteNode> background_sprite = std::make_unique<SpriteNode>(jungle_texture, texture_rect);
+    background_sprite->setPosition(m_world_bounds.left, m_world_bounds.top - view_height);
     m_scene_layers[static_cast<size_t>(World::Layer::BACKGROUND)]->attachChild(std::move(background_sprite));
+
+    // Add the finish line to the scene.
+    sf::Texture& finish_texture = m_textures.get(Textures::ID::FINISH_LINE);
+    std::unique_ptr<SpriteNode> finish_sprite = std::make_unique<SpriteNode>(finish_texture);
+    finish_sprite->setPosition(0.f, -76.f);
+    m_scene_layers[static_cast<size_t>(World::Layer::BACKGROUND)]->attachChild(std::move(finish_sprite));
 
     // Add smoke particle node to the scene.
     std::unique_ptr<ParticleNode> smoke_node = std::make_unique<ParticleNode>(Particle::Type::SMOKE, m_textures);
     m_scene_layers[static_cast<std::size_t>(World::Layer::LOWER_AIR)]->attachChild(std::move(smoke_node));
-    
+
     // Add propellant particle node to the scene.
     std::unique_ptr<ParticleNode> propellant_node = std::make_unique<ParticleNode>(Particle::Type::PROPELLANT, m_textures);
     m_scene_layers[static_cast<std::size_t>(World::Layer::LOWER_AIR)]->attachChild(std::move(propellant_node));
@@ -186,8 +193,18 @@ namespace FastSimDesign {
 
   void World::draw()
   {
-    m_window.setView(m_world_view);
-    m_window.draw(m_scene_graph);
+    if (PostEffect::isSupported())
+    {
+      m_scene_texture.clear();
+      m_scene_texture.setView(m_world_view);
+      m_scene_texture.draw(m_scene_graph);
+      m_scene_texture.display();
+      m_bloom_effect.apply(m_scene_texture, m_window);
+    } else
+    {
+      m_window.setView(m_world_view);
+      m_window.draw(m_scene_graph);
+    }
   }
 
   void World::monitorState(SimMonitor::Monitor&, SimMonitor::Frame::World&) const

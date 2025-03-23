@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////
 
 #include "application.h"
+
 #include "../state_machine/state_identifiers.h"
 #include "../state_machine/title_state.h"
 #include "../state_machine/menu_state.h"
@@ -19,9 +20,10 @@
 #include "configuration.h"
 #include "log.h"
 #include "../monitor/window/state_machine_window.h"
-#include "../monitor/window/scene_graph_window.h"
 #include "monitor/window/window.h"
 
+#include <SFML/Graphics/Shader.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/WindowStyle.hpp>
@@ -71,9 +73,7 @@ namespace FastSimDesign {
 
     m_fonts.load(Fonts::ID::MAIN, "../assets/fonts/arial.ttf");
     m_textures.load(Textures::ID::TITLE_SCREEN, "../assets/sprites/npcs/title_screen.png");
-    m_textures.load(Textures::ID::BUTTON_NORMAL, "../assets/sprites/npcs/button_normal.png");
-    m_textures.load(Textures::ID::BUTTON_PRESSED, "../assets/sprites/npcs/button_pressed.png");
-    m_textures.load(Textures::ID::BUTTON_SELECTED, "../assets/sprites/npcs/button_selected.png");
+    m_textures.load(Textures::ID::BUTTONS, "../assets/sprites/npcs/buttons.png");
 
     m_statistics_text.setFont(m_fonts.get(Fonts::ID::MAIN));
     m_statistics_text.setPosition(5.f, 5.f);

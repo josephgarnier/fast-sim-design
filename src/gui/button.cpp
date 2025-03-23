@@ -11,6 +11,7 @@
 #include "button.h"
 #include "../core/resource_identifiers.h"
 #include "../utils/sfml_util.h"
+#include "../utils/generic_utility.h"
 
 #include <SFML/Graphics/Rect.hpp>
 
@@ -25,14 +26,11 @@ namespace FastSimDesign {
     ////////////////////////////////////////////////////////////
     Button::Button(FontHolder const& fonts, TextureHolder const& textures)
       : m_callback{}
-      , m_normal_texture{textures.get(Textures::ID::BUTTON_NORMAL)}
-      , m_selected_texture{textures.get(Textures::ID::BUTTON_SELECTED)}
-      , m_pressed_texture{textures.get(Textures::ID::BUTTON_PRESSED)}
-      , m_sprite{}
+      , m_sprite{textures.get(Textures::ID::BUTTONS)}
       , m_text{"", fonts.get(Fonts::ID::MAIN), 16}
       , m_is_toggle{false}
     {
-      m_sprite.setTexture(m_normal_texture);
+      changeTexture(Button::Type::NORMAL);
 
       sf::FloatRect bounds = m_sprite.getLocalBounds();
       m_text.setPosition(bounds.width / 2.f, bounds.height / 2.f);
@@ -62,13 +60,13 @@ namespace FastSimDesign {
     void Button::select() noexcept
     {
       Parent::select();
-      m_sprite.setTexture(m_selected_texture);
+      changeTexture(Button::Type::SELECTED);
     }
 
     void Button::deselect() noexcept
     {
       Parent::deselect();
-      m_sprite.setTexture(m_normal_texture);
+      changeTexture(Button::Type::NORMAL);
     }
 
     void Button::activate() noexcept
@@ -77,7 +75,7 @@ namespace FastSimDesign {
 
       // If we are toggle then we should show that the button is pressed and thus "toggled".
       if (m_is_toggle)
-        m_sprite.setTexture(m_pressed_texture);
+        changeTexture(Button::Type::PRESSED);
 
       if (m_callback)
         m_callback();
@@ -94,9 +92,9 @@ namespace FastSimDesign {
       {
         // Reset texture to right one depending on if we are selected or not.
         if (isSelected())
-          m_sprite.setTexture(m_selected_texture);
+          changeTexture(Button::Type::SELECTED);
         else
-          m_sprite.setTexture(m_normal_texture);
+          changeTexture(Button::Type::NORMAL);
       }
     }
 
@@ -110,5 +108,12 @@ namespace FastSimDesign {
       target.draw(m_sprite, states);
       target.draw(m_text, states);
     }
+
+    void Button::changeTexture(Button::Type button_type) noexcept
+    {
+      sf::IntRect texture_rect{0, 50 * toUnderlyingType(button_type), 200, 50};
+      m_sprite.setTextureRect(texture_rect);
+    }
+
   }
 }

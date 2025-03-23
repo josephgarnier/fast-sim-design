@@ -16,6 +16,7 @@
 #include "projectile.h"
 #include "../core/resource_identifiers.h"
 #include "../core/command.h"
+#include "../gui/animation.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -62,12 +63,14 @@ namespace FastSimDesign {
     void checkPickupDrop(CommandQueue& commands) noexcept;
     void checkProjectileLaunch(sf::Time const& dt, CommandQueue& commands) noexcept;
     void updateDisplayedTexts() noexcept;
+    void updateRollAnimation() noexcept;
 
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 
   private:
     Aircraft::Type m_type;
     sf::Sprite m_sprite;
+    Animation m_explosion;
 
     Command m_fire_command;
     Command m_missile_command;
@@ -75,7 +78,7 @@ namespace FastSimDesign {
     sf::Time m_fire_countdown;
     bool m_is_firing;
     bool m_is_launching_missile;
-    bool m_is_marked_for_removal;
+    bool m_show_explosion;
 
     int m_fire_rate_level;
     int m_spread_level;

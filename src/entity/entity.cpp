@@ -34,7 +34,7 @@ namespace FastSimDesign {
     m_velocity.y = vy;
   }
 
-  sf::Vector2f Entity::getVelocity() const noexcept
+  sf::Vector2f const & Entity::getVelocity() const noexcept
   {
     return m_velocity;
   }

@@ -13,6 +13,7 @@
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics/Shader.hpp>
 
 namespace FastSimDesign {
   GameState::GameState(StateStack* stack, Context context) noexcept

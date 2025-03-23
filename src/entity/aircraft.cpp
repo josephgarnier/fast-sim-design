@@ -19,6 +19,7 @@
 #include "pickup.h"
 #include "projectile.h"
 
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -37,14 +38,15 @@ namespace FastSimDesign {
   Aircraft::Aircraft(Aircraft::Type type, TextureHolder const& textures, FontHolder const& fonts)
     : Parent{Data_Table[type].hit_point}
     , m_type{type}
-    , m_sprite{textures.get(Data_Table[type].texture)}
+    , m_sprite{textures.get(Data_Table[type].texture), Data_Table[type].m_texture_rect}
+    , m_explosion{textures.get(Textures::ID::EXPLOSION)}
     , m_fire_command{}
     , m_missile_command{}
     , m_drop_pickup_command{}
     , m_fire_countdown{sf::Time::Zero}
     , m_is_firing{false}
     , m_is_launching_missile{false}
-    , m_is_marked_for_removal{false}
+    , m_show_explosion{true}
     , m_fire_rate_level{1}
     , m_spread_level{1}
     , m_missile_ammo{2}
@@ -53,7 +55,12 @@ namespace FastSimDesign {
     , m_health_display{nullptr}
     , m_missile_display{nullptr}
   {
+    m_explosion.setFrameSize(sf::Vector2i{256, 256});
+    m_explosion.setNumFrames(16);
+    m_explosion.setDuration(sf::seconds(1));
+
     SFML::centerOrigin(m_sprite);
+    SFML::centerOrigin(m_explosion);
 
     m_fire_command.name = "CreateBullets";
     m_fire_command.category = BitFlags<Category::Type>{Category::Type::SCENE_AIR_LAYER};
@@ -147,6 +154,24 @@ namespace FastSimDesign {
     }
   }
 
+  void Aircraft::updateRollAnimation() noexcept
+  {
+    if (Data_Table[m_type].has_rool_animation)
+    {
+      sf::IntRect texture_rect = Data_Table[m_type].m_texture_rect;
+
+      // Roll left: Texture rect offset once.
+      if (getVelocity().x < 0.f)
+        texture_rect.left += texture_rect.width;
+
+      // Roll right: Texture rect offset twice.
+      else if (getVelocity().x > 0.f)
+        texture_rect.left += 2 * texture_rect.width;
+
+      m_sprite.setTextureRect(texture_rect);
+    }
+  }
+
   BitFlags<Category::Type> Aircraft::getCategory() const noexcept
   {
     if (isAllied())
@@ -162,7 +187,7 @@ namespace FastSimDesign {
 
   bool Aircraft::isMarkedForRemoval() const noexcept
   {
-    return m_is_marked_for_removal;
+    return isDestroyed() && (m_explosion.isFinished() || !m_show_explosion);
   }
 
   float Aircraft::getMaxSpeed() const noexcept
@@ -210,24 +235,24 @@ namespace FastSimDesign {
 
   void Aircraft::updateCurrent(sf::Time const& dt, CommandQueue& commands)
   {
+    // Update texts.
+    updateDisplayedTexts();
+    updateRollAnimation();
+
     // Entity has been destroyed: Possibly drop pickup, mark for removal.
     if (isDestroyed())
     {
       checkPickupDrop(commands);
-
-      m_is_marked_for_removal = true;
+      m_explosion.update(dt);
       return;
     }
-    
+
     // Check if bullets or missiles are fired.
     checkProjectileLaunch(dt, commands);
-    
+
     // Update enemy movement pattern; apply velocity.
     updateMovementPattern(dt);
     Parent::updateCurrent(dt, commands);
-    
-    // Update texts.
-    updateDisplayedTexts();
   }
 
   void Aircraft::updateMovementPattern(sf::Time const& dt) noexcept
@@ -290,6 +315,9 @@ namespace FastSimDesign {
 
   void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
   {
-    target.draw(m_sprite, states);
+    if (isDestroyed() && m_show_explosion)
+      target.draw(m_explosion, states);
+    else
+      target.draw(m_sprite, states);
   }
 }

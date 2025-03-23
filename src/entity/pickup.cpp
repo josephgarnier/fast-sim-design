@@ -28,7 +28,7 @@ namespace FastSimDesign {
   Pickup::Pickup(Pickup::Type type, TextureHolder const& textures) noexcept
     : Parent{1}
     , m_type{type}
-    , m_sprite{textures.get(Data_Table[type].texture)}
+    , m_sprite{textures.get(Data_Table[type].texture), Data_Table[type].m_texture_rect}
   {
     SFML::centerOrigin(m_sprite);
   }

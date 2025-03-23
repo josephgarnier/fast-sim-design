@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <SFML/Graphics/Rect.hpp>
 #ifndef FAST_SIM_DESIGN_ENTITY_DATA_H
 #define FAST_SIM_DESIGN_ENTITY_DATA_H
 
@@ -43,8 +44,10 @@ namespace FastSimDesign {
     int hit_point;
     float speed;
     Textures::ID texture;
+    sf::IntRect m_texture_rect;
     sf::Time fire_interval;
     std::vector<Direction> directions;
+    bool has_rool_animation;
   };
 
   struct ProjectileData
@@ -52,12 +55,14 @@ namespace FastSimDesign {
     int damage;
     float speed;
     Textures::ID texture;
+    sf::IntRect m_texture_rect;
   };
 
   struct PickupData
   {
     std::function<void(Aircraft&)> action;
     Textures::ID texture;
+    sf::IntRect m_texture_rect;
   };
 
   struct ParticleData

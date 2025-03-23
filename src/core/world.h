@@ -16,17 +16,21 @@
 #include "resource_identifiers.h"
 #include "command_queue.h"
 #include "../gui/scene_node.h"
+#include "../gui/bloom_effect.h"
 #include "../entity/aircraft.h"
 #include "../monitor/monitorable.h"
 
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/NonCopyable.hpp>
 
 #include <vector>
 
+namespace sf {
+  class RenderWindow;
+}
 namespace FastSimDesign {
   class Aircraft;
   class World final : private sf::NonCopyable
@@ -77,7 +81,7 @@ namespace FastSimDesign {
     void adaptPlayerPosition();
     void adaptPlayerVelocity() noexcept;
     void handleCollisions() noexcept;
-    bool matchesCategories(SceneNode::Pair& colliders, BitFlags<Category::Type>  type_1, BitFlags<Category::Type>  type_2) const noexcept;
+    bool matchesCategories(SceneNode::Pair& colliders, BitFlags<Category::Type> type_1, BitFlags<Category::Type> type_2) const noexcept;
 
     void addEnemies() noexcept;
     void addEnemy(Aircraft::Type type, float rel_x, float rel_y) noexcept;
@@ -91,6 +95,7 @@ namespace FastSimDesign {
   protected:
   private:
     sf::RenderWindow& m_window;
+    sf::RenderTexture m_scene_texture;
     sf::View m_world_view;
     TextureHolder m_textures;
     FontHolder& m_fonts;
@@ -107,6 +112,8 @@ namespace FastSimDesign {
 
     std::vector<SpawnPoint> m_enemy_spawn_points;
     std::vector<Aircraft*> m_active_enemies;
+    
+    BloomEffet m_bloom_effect;
   };
 }
 #endif

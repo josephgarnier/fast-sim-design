@@ -31,7 +31,7 @@ namespace FastSimDesign {
 
     void setVelocity(sf::Vector2f velocity) noexcept;
     void setVelocity(float vx, float vy) noexcept;
-    sf::Vector2f getVelocity() const noexcept;
+    sf::Vector2f const & getVelocity() const noexcept;
 
     void accelerate(sf::Vector2f const& velocity) noexcept;
     void accelerate(float vx, float vy) noexcept;

@@ -15,30 +15,37 @@
 
 #include "resource_holder.h"
 
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Texture.hpp>
+namespace sf {
+  class Texture;
+  class Font;
+  class Shader;
+  class SoundBuffer;
+}
 
 namespace FastSimDesign {
   namespace Textures {
     enum class ID : uint16_t
     {
-      EAGLE,
-      RAPTOR,
-      AVENGER,
-      BULLET,
-      MISSILE,
-      DESERT,
-      HEALTH_REFILL,
-      MISSILE_REFILL,
-      FIRE_SPREAD,
-      FIRE_RATE,
+      ENTITIES,
+      JUNGLE,
       TITLE_SCREEN,
-      BUTTON_NORMAL,
-      BUTTON_SELECTED,
-      BUTTON_PRESSED,
-      PARTICLE
+      BUTTONS,
+      EXPLOSION,
+      PARTICLE,
+      FINISH_LINE,
     };
   }
+
+  namespace Shaders {
+    enum class ID : uint16_t
+    {
+      BRIGHTNESS_PASS,
+      DOWN_SAMPLE_PASS,
+      GAUSSIAN_BLUR_PASS,
+      ADD_PASS,
+    };
+  }
+
   namespace Fonts {
     enum class ID : uint16_t
     {
@@ -46,7 +53,30 @@ namespace FastSimDesign {
     };
   }
 
+  namespace SoundEffect {
+    enum class ID : uint16_t
+    {
+      ALLIED_GUN_FIRE,
+      ENEMY_GUN_FIRE,
+      EXPLOSION_1,
+      EXPLOSION_2,
+      LAUNCH_MISSILE,
+      COLLECT_PICKUP,
+      BUTTON,
+    };
+  }
+
+  namespace Music {
+    enum class ID : uint16_t
+    {
+      MENU_THEME,
+      MISSION_THEME,
+    };
+  }
+
   using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
   using FontHolder = ResourceHolder<sf::Font, Fonts::ID>;
+  using ShaderHolder = ResourceHolder<sf::Shader, Shaders::ID>;
+  // using SoundBufferHolder = ResourceHolder<sf::Font, Fonts::ID>;
 }
 #endif

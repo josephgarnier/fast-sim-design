@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <cstdint>
 #ifndef FAST_SIM_DESIGN_BUTTON_H
 #define FAST_SIM_DESIGN_BUTTON_H
 
@@ -29,6 +30,15 @@ namespace FastSimDesign {
   namespace GUI {
     class Button : public Component
     {
+    public:
+      enum class Type : uint16_t
+      {
+        NORMAL,
+        SELECTED,
+        PRESSED,
+        TYPE_COUNT,
+      };
+
     public:
       using Ptr = std::shared_ptr<Button>;
 
@@ -55,12 +65,10 @@ namespace FastSimDesign {
 
     private:
       virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+      void changeTexture(Button::Type button_type) noexcept;
 
     private:
       Button::Callback m_callback;
-      sf::Texture const& m_normal_texture;
-      sf::Texture const& m_selected_texture;
-      sf::Texture const& m_pressed_texture;
       sf::Sprite m_sprite;
       sf::Text m_text;
       bool m_is_toggle;
