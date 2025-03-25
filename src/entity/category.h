@@ -37,7 +37,7 @@ namespace FastSimDesign {
       PROJECTILE = ALLIED_PROJECTILE | ENEMY_PROJECTILE,
     };
 
-    inline std::string toStringg(uint16_t const& type)
+    inline std::string toString(uint16_t const& type)
     {
       // Using the underlying type avoids having to deal with cast errors,
       // before calling this function, which can occur for undeclared
@@ -64,12 +64,12 @@ namespace FastSimDesign {
       using UnderlyingT = typename BitFlags<T>::UnderlyingT;
       UnderlyingT raw = flags.toRaw();
 
-      return toStringg(raw);
+      return toString(raw);
     }
 
     inline std::ostream& operator<<(std::ostream& stream, Type const& left)
     {
-      return stream << toStringg(toUnderlyingType(left));
+      return stream << toString(toUnderlyingType(left));
     }
 
     inline constexpr Type operator|(Type left, Type right) noexcept
