@@ -12,23 +12,22 @@
 
 Fast-Sim-Design is an agent-based virtual world simulator in C++ for maps created with [Tiled software](https://www.mapeditor.org/). It use the [SFML engine](https://www.sfml-dev.org/) to simulate the world and [Dear ImGui](https://github.com/ocornut/imgui)/[ImGui-SFML](https://github.com/SFML/imgui-sfml) to display what's happening in the simulation. It is designed to get design projects off the ground quickly, and offers several tools for visualizing activity within the simulator to facilitate analysis. This makes Fast-Sim-Design ideal for simulation experiments. Finally, particular attention was paid to code quality, documentation and unit testing to guarantee reliable behavior.
 
-⚠️ **Development in progress** ⚠️
+<p align="center">
+<a href="#-features">Features</a> &nbsp;&bull;&nbsp;
+<a href="#-requirements">Requirements</a> &nbsp;&bull;&nbsp;
+<a href="#-getting-started">Getting started</a> &nbsp;&bull;&nbsp;
+<a href="#-setting-up-the-environment">Setting up the environment</a> &nbsp;&bull;&nbsp;
+<a href="#️-usage-and-commands">Usage and commands</a> &nbsp;&bull;&nbsp;
+<a href="#-development">Development</a> &nbsp;&bull;&nbsp;
+<a href="#-faq">FAQ</a> &nbsp;&bull;&nbsp;
+<a href="#-resources">Resources</a> &nbsp;&bull;&nbsp;
+<a href="#-contributing">Contributing</a> &nbsp;&bull;&nbsp;
+<a href="#-contributors">Contributors</a> &nbsp;&bull;&nbsp;
+<a href="#️-license">License</a> &nbsp;&bull;&nbsp;
+<a href="#-acknowledgments">Acknowledgments</a>
+</p>
 
-## 💠 Table of Contents <!-- omit in toc -->
-
-- [✨ Features](#-features)
-- [⚓ Requirements](#-requirements)
-- [🚀 Getting started](#-getting-started)
-- [💫 Architecture overview](#-architecture-overview)
-- [📄 Setting up the environment](#-setting-up-the-environment)
-- [⚙️ Usage and commands](#️-usage-and-commands)
-- [📂 Folder structure overview](#-folder-structure-overview)
-- [❓ How-To](#-how-to)
-  - [Update the Tiled library](#update-the-tiled-library)
-- [🤝 Contributing](#-contributing)
-- [👥 Credits](#-credits)
-- [©️ License](#️-license)
-- [🍻 Acknowledgments](#-acknowledgments)
+⚠️ **This project is at an early stage of development** ⚠️
 
 ## ✨ Features
 
@@ -62,19 +61,13 @@ In addition, it is recommended **to install [Tiled](https://www.mapeditor.org/)*
 
 ## 🚀 Getting started
 
-## 💫 Architecture overview
+1. From a terminal or using the software of your choice, clone [the repository](https://github.com/josephgarnier/fast-sim-design.git).
+2. TODO
+3. From a terminal, generate the build environment:
 
-### Logging
-
-A logging system based on [spdlog](https://github.com/gabime/spdlog) is available to trace events within the simulation. It can be disabled or limited to certain log levels during the compilation phase by setting the `LOG_ACTIVE_LEVEL` compilation definition (see [List of compile definitions](#list-of-compile-definitions)). Logs are sent to three sinks:
-
-- the console ;
-- the bin/fast-sim-design.log file
-- the ImGui "Log Window".
-
-The Log Window offers several options for filtering the display of logs and copying them to the clipboard.
-
-Logs can be added using the macros provided for each log level: `LOG_TRACE("<message>")`, `LOG_DEBUG("<message>")`, `LOG_INFO("<message>")`, `LOG_WARN("<message>")`, `LOG_ERROR("<message>")`, `LOG_CRITICAL("<message>")`.
+  ```console
+  ./run-cmake.sh
+  ```
 
 ## 📄 Setting up the environment
 
@@ -219,7 +212,9 @@ Use the following commands to **execute the binaries built** as executable:
 bin/project-name
 ```
 
-## 📂 Folder structure overview
+## 💻 Development
+
+### Folder structure overview
 
 This project has been set up with a specific file/folder structure in mind. The following describes some important features of this setup:
 
@@ -248,9 +243,25 @@ This project has been set up with a specific file/folder structure in mind. The 
 | `run-cmake.bat` | Utility script for Windows to generate the *Build Lifecycle*. |
 | `run-cmake.sh` | Utility script for Linux/MacOS to generate the *Build Lifecycle*. |
 
-## ❓ How-To
+### Technical architecture
 
-### Update the Tiled library
+#### Architecture overview
+
+#### Logging
+
+A logging system based on [spdlog](https://github.com/gabime/spdlog) is available to trace events within the simulation. It can be disabled or limited to certain log levels during the compilation phase by setting the `LOG_ACTIVE_LEVEL` compilation definition (see [List of compile definitions](#list-of-compile-definitions)). Logs are sent to three sinks:
+
+- the console ;
+- the bin/fast-sim-design.log file
+- the ImGui "Log Window".
+
+The Log Window offers several options for filtering the display of logs and copying them to the clipboard.
+
+Logs can be added using the macros provided for each log level: `LOG_TRACE("<message>")`, `LOG_DEBUG("<message>")`, `LOG_INFO("<message>")`, `LOG_WARN("<message>")`, `LOG_ERROR("<message>")`, `LOG_CRITICAL("<message>")`.
+
+## ❓ FAQ
+
+### How-To: Update the Tiled library
 
 Fast-Sim-Design is supplied with the Tiled library already pre-compiled with GCC. To rebuild and update it, proceed as follows:
 
@@ -266,14 +277,43 @@ Fast-Sim-Design is supplied with the Tiled library already pre-compiled with GCC
 
 At the end of the procedure, the compiled library is available from the Qt Creator output folders: `<path-to-project-tield>/build/<Release|Debug>_Desktop/libtiled/<tiled_x.xx.x|tiledd_x.xx.x>`. Copy them into the project's `lib/` folder. Also copy Tiled's C++ header files from the `<path-to-project-tield>/libtiled/` folder to the `include/tiled/` project folder.
 
+## 📚 Resources
+
 ## 🤝 Contributing
 
-1. Fork the repo and create your feature branch from master.
-2. Create a topic branch - `git checkout -b my_branch`.
-3. Push to your branch - `git push origin my_branch`.
-4. Create a Pull Request from your branch.
+Whether you have ideas to share, bugs to report, or features to implement, your contributions are welcome!
 
-## 👥 Credits
+### How to contribute
+
+1. **Propose Ideas and Discuss Features:**
+   - Join discussions, suggest new features, or refine existing ideas.
+
+2. **Report Bugs:**
+   - Found a bug? [Open an issue](https://github.com/josephgarnier/fast-sim-design/issues/new). Include details, reproduction steps, and any relevant screenshots or logs.
+
+3. **Implement Features:**
+   - Fork the repository and branch off `dev`.
+   - Implement your feature following the project’s coding standards.
+   - [Open a pull request](https://github.com/josephgarnier/fast-sim-design/compare) targeting the `dev` branch.
+
+### Code Style and Commit Messages
+
+- **Code Formatting:** Use `clang-format` to ensure consistency. Many editors can apply `clang-format` automatically when saving.
+- **Coding Style**: Follow the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) and the Naming convention already in place.
+- **Commit Messages:** Follow the [Conventional Commits](https://www.conventionalcommits.org/) style to maintain a clear and informative history:
+  - `feat`: New features.
+  - `fix`: Bug fixes.
+  - `docs`: Documentation updates.
+  - `style`: Code style changes.
+  - `refactor`: Refactoring without changing functionality.
+  - `test`: Adding or modifying tests.
+  - `chore`: Maintenance tasks.
+  - `merge`: Merging branches or pull requests. Examples:
+    - `merge: feature-branch-xxx into feature-branch`
+    - `merge: remote feature-branch into local feature-branch`
+    - `merge: pull request #12 from feature-branch`
+
+## 👥 Contributors
 
 This project is maintained and developed by [Joseph Garnier](https://www.joseph-garnier.fr/).
 
