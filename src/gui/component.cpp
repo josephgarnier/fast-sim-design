@@ -11,49 +11,43 @@
 #include "component.h"
 
 namespace FastSimDesign {
-  namespace GUI {
-    ////////////////////////////////////////////////////////////
-    /// Statics
-    ////////////////////////////////////////////////////////////
+namespace GUI {
+////////////////////////////////////////////////////////////
+/// Statics
+////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////
-    /// Methods
-    ////////////////////////////////////////////////////////////
-    Component::Component() noexcept
-      : m_is_selected{false}
-      , m_is_active{false}
-    {
-    }
-
-    bool Component::isSelected() const noexcept
-    {
-      return m_is_selected;
-    }
-
-    void Component::select() noexcept
-    {
-      m_is_selected = true;
-    }
-
-    void Component::deselect() noexcept
-    {
-      m_is_selected = false;
-    }
-
-    bool Component::isActive() const noexcept
-    {
-      return m_is_active;
-    }
-
-    void Component::activate() noexcept
-    {
-      m_is_active = true;
-    }
-
-    void Component::deactivate() noexcept
-    {
-      m_is_active = false;
-    }
-
-  }
+////////////////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////////////////
+bool Component::isSelected() const noexcept
+{
+  return m_is_selected;
 }
+
+void Component::select() noexcept
+{
+  m_is_selected = true;
+}
+
+void Component::deselect() noexcept
+{
+  m_is_selected = false;
+}
+
+bool Component::isActive() const noexcept
+{
+  return m_is_active;
+}
+
+void Component::activate() noexcept
+{
+  m_is_active = true;
+}
+
+void Component::deactivate() noexcept
+{
+  m_is_active = false;
+}
+
+} // namespace GUI
+} // namespace FastSimDesign

@@ -13,39 +13,40 @@
 #ifndef FAST_SIM_DESIGN_COMMAND_H
 #define FAST_SIM_DESIGN_COMMAND_H
 
-#include <SFML/System/Time.hpp>
 #include "../entity/category.h"
 
-#include <functional>
+#include <SFML/System/Time.hpp>
+
 #include <cassert>
+#include <functional>
 #include <string>
 
 namespace FastSimDesign {
-  class SceneNode;
-  struct Command
-  {
-    explicit Command() noexcept; // Default constructor
-    Command(Command const&) = default; // Copy constructor
-    Command(Command&&) = default; // Move constructor
-    Command& operator=(Command const&) = default; // Copy assignment operator
-    Command& operator=(Command&&) = default; // Move assignment operator
-    virtual ~Command() = default; // Destructor
+class SceneNode;
+struct Command
+{
+  explicit Command() = default;
+  Command(Command const&) = default;
+  Command(Command&&) = default;
+  Command& operator=(Command const&) = default;
+  Command& operator=(Command&&) = default;
+  virtual ~Command() = default;
 
-    std::string name;
-    BitFlags<Category::Type> category;
-    std::function<void(SceneNode&, sf::Time)> action;
+  std::string name{""};
+  BitFlags<Category::Type> category{Category::Type::NONE};
+  std::function<void(SceneNode&, sf::Time)> action{};
+};
+
+template<typename GameObject, typename Function>
+std::function<void(SceneNode&, sf::Time)> derivedAction(Function action)
+{
+  return [=](SceneNode& node, sf::Time const& dt) {
+    // Check if cast is safe.
+    assert(dynamic_cast<GameObject*>(&node) != nullptr);
+
+    // Downcast node and invoke function on it.
+    action(static_cast<GameObject&>(node), dt);
   };
-
-  template<typename GameObject, typename Function>
-  std::function<void(SceneNode&, sf::Time)> derivedAction(Function action)
-  {
-    return [=](SceneNode& node, sf::Time const& dt) {
-      // Check if cast is safe.
-      assert(dynamic_cast<GameObject*>(&node) != nullptr);
-
-      // Downcast node and invoke function on it.
-      action(static_cast<GameObject&>(node), dt);
-    };
-  }
 }
+} // namespace FastSimDesign
 #endif

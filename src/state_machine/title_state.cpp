@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////
 
 #include "title_state.h"
+
 #include "../core/resource_identifiers.h"
 #include "../utils/sfml_util.h"
 
@@ -17,48 +18,45 @@
 #include <SFML/Window/Event.hpp>
 
 namespace FastSimDesign {
-  TitleState::TitleState(StateStack* stack, Context context)
-    : Parent{stack, context, "TITLE"}
-    , m_background_sprite{}
-    , m_text{}
-    , m_show_text{true}
-    , m_text_effect_time{sf::Time::Zero}
-  {
-    m_background_sprite.setTexture(context.textures->get(Textures::ID::TITLE_SCREEN));
+TitleState::TitleState(StateStack* stack, Context context)
+  : Parent{stack, context, "TITLE"}
+{
+  m_background_sprite.setTexture(
+      context.textures->get(Textures::ID::TITLE_SCREEN));
 
-    m_text.setFont(context.fonts->get(Fonts::ID::MAIN));
-    m_text.setString("Press any key to start");
-    SFML::centerOrigin(m_text);
-    m_text.setPosition(context.window->getView().getSize() / 2.f);
-  }
-
-  bool TitleState::handleEvent(sf::Event const& event)
-  {
-    // If any key is pressed, trigger the next screen.
-    if (event.type == sf::Event::KeyPressed)
-    {
-      requestStackPop();
-      requestStackPush(States::ID::MENU);
-    }
-    return true;
-  }
-
-  bool TitleState::update(sf::Time const & dt) noexcept
-  {
-    m_text_effect_time += dt;
-    if (m_text_effect_time >= sf::seconds(0.5f))
-    {
-      m_show_text = !m_show_text;
-      m_text_effect_time = sf::Time::Zero;
-    }
-    return true;
-  }
-
-  void TitleState::draw()
-  {
-    sf::RenderWindow& window = *getContext().window;
-    window.draw(m_background_sprite);
-    if (m_show_text)
-      window.draw(m_text);
-  }
+  m_text.setFont(context.fonts->get(Fonts::ID::MAIN));
+  m_text.setString("Press any key to start");
+  SFML::centerOrigin(m_text);
+  m_text.setPosition(context.window->getView().getSize() / 2.f);
 }
+
+bool TitleState::handleEvent(sf::Event const& event)
+{
+  // If any key is pressed, trigger the next screen.
+  if (event.type == sf::Event::KeyPressed)
+  {
+    requestStackPop();
+    requestStackPush(States::ID::MENU);
+  }
+  return true;
+}
+
+bool TitleState::update(sf::Time const& dt) noexcept
+{
+  m_text_effect_time += dt;
+  if (m_text_effect_time >= sf::seconds(0.5f))
+  {
+    m_show_text = !m_show_text;
+    m_text_effect_time = sf::Time::Zero;
+  }
+  return true;
+}
+
+void TitleState::draw()
+{
+  sf::RenderWindow& window = *getContext().window;
+  window.draw(m_background_sprite);
+  if (m_show_text)
+    window.draw(m_text);
+}
+} // namespace FastSimDesign

@@ -14,46 +14,46 @@
 #define FAST_SIM_DESIGN_FRAME_H
 
 #include <cassert>
-#include <string_view>
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 
 namespace FastSimDesign {
-  namespace SimMonitor {
-    struct Frame
-    {
-      struct StateMachineState
-      {
-        std::string_view name;
-      };
+namespace SimMonitor {
+struct Frame
+{
+  struct StateMachineState
+  {
+    std::string_view name;
+  };
 
-      struct StateMachine
-      {
-        std::vector<StateMachineState> states;
-      };
+  struct StateMachine
+  {
+    std::vector<StateMachineState> states;
+  };
 
-      struct SceneNode
-      {
-        using Ptr = std::unique_ptr<SceneNode>;
+  struct SceneNode
+  {
+    using Ptr = std::unique_ptr<SceneNode>;
 
-        std::string category = "UNKNOWN";
-        std::string type = "NO TYPE";
-        SceneNode* m_parent = nullptr;
-        std::vector<Ptr> m_children;
+    std::string category = "UNKNOWN";
+    std::string type = "NO TYPE";
+    SceneNode* m_parent = nullptr;
+    std::vector<Ptr> m_children;
 
-        void attachChild(Ptr child);
-        Ptr detachChild(SceneNode const& child);
-      };
+    void attachChild(Ptr child);
+    Ptr detachChild(SceneNode const& child);
+  };
 
-      struct World
-      {
-      };
+  struct World
+  {
+  };
 
-      StateMachine state_stack;
-      World world;
-      SceneNode scene_graph;
-    };
-  }
-}
+  StateMachine state_stack;
+  World world;
+  SceneNode scene_graph;
+};
+} // namespace SimMonitor
+} // namespace FastSimDesign
 #endif

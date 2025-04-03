@@ -20,18 +20,18 @@
 #include <cstdint>
 
 namespace FastSimDesign {
-  struct Particle
+struct Particle
+{
+  enum class Type : uint16_t
   {
-    enum class Type : uint16_t
-    {
-      PROPELLANT,
-      SMOKE,
-      TYPE_COUNT
-    };
-
-    sf::Vector2f m_position;
-    sf::Color m_color;
-    sf::Time m_lifetime;
+    PROPELLANT,
+    SMOKE,
+    TYPE_COUNT
   };
-}
+
+  sf::Vector2f m_position;
+  sf::Color m_color;
+  sf::Time m_lifetime;
+};
+} // namespace FastSimDesign
 #endif

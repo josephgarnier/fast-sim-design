@@ -11,17 +11,17 @@
 #include "monitor_exception.h"
 
 namespace FastSimDesign {
-  ////////////////////////////////////////////////////////////
-  /// Methods
-  ////////////////////////////////////////////////////////////
-  MonitorException::MonitorException(std::string what) noexcept
-    : Parent{}
-    , m_message(std::move(what))
-  {
-  }
-
-  char const* MonitorException::what() const noexcept
-  {
-    return m_message.c_str();
-  }
+////////////////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////////////////
+MonitorException::MonitorException(std::string what) noexcept
+  : Parent{}
+  , m_message(std::move(what))
+{
 }
+
+char const* MonitorException::what() const noexcept
+{
+  return m_message.c_str();
+}
+} // namespace FastSimDesign

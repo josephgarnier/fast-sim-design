@@ -20,7 +20,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     FastSimDesign::Log::init();
     FastSimDesign::Application::launch(FastSimDesign::Application{});
     FastSimDesign::Log::shutdown();
-  } catch (std::exception const& e)
+  }
+  catch (std::exception const& e)
   {
     std::cout << "\nException: " << e.what() << std::endl;
   }

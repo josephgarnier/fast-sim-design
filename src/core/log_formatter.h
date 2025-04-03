@@ -13,28 +13,29 @@
 #ifndef FAST_SIM_DESIGN_LOG_FORMATTER_H
 #define FAST_SIM_DESIGN_LOG_FORMATTER_H
 
-#include <spdlog/formatter.h>
 #include <spdlog/fmt/bundled/color.h>
+#include <spdlog/formatter.h>
 
 namespace FastSimeDesign {
-  class LogFormater : public spdlog::formatter
-  {
-  private:
-    using Parent = spdlog::formatter;
+class LogFormater final : public spdlog::formatter
+{
+private:
+  using Parent = spdlog::formatter;
 
-  private:
-    static std::array<fmt::text_style, spdlog::level::n_levels> m_colors;
+private:
+  static std::array<fmt::text_style, spdlog::level::n_levels> m_colors;
 
-  public:
-    explicit LogFormater() = default; // Default constructor
-    LogFormater(LogFormater const&) = default; // Copy constructor
-    LogFormater(LogFormater&&) = default; // Move constructor
-    LogFormater& operator=(LogFormater const&) = default; // Copy assignment operator
-    LogFormater& operator=(LogFormater&&) = default; // Move assignment operator
-    virtual ~LogFormater() = default; // Destructor
+public:
+  explicit LogFormater() = default;
+  LogFormater(LogFormater const&) = default;
+  LogFormater(LogFormater&&) = default;
+  LogFormater& operator=(LogFormater const&) = default;
+  LogFormater& operator=(LogFormater&&) = default;
+  virtual ~LogFormater() = default;
 
-    virtual void format(spdlog::details::log_msg const& msg, spdlog::memory_buf_t& dest) override;
-    virtual std::unique_ptr<spdlog::formatter> clone() const override;
-  };
-}
+  virtual void format(
+      spdlog::details::log_msg const& msg, spdlog::memory_buf_t& dest) override;
+  virtual std::unique_ptr<spdlog::formatter> clone() const override;
+};
+} // namespace FastSimeDesign
 #endif

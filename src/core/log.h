@@ -31,69 +31,95 @@
 #include <utility>
 
 namespace FastSimDesign {
-  class Log final
+class Log final
+{
+public:
+  static void init();
+
+  template<typename TSink, typename... TSinkArgs>
+  static void registerSink(TSinkArgs&&... args)
   {
-  public:
-    static void init();
+    spdlog::get("APP")->sinks().push_back(
+        std::make_shared<TSink>(std::forward<TSinkArgs>(args)...));
+    spdlog::get("APP")->sinks().back()->set_pattern(
+        "[%Y-%m-%d %T] [%l] [%s::%!()] %v"); // ImGui window
+    spdlog::get("APP")->sinks().back()->set_level(spdlog::level::trace);
+  }
+  static void shutdown();
+  static std::shared_ptr<spdlog::logger>& getLogger() noexcept
+  {
+    return Log::s_logger;
+  }
 
-    template<typename TSink, typename... TSinkArgs>
-    static void registerSink(TSinkArgs&&... args)
-    {
-      spdlog::get("APP")->sinks().push_back(std::make_shared<TSink>(std::forward<TSinkArgs>(args)...));
-      spdlog::get("APP")->sinks().back()->set_pattern("[%Y-%m-%d %T] [%l] [%s::%!()] %v"); // ImGui window
-      spdlog::get("APP")->sinks().back()->set_level(spdlog::level::trace);
-    }
-    static void shutdown();
-    static std::shared_ptr<spdlog::logger>& getLogger() noexcept
-    {
-      return Log::s_logger;
-    }
+private:
+  static std::shared_ptr<spdlog::logger> s_logger;
 
-  private:
-    static std::shared_ptr<spdlog::logger> s_logger;
-
-  public:
-    explicit Log() = default; // Default constructor
-    Log(Log const&) = default; // Copy constructor
-    Log(Log&&) = default; // Move constructor
-    Log& operator=(Log const&) = default; // Copy assignment operator
-    Log& operator=(Log&&) = default; // Move assignment operator
-    virtual ~Log() = default; // Destructor
-  };
-}
+public:
+  explicit Log() = default;
+  Log(Log const&) = default;
+  Log(Log&&) = default;
+  Log& operator=(Log const&) = default;
+  Log& operator=(Log&&) = default;
+  virtual ~Log() = default;
+};
+} // namespace FastSimDesign
 
 #if LOG_ACTIVE_LEVEL <= LOG_LEVEL_TRACE
-#define LOG_TRACE(...) FastSimDesign::Log::getLogger()->log(spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__}, spdlog::level::trace, __VA_ARGS__);
+#define LOG_TRACE(...)                                                         \
+  FastSimDesign::Log::getLogger()->log(                                        \
+      spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__},                    \
+      spdlog::level::trace,                                                    \
+      __VA_ARGS__);
 #else
 #define LOG_TRACE(...) (void)0
 #endif
 
 #if LOG_ACTIVE_LEVEL <= LOG_LEVEL_DEBUG
-#define LOG_DEBUG(...) FastSimDesign::Log::getLogger()->log(spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__}, spdlog::level::debug, __VA_ARGS__);
+#define LOG_DEBUG(...)                                                         \
+  FastSimDesign::Log::getLogger()->log(                                        \
+      spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__},                    \
+      spdlog::level::debug,                                                    \
+      __VA_ARGS__);
 #else
 #define LOG_DEBUG(...) (void)0
 #endif
 
 #if LOG_ACTIVE_LEVEL <= LOG_LEVEL_INFO
-#define LOG_INFO(...) FastSimDesign::Log::getLogger()->log(spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__}, spdlog::level::info, __VA_ARGS__);
+#define LOG_INFO(...)                                                          \
+  FastSimDesign::Log::getLogger()->log(                                        \
+      spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__},                    \
+      spdlog::level::info,                                                     \
+      __VA_ARGS__);
 #else
 #define LOG_INFO(...) (void)0
 #endif
 
 #if LOG_ACTIVE_LEVEL <= LOG_LEVEL_WARN
-#define LOG_WARN(...) FastSimDesign::Log::getLogger()->log(spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__}, spdlog::level::warn, __VA_ARGS__);
+#define LOG_WARN(...)                                                          \
+  FastSimDesign::Log::getLogger()->log(                                        \
+      spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__},                    \
+      spdlog::level::warn,                                                     \
+      __VA_ARGS__);
 #else
 #define LOG_WARN(...) (void)0
 #endif
 
 #if LOG_ACTIVE_LEVEL <= LOG_LEVEL_ERROR
-#define LOG_ERROR(...) FastSimDesign::Log::getLogger()->log(spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__}, spdlog::level::err, __VA_ARGS__);
+#define LOG_ERROR(...)                                                         \
+  FastSimDesign::Log::getLogger()->log(                                        \
+      spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__},                    \
+      spdlog::level::err,                                                      \
+      __VA_ARGS__);
 #else
 #define LOG_ERROR(...) (void)0
 #endif
 
 #if LOG_ACTIVE_LEVEL <= LOG_LEVEL_CRITICAL
-#define LOG_CRITICAL(...) FastSimDesign::Log::getLogger()->log(spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__}, spdlog::level::critical, __VA_ARGS__);
+#define LOG_CRITICAL(...)                                                      \
+  FastSimDesign::Log::getLogger()->log(                                        \
+      spdlog::source_loc{__FILE__, __LINE__, __FUNCTION__},                    \
+      spdlog::level::critical,                                                 \
+      __VA_ARGS__);
 #else
 #define LOG_CRITICAL(...) (void)0
 #endif

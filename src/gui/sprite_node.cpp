@@ -13,20 +13,22 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace FastSimDesign {
-  SpriteNode::SpriteNode(sf::Texture const& texture) noexcept
-    : Parent{}
-    , m_sprite{texture}
-  {
-  }
-
-  SpriteNode::SpriteNode(sf::Texture const& texture, const sf::IntRect& textureRect) noexcept
-    : Parent{}
-    , m_sprite{texture, textureRect}
-  {
-  }
-
-  void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
-  {
-    target.draw(m_sprite, states);
-  }
+SpriteNode::SpriteNode(sf::Texture const& texture) noexcept
+  : Parent{}
+  , m_sprite{texture}
+{
 }
+
+SpriteNode::SpriteNode(
+    sf::Texture const& texture, const sf::IntRect& textureRect) noexcept
+  : Parent{}
+  , m_sprite{texture, textureRect}
+{
+}
+
+void SpriteNode::drawCurrent(
+    sf::RenderTarget& target, sf::RenderStates states) const
+{
+  target.draw(m_sprite, states);
+}
+} // namespace FastSimDesign

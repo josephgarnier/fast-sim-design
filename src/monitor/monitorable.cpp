@@ -9,41 +9,42 @@
 ////////////////////////////////////////////////////////////
 
 #include "monitorable.h"
+
 #include "window/window.h"
 
 namespace FastSimDesign {
-  namespace SimMonitor {
-    ////////////////////////////////////////////////////////////
-    /// Statics
-    ////////////////////////////////////////////////////////////
+namespace SimMonitor {
+////////////////////////////////////////////////////////////
+/// Statics
+////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////
-    /// Methods
-    ////////////////////////////////////////////////////////////
-    void Monitorable::monitorState(Monitor&, Frame&) const
-    {
-      // Do nothing by default.
-    }
-
-    void Monitorable::monitorState(Monitor&, Frame::StateMachine&) const
-    {
-      // Do nothing by default.
-    }
-
-    void Monitorable::monitorState(Monitor&, Frame::StateMachineState&) const
-    {
-      // Do nothing by default.
-    }
-
-    void Monitorable::monitorState(Monitor&, Frame::World&) const
-    {
-      // Do nothing by default.
-    }
-
-    void Monitorable::monitorState(Monitor&, Frame::SceneNode&) const
-    {
-      // Do nothing by default.
-    }
-
-  }
+////////////////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////////////////
+void Monitorable::monitorState(Monitor&, Frame&) const
+{
+  // Do nothing by default.
 }
+
+void Monitorable::monitorState(Monitor&, Frame::StateMachine&) const
+{
+  // Do nothing by default.
+}
+
+void Monitorable::monitorState(Monitor&, Frame::StateMachineState&) const
+{
+  // Do nothing by default.
+}
+
+void Monitorable::monitorState(Monitor&, Frame::World&) const
+{
+  // Do nothing by default.
+}
+
+void Monitorable::monitorState(Monitor&, Frame::SceneNode&) const
+{
+  // Do nothing by default.
+}
+
+} // namespace SimMonitor
+} // namespace FastSimDesign

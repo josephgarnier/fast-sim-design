@@ -16,24 +16,21 @@
 #include "modal_dialog.h"
 
 namespace FastSimDesign {
-  class AboutDialog : public ModalDialog
-  {
-  private:
-    using Parent = ModalDialog;
+class AboutDialog : public ModalDialog
+{
+private:
+  using Parent = ModalDialog;
 
-  public:
-    explicit AboutDialog() noexcept; // Default constructor
-    AboutDialog(AboutDialog const&) = default; // Copy constructor
-    AboutDialog(AboutDialog&&) = default; // Move constructor
-    AboutDialog& operator=(AboutDialog const&) = default; // Copy assignment operator
-    AboutDialog& operator=(AboutDialog&&) = default; // Move assignment operator
-    virtual ~AboutDialog() = default; // Destructor
+public:
+  explicit AboutDialog() noexcept;
+  AboutDialog(AboutDialog const&) = default;
+  AboutDialog(AboutDialog&&) = default;
+  AboutDialog& operator=(AboutDialog const&) = default;
+  AboutDialog& operator=(AboutDialog&&) = default;
+  virtual ~AboutDialog() = default;
 
-  private:
-    virtual void draw(sf::Time const& dt) override;
-  public:
-  protected:
-  private:
-  };
-}
+private:
+  virtual void draw(sf::Time const& dt) override;
+};
+} // namespace FastSimDesign
 #endif

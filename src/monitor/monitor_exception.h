@@ -17,24 +17,24 @@
 #include <string>
 
 namespace FastSimDesign {
-  class MonitorException final : public std::exception
-  {
-  private:
-    using Parent = std::exception;
+class MonitorException final : public std::exception
+{
+private:
+  using Parent = std::exception;
 
-  public:
-    explicit MonitorException() = default; // Default constructor
-    explicit MonitorException(std::string what) noexcept; // Default constructor
-    MonitorException(MonitorException const&) = default; // Copy constructor
-    MonitorException(MonitorException&&) = default; // Move constructor
-    MonitorException& operator=(MonitorException const&) = default; // Copy assignment operator
-    MonitorException& operator=(MonitorException&&) = default; // Move assignment operator
-    virtual ~MonitorException() = default; // Destructor
+public:
+  explicit MonitorException() = default;
+  explicit MonitorException(std::string what) noexcept;
+  MonitorException(MonitorException const&) = default;
+  MonitorException(MonitorException&&) = default;
+  MonitorException& operator=(MonitorException const&) = default;
+  MonitorException& operator=(MonitorException&&) = default;
+  virtual ~MonitorException() = default;
 
-    virtual char const* what() const noexcept override;
+  virtual char const* what() const noexcept override;
 
-  private:
-    std::string m_message;
-  };
-}
+private:
+  std::string m_message{};
+};
+} // namespace FastSimDesign
 #endif

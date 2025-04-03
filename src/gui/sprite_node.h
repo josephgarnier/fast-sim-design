@@ -18,20 +18,22 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 namespace FastSimDesign {
-  class SpriteNode : public SceneNode
-  {
-  private:
-    using Parent = SceneNode;
+class SpriteNode : public SceneNode
+{
+private:
+  using Parent = SceneNode;
 
-  public:
-    explicit SpriteNode(sf::Texture const& texture) noexcept; // Default constructor
-    explicit SpriteNode(sf::Texture const& texture, sf::IntRect const& textureRect) noexcept;
-    virtual ~SpriteNode() = default; // Destructor
+public:
+  explicit SpriteNode(sf::Texture const& texture) noexcept;
+  explicit SpriteNode(
+      sf::Texture const& texture, sf::IntRect const& textureRect) noexcept;
+  virtual ~SpriteNode() = default;
 
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+  virtual void drawCurrent(
+      sf::RenderTarget& target, sf::RenderStates states) const override;
 
-  private:
-    sf::Sprite m_sprite;
-  };
-}
+private:
+  sf::Sprite m_sprite{};
+};
+} // namespace FastSimDesign
 #endif

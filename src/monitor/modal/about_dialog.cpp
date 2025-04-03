@@ -13,34 +13,37 @@
 #include <imgui.h>
 
 namespace FastSimDesign {
-  ////////////////////////////////////////////////////////////
-  /// Methods
-  ////////////////////////////////////////////////////////////
-  AboutDialog::AboutDialog() noexcept
-    : Parent{"About"}
+////////////////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////////////////
+AboutDialog::AboutDialog() noexcept
+  : Parent{"About"}
+{
+}
+
+void AboutDialog::draw(sf::Time const&)
+{
+  // Always center this window when appearing
+  ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+  ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2{0.5f, 0.5f});
+  static ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize;
+
+  if (ImGui::BeginPopupModal(
+          Parent::m_title.c_str(),
+          &(Parent::m_open),
+          window_flags))
   {
-  }
+    ImGui::Text("FastSimDesign");
+    ImGui::Spacing();
+    ImGui::Text("Version: 1.0.0");
+    ImGui::Text("Author: Joseph Garnier");
+    ImGui::Spacing();
+    ImGui::Spacing();
 
-  void AboutDialog::draw(sf::Time const&)
-  {
-    // Always center this window when appearing
-    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-    ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2{0.5f, 0.5f});
-    static ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize;
+    if (ImGui::Button("Close"))
+      Parent::close();
 
-    if (ImGui::BeginPopupModal(Parent::m_title.c_str(), &(Parent::m_open), window_flags))
-    {
-      ImGui::Text("FastSimDesign");
-      ImGui::Spacing();
-      ImGui::Text("Version: 1.0.0");
-      ImGui::Text("Author: Joseph Garnier");
-      ImGui::Spacing();
-      ImGui::Spacing();
-
-      if (ImGui::Button("Close"))
-        Parent::close();
-
-      ImGui::EndPopup();
-    }
+    ImGui::EndPopup();
   }
 }
+} // namespace FastSimDesign

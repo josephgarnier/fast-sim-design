@@ -22,34 +22,35 @@
 #include <vector>
 
 namespace FastSimDesign {
-  namespace GUI {
-    class Container : public Component
-    {
-    private:
-      using Parent = Component;
-      using Parent::select;
+namespace GUI {
+class Container : public Component
+{
+private:
+  using Parent = Component;
+  using Parent::select;
 
-    public:
-      explicit Container() noexcept; // Default constructor
-      virtual ~Container() = default; // Destructor
+public:
+  explicit Container() noexcept;
+  virtual ~Container() = default;
 
-      void pack(Component::Ptr component);
+  void pack(Component::Ptr component);
 
-      virtual bool isSelectable() const noexcept override;
-      virtual void handleEvent(sf::Event const& event) override;
+  virtual bool isSelectable() const noexcept override;
+  virtual void handleEvent(sf::Event const& event) override;
 
-    private:
-      virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+private:
+  virtual void draw(
+      sf::RenderTarget& target, sf::RenderStates states) const override;
 
-      bool hasSelection() const noexcept;
-      void select(std::size_t index) noexcept;
-      void selectNext() noexcept;
-      void selectPrevious() noexcept;
+  bool hasSelection() const noexcept;
+  void select(std::size_t index) noexcept;
+  void selectNext() noexcept;
+  void selectPrevious() noexcept;
 
-    private:
-      std::vector<Component::Ptr> m_children;
-      int m_selected_child;
-    };
-  }
-}
+private:
+  std::vector<Component::Ptr> m_children{};
+  int m_selected_child{-1};
+};
+} // namespace GUI
+} // namespace FastSimDesign
 #endif

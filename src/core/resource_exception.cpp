@@ -11,14 +11,14 @@
 #include "resource_exception.h"
 
 namespace FastSimDesign {
-  ResourceException::ResourceException(std::string what) noexcept
-    : Parent{}
-    , m_message{std::move(what)}
-  {
-  }
-
-  const char* ResourceException::what() const noexcept
-  {
-    return m_message.c_str();
-  }
+ResourceException::ResourceException(std::string what) noexcept
+  : Parent{}
+  , m_message{std::move(what)}
+{
 }
+
+const char* ResourceException::what() const noexcept
+{
+  return m_message.c_str();
+}
+} // namespace FastSimDesign

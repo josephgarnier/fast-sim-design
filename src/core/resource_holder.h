@@ -13,68 +13,69 @@
 #ifndef FAST_SIM_DESIGN_RESOURCE_HOLDER_H
 #define FAST_SIM_DESIGN_RESOURCE_HOLDER_H
 
+#include <cassert>
 #include <map>
 #include <memory>
 #include <stdexcept>
-#include <cassert>
 
 namespace FastSimDesign {
-  template<typename Resource, typename Identifier>
-  class ResourceHolder
+template<typename Resource, typename Identifier>
+class ResourceHolder final
+{
+public:
+  explicit ResourceHolder() = default;
+  ResourceHolder(ResourceHolder const&) = default;
+  ResourceHolder(ResourceHolder&&) = default;
+  ResourceHolder& operator=(ResourceHolder const&) = default;
+  ResourceHolder& operator=(ResourceHolder&&) = default;
+  virtual ~ResourceHolder() = default;
+
+  void load(Identifier id, std::string const& filePath)
   {
-  public:
-    explicit ResourceHolder() = default; // Default constructor
-    ResourceHolder(ResourceHolder const&) = default; // Copy constructor
-    ResourceHolder(ResourceHolder&&) = default; // Move constructor
-    ResourceHolder& operator=(ResourceHolder const&) = default; // Copy assignment operator
-    ResourceHolder& operator=(ResourceHolder&&) = default; // Move assignment operator
-    virtual ~ResourceHolder() = default; // Destructor
+    std::unique_ptr<Resource> resource{std::make_unique<Resource>()};
+    if (!resource->loadFromFile(filePath))
+      throw std::runtime_error(
+          "ResourceHolder::load - Failed to load " + filePath);
 
-    void load(Identifier id, std::string const& filePath)
-    {
-      std::unique_ptr<Resource> resource{std::make_unique<Resource>()};
-      if (!resource->loadFromFile(filePath))
-        throw std::runtime_error("ResourceHolder::load - Failed to load " + filePath);
+    insertResource(id, std::move(resource));
+  }
 
-      insertResource(id, std::move(resource));
-    }
+  template<typename Parameter>
+  void load(
+      Identifier id, std::string const& filePath, Parameter const& secondParam)
+  {
+    std::unique_ptr<Resource> resource{std::make_unique<Resource>()};
+    if (!resource->loadFromFile(filePath, secondParam))
+      throw std::runtime_error(
+          "ResourceHolder::load - Failed to load " + filePath);
 
-    template<typename Parameter>
-    void load(Identifier id, std::string const& filePath, Parameter const& secondParam)
-    {
-      std::unique_ptr<Resource> resource{std::make_unique<Resource>()};
-      if (!resource->loadFromFile(filePath, secondParam))
-        throw std::runtime_error("ResourceHolder::load - Failed to load " + filePath);
+    insertResource(id, std::move(resource));
+  }
 
-      insertResource(id, std::move(resource));
-    }
+  Resource& get(Identifier id) noexcept
+  {
+    auto found = m_resource_map.find(id);
+    assert(found != m_resource_map.end());
+    return *found->second;
+  }
 
-    Resource& get(Identifier id) noexcept
-    {
-      auto found = m_resource_map.find(id);
-      assert(found != m_resource_map.end());
-      return *found->second;
-    }
+  Resource const& get(Identifier id) const
+  {
+    auto found = m_resource_map.find(id);
+    assert(found != m_resource_map.end());
+    return *found->second;
+  }
 
-    Resource const& get(Identifier id) const
-    {
-      auto found = m_resource_map.find(id);
-      assert(found != m_resource_map.end());
-      return *found->second;
-    }
+private:
+  void insertResource(Identifier id, std::unique_ptr<Resource> resource)
+  {
+    auto inserted = m_resource_map.emplace(id, std::move(resource));
+    assert(inserted.second);
+  }
 
-  protected:
-  private:
-    void insertResource(Identifier id, std::unique_ptr<Resource> resource)
-    {
-      auto inserted = m_resource_map.emplace(id, std::move(resource));
-      assert(inserted.second);
-    }
+private:
+  std::map<Identifier, std::unique_ptr<Resource>> m_resource_map{};
+};
 
-  private:
-    std::map<Identifier, std::unique_ptr<Resource>> m_resource_map;
-  };
-  
-  
-}
+} // namespace FastSimDesign
 #endif

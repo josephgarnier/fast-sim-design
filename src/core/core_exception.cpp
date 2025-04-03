@@ -11,14 +11,14 @@
 #include "core_exception.h"
 
 namespace FastSimDesign {
-  CoreException::CoreException(std::string what) noexcept
-    : Parent{}
-    , m_message{std::move(what)}
-  {
-  }
-
-  char const* CoreException::what() const noexcept
-  {
-    return m_message.c_str();
-  }
+CoreException::CoreException(std::string what) noexcept
+  : Parent{}
+  , m_message{std::move(what)}
+{
 }
+
+char const* CoreException::what() const noexcept
+{
+  return m_message.c_str();
+}
+} // namespace FastSimDesign

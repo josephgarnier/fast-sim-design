@@ -18,22 +18,22 @@
 #include <queue>
 
 namespace FastSimDesign {
-  class CommandQueue
-  {
-  public:
-    explicit CommandQueue() = default; // Default constructor
-    CommandQueue(CommandQueue const&) = default; // Copy constructor
-    CommandQueue(CommandQueue&&) = default; // Move constructor
-    CommandQueue& operator=(CommandQueue const&) = default; // Copy assignment operator
-    CommandQueue& operator=(CommandQueue&&) = default; // Move assignment operator
-    virtual ~CommandQueue() = default; // Destructor
+class CommandQueue final
+{
+public:
+  explicit CommandQueue() = default;
+  CommandQueue(CommandQueue const&) = default;
+  CommandQueue(CommandQueue&&) = default;
+  CommandQueue& operator=(CommandQueue const&) = default;
+  CommandQueue& operator=(CommandQueue&&) = default;
+  virtual ~CommandQueue() = default;
 
-    void push(Command const& command) noexcept;
-    Command pop() noexcept;
-    bool isEmpty() const noexcept;
+  void push(Command const& command) noexcept;
+  Command pop() noexcept;
+  bool isEmpty() const noexcept;
 
-  private:
-    std::queue<Command> m_queue;
-  };
-}
+private:
+  std::queue<Command> m_queue{};
+};
+} // namespace FastSimDesign
 #endif

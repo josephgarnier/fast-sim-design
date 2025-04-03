@@ -20,26 +20,26 @@
 #include <SFML/System/Time.hpp>
 
 namespace FastSimDesign {
-  class TitleState final : public State
-  {
-  private:
-    using Parent = State;
+class TitleState final : public State
+{
+private:
+  using Parent = State;
 
-  public:
-    explicit TitleState(StateStack* stack, Context context); // Default constructor
-    virtual ~TitleState() = default; // Destructor
+public:
+  explicit TitleState(StateStack* stack, Context context);
+  virtual ~TitleState() = default;
 
-    virtual bool handleEvent(sf::Event const& event) override;
-    virtual bool update(sf::Time const & dt) noexcept override;
-    virtual void draw() override;
+  virtual bool handleEvent(sf::Event const& event) override;
+  virtual bool update(sf::Time const& dt) noexcept override;
+  virtual void draw() override;
 
-  public:
-  protected:
-  private:
-    sf::Sprite m_background_sprite;
-    sf::Text m_text;
-    bool m_show_text;
-    sf::Time m_text_effect_time;
-  };
-}
+public:
+protected:
+private:
+  sf::Sprite m_background_sprite{};
+  sf::Text m_text{};
+  bool m_show_text{true};
+  sf::Time m_text_effect_time{sf::Time::Zero};
+};
+} // namespace FastSimDesign
 #endif

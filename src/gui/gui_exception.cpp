@@ -11,17 +11,17 @@
 #include "gui_exception.h"
 
 namespace FastSimDesign {
-  ////////////////////////////////////////////////////////////
-  /// Methods
-  ////////////////////////////////////////////////////////////
-  GuiException::GuiException(std::string what) noexcept
-    : Parent{}
-    , m_message(std::move(what))
-  {
-  }
-
-  char const* GuiException::what() const noexcept
-  {
-    return m_message.c_str();
-  }
+////////////////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////////////////
+GuiException::GuiException(std::string what) noexcept
+  : Parent{}
+  , m_message(std::move(what))
+{
 }
+
+char const* GuiException::what() const noexcept
+{
+  return m_message.c_str();
+}
+} // namespace FastSimDesign

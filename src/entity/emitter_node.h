@@ -13,30 +13,31 @@
 #ifndef FAST_SIM_DESIGN_EMITTER_NODE_H
 #define FAST_SIM_DESIGN_EMITTER_NODE_H
 
+#include "../gui/scene_node.h"
 #include "particle.h"
 #include "particle_node.h"
-#include "../gui/scene_node.h"
 
 #include <SFML/System/Time.hpp>
 
 namespace FastSimDesign {
-  class EmitterNode : public SceneNode
-  {
-  private:
-    using Parent = SceneNode;
+class EmitterNode final : public SceneNode
+{
+private:
+  using Parent = SceneNode;
 
-  public:
-    explicit EmitterNode(Particle::Type type) noexcept; // Default constructor
-    virtual ~EmitterNode() = default; // Destructor
-  protected:
-  private:
-    virtual void updateCurrent(sf::Time const& dt, CommandQueue& commands) override;
-    void emitParticles(sf::Time const& dt) noexcept;
+public:
+  explicit EmitterNode(Particle::Type type) noexcept;
+  virtual ~EmitterNode() = default;
 
-  private:
-    sf::Time m_accumulated_time;
-    Particle::Type m_type;
-    ParticleNode* m_particle_system;
-  };
-}
+private:
+  virtual void updateCurrent(
+      sf::Time const& dt, CommandQueue& commands) override;
+  void emitParticles(sf::Time const& dt) noexcept;
+
+private:
+  sf::Time m_accumulated_time{sf::Time::Zero};
+  Particle::Type m_type;
+  ParticleNode* m_particle_system{nullptr};
+};
+} // namespace FastSimDesign
 #endif

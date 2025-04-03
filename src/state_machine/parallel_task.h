@@ -15,30 +15,29 @@
 
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Mutex.hpp>
-// #include <SFML/System/Thread.hpp>
 
 #include <mutex>
 #include <thread>
 
 namespace FastSimDesign {
-  class ParallelTask
-  {
-  public:
-    explicit ParallelTask() noexcept; // Default constructor
-    virtual ~ParallelTask(); // Destructor
+class ParallelTask
+{
+public:
+  explicit ParallelTask() = default;
+  virtual ~ParallelTask();
 
-    void execute() noexcept;
-    bool isFinished() noexcept;
-    float getCompletion() noexcept;
+  void execute() noexcept;
+  bool isFinished() noexcept;
+  float getCompletion() noexcept;
 
-  private:
-    void runTask() noexcept;
+private:
+  void runTask() noexcept;
 
-  private:
-    std::thread m_thread;
-    bool m_finished;
-    sf::Clock m_elapsed_time;
-    std::mutex m_mutex;
-  };
-}
+private:
+  std::thread m_thread{};
+  bool m_finished{false};
+  sf::Clock m_elapsed_time{};
+  std::mutex m_mutex{};
+};
+} // namespace FastSimDesign
 #endif

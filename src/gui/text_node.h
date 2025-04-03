@@ -19,22 +19,23 @@
 #include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
-  class TextNode : public SceneNode
-  {
-  private:
-    using Parent = SceneNode;
+class TextNode : public SceneNode
+{
+private:
+  using Parent = SceneNode;
 
-  public:
-    explicit TextNode(FontHolder const& fonts, std::string text) noexcept; // Default constructor
-    virtual ~TextNode() = default; // Destructor
+public:
+  explicit TextNode(FontHolder const& fonts, std::string text) noexcept;
+  virtual ~TextNode() = default;
 
-    void setString(std::string text) noexcept;
+  void setString(std::string text) noexcept;
 
-  private:
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+private:
+  virtual void drawCurrent(
+      sf::RenderTarget& target, sf::RenderStates states) const override;
 
-  private:
-    sf::Text m_text;
-  };
-}
+private:
+  sf::Text m_text{};
+};
+} // namespace FastSimDesign
 #endif

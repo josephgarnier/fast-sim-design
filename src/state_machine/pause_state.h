@@ -19,26 +19,26 @@
 #include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
-  class PauseState final : public State
-  {
-  public:
-  private:
-    using Parent = State;
+class PauseState final : public State
+{
+public:
+private:
+  using Parent = State;
 
-  public:
-    explicit PauseState(StateStack* stack, Context context); // Default constructor
-    virtual ~PauseState() = default; // Destructor
+public:
+  explicit PauseState(StateStack* stack, Context context);
+  virtual ~PauseState() = default;
 
-    virtual bool handleEvent(sf::Event const& event) override;
-    virtual bool update(sf::Time const & dt) noexcept override;
-    virtual void draw() override;
+  virtual bool handleEvent(sf::Event const& event) override;
+  virtual bool update(sf::Time const& dt) noexcept override;
+  virtual void draw() override;
 
-  public:
-  protected:
-  private:
-    sf::Sprite m_background_sprite;
-    sf::Text m_paused_text;
-    sf::Text m_instruction_text;
-  };
-}
+public:
+protected:
+private:
+  sf::Sprite m_background_sprite{};
+  sf::Text m_paused_text{};
+  sf::Text m_instruction_text{};
+};
+} // namespace FastSimDesign
 #endif

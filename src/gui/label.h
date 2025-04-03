@@ -12,8 +12,8 @@
 #ifndef FAST_SIM_DESIGN_LABEL_H
 #define FAST_SIM_DESIGN_LABEL_H
 
-#include "component.h"
 #include "../core/resource_identifiers.h"
+#include "component.h"
 
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -22,28 +22,30 @@
 #include <memory>
 
 namespace FastSimDesign {
-  namespace GUI {
-    class Label : public Component
-    {
-    public:
-      using Ptr = std::shared_ptr<Label>;
-    private:
-      using Parent = Component;
+namespace GUI {
+class Label : public Component
+{
+public:
+  using Ptr = std::shared_ptr<Label>;
 
-    public:
-      explicit Label(std::string text, FontHolder const& fonts) noexcept; // Default constructor
-      virtual ~Label() = default; // Destructor
+private:
+  using Parent = Component;
 
-      virtual bool isSelectable() const noexcept override;
-      void setText(std::string const& text) noexcept;
-      virtual void handleEvent(sf::Event const& event) noexcept override;
+public:
+  explicit Label(std::string text, FontHolder const& fonts) noexcept;
+  virtual ~Label() = default;
 
-    private:
-      virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+  virtual bool isSelectable() const noexcept override;
+  void setText(std::string const& text) noexcept;
+  virtual void handleEvent(sf::Event const& event) noexcept override;
 
-    private:
-      sf::Text m_text;
-    };
-  }
-}
+private:
+  virtual void draw(
+      sf::RenderTarget& target, sf::RenderStates states) const override;
+
+private:
+  sf::Text m_text{};
+};
+} // namespace GUI
+} // namespace FastSimDesign
 #endif

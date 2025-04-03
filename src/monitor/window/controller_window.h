@@ -16,28 +16,29 @@
 #include "window.h"
 
 namespace FastSimDesign {
-  namespace SimMonitor {
-    class ControllerWindow final : public Window
-    {
-    private:
-      using Parent = Window;
+namespace SimMonitor {
+class ControllerWindow final : public Window
+{
+private:
+  using Parent = Window;
 
-    public:
-      explicit ControllerWindow(Monitor* monitor) noexcept; // Default constructor
-      ControllerWindow(ControllerWindow const&) = default; // Copy constructor
-      ControllerWindow(ControllerWindow&&) = default; // Move constructor
-      ControllerWindow& operator=(ControllerWindow const&) = default; // Copy assignment operator
-      ControllerWindow& operator=(ControllerWindow&&) = default; // Move assignment operator
-      virtual ~ControllerWindow() = default; // Destructor
-    private:
-      virtual void updateMenuBar(sf::Time const& dt) override;
-      virtual void updateContentArea(sf::Time const& dt) override;
+public:
+  explicit ControllerWindow(Monitor* monitor) noexcept;
+  ControllerWindow(ControllerWindow const&) = default;
+  ControllerWindow(ControllerWindow&&) = default;
+  ControllerWindow& operator=(ControllerWindow const&) = default;
+  ControllerWindow& operator=(ControllerWindow&&) = default;
+  virtual ~ControllerWindow() = default;
 
-    private:
-      bool m_show_entity_inspector{true};
-      bool m_show_debug_window{true};
-      bool m_show_imgui_demo{false};
-    };
-  }
-}
+private:
+  virtual void updateMenuBar(sf::Time const& dt) override;
+  virtual void updateContentArea(sf::Time const& dt) override;
+
+private:
+  bool m_show_entity_inspector{true};
+  bool m_show_debug_window{true};
+  bool m_show_imgui_demo{false};
+};
+} // namespace SimMonitor
+} // namespace FastSimDesign
 #endif

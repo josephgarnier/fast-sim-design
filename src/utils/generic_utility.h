@@ -16,28 +16,29 @@
 #include <type_traits>
 
 namespace FastSimDesign {
-  /// Concatenates two numbers. For a comparison of different methods.
-  /// @see https://stackoverflow.com/questions/12700497/how-to-concatenate-two-integers-in-c
-  inline unsigned int concatenate(unsigned int x, unsigned int y) noexcept
-  {
-    unsigned int pow = 10;
-    while (y >= pow)
-      pow *= 10;
-    return x * pow + y;
-  }
-
-  template<typename T>
-  inline constexpr auto toUnderlyingType(T value) noexcept
-  {
-    static_assert(std::is_enum_v<T>, "T must be an enum.");
-    return static_cast<std::underlying_type_t<T>>(value);
-  }
-
-  template<typename T>
-  inline constexpr auto toUnderlyingType(T* ptr) noexcept
-  {
-    static_assert(std::is_enum_v<T>, "T must be an enum.");
-    return reinterpret_cast<std::underlying_type_t<T>*>(ptr);
-  }
+/// Concatenates two numbers. For a comparison of different methods.
+/// @see
+/// https://stackoverflow.com/questions/12700497/how-to-concatenate-two-integers-in-c
+inline unsigned int concatenate(unsigned int x, unsigned int y) noexcept
+{
+  unsigned int pow = 10;
+  while (y >= pow)
+    pow *= 10;
+  return x * pow + y;
 }
+
+template<typename T>
+inline constexpr auto toUnderlyingType(T value) noexcept
+{
+  static_assert(std::is_enum_v<T>, "T must be an enum.");
+  return static_cast<std::underlying_type_t<T>>(value);
+}
+
+template<typename T>
+inline constexpr auto toUnderlyingType(T* ptr) noexcept
+{
+  static_assert(std::is_enum_v<T>, "T must be an enum.");
+  return reinterpret_cast<std::underlying_type_t<T>*>(ptr);
+}
+} // namespace FastSimDesign
 #endif

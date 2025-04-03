@@ -17,26 +17,26 @@
 #include <string>
 
 namespace FastSimDesign {
-  class GuiException : public std::exception
-  {
-  private:
-    using Parent = std::exception;
+class GuiException : public std::exception
+{
+private:
+  using Parent = std::exception;
 
-  public:
-    explicit GuiException() = default; // Default constructor
-    explicit GuiException(std::string what) noexcept; // Default constructor
-    GuiException(GuiException const&) = default; // Copy constructor
-    GuiException(GuiException&&) = default; // Move constructor
-    GuiException& operator=(GuiException const&) = default; // Copy assignment operator
-    GuiException& operator=(GuiException&&) = default; // Move assignment operator
-    virtual ~GuiException() = default; // Destructor
-  
-    virtual char const* what() const noexcept override;
-  
-  public:
-  protected:
-  private:
-    std::string m_message;
-  };
-}
+public:
+  explicit GuiException() = default;
+  explicit GuiException(std::string what) noexcept;
+  GuiException(GuiException const&) = default;
+  GuiException(GuiException&&) = default;
+  GuiException& operator=(GuiException const&) = default;
+  GuiException& operator=(GuiException&&) = default;
+  virtual ~GuiException() = default;
+
+  virtual char const* what() const noexcept override;
+
+public:
+protected:
+private:
+  std::string m_message{};
+};
+} // namespace FastSimDesign
 #endif

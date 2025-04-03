@@ -19,26 +19,26 @@
 #include <SFML/System/Time.hpp>
 
 namespace FastSimDesign {
-  class GameOverState final : public State
-  {
-  private:
-    using Parent = State;
+class GameOverState final : public State
+{
+private:
+  using Parent = State;
 
-  public:
-    explicit GameOverState(StateStack* stack, Context context); // Default constructor
-    GameOverState(GameOverState const&) = default; // Copy constructor
-    GameOverState(GameOverState&&) = default; // Move constructor
-    GameOverState& operator=(GameOverState const&) = default; // Copy assignment operator
-    GameOverState& operator=(GameOverState&&) = default; // Move assignment operator
-    virtual ~GameOverState() = default; // Destructor
+public:
+  explicit GameOverState(StateStack* stack, Context context);
+  GameOverState(GameOverState const&) = default;
+  GameOverState(GameOverState&&) = default;
+  GameOverState& operator=(GameOverState const&) = default;
+  GameOverState& operator=(GameOverState&&) = default;
+  virtual ~GameOverState() = default;
 
-    virtual bool handleEvent(sf::Event const& event) override;
-    virtual bool update(sf::Time const& dt) noexcept override;
-    virtual void draw() override;
+  virtual bool handleEvent(sf::Event const& event) override;
+  virtual bool update(sf::Time const& dt) noexcept override;
+  virtual void draw() override;
 
-  private:
-    sf::Text m_game_over_text;
-    sf::Time m_elapsed_time;
-  };
-}
+private:
+  sf::Text m_game_over_text{};
+  sf::Time m_elapsed_time{sf::Time::Zero};
+};
+} // namespace FastSimDesign
 #endif

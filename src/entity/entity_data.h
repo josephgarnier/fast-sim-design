@@ -10,70 +10,66 @@
 
 #pragma once
 
-#include <SFML/Graphics/Rect.hpp>
 #ifndef FAST_SIM_DESIGN_ENTITY_DATA_H
 #define FAST_SIM_DESIGN_ENTITY_DATA_H
 
 #include "../core/resource_identifiers.h"
 #include "aircraft.h"
-#include "projectile.h"
-#include "pickup.h"
 #include "particle.h"
-
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/System/Time.hpp>
+#include "pickup.h"
+#include "projectile.h"
 
 #include <functional>
 
 namespace FastSimDesign {
-  struct Direction
-  {
-    explicit Direction(float angle_, float distance_) noexcept; // Default constructor
-    Direction(Direction const&) = default; // Copy constructor
-    Direction(Direction&&) = default; // Move constructor
-    Direction& operator=(Direction const&) = default; // Copy assignment operator
-    Direction& operator=(Direction&&) = default; // Move assignment operator
-    virtual ~Direction() = default; // Destructor
+struct Direction
+{
+  explicit Direction(float angle_, float distance_) noexcept;
+  Direction(Direction const&) = default;
+  Direction(Direction&&) = default;
+  Direction& operator=(Direction const&) = default;
+  Direction& operator=(Direction&&) = default;
+  virtual ~Direction() = default;
 
-    float angle;
-    float distance;
-  };
+  float angle{0.f};
+  float distance{0.f};
+};
 
-  struct AircraftData
-  {
-    int hit_point;
-    float speed;
-    Textures::ID texture;
-    sf::IntRect m_texture_rect;
-    sf::Time fire_interval;
-    std::vector<Direction> directions;
-    bool has_rool_animation;
-  };
+struct AircraftData
+{
+  int hit_point{0};
+  float speed{0.f};
+  Textures::ID texture{};
+  sf::IntRect m_texture_rect{};
+  sf::Time fire_interval{sf::Time::Zero};
+  std::vector<Direction> directions{};
+  bool has_rool_animation{false};
+};
 
-  struct ProjectileData
-  {
-    int damage;
-    float speed;
-    Textures::ID texture;
-    sf::IntRect m_texture_rect;
-  };
+struct ProjectileData
+{
+  int damage{0};
+  float speed{0.f};
+  Textures::ID texture{};
+  sf::IntRect m_texture_rect{};
+};
 
-  struct PickupData
-  {
-    std::function<void(Aircraft&)> action;
-    Textures::ID texture;
-    sf::IntRect m_texture_rect;
-  };
+struct PickupData
+{
+  std::function<void(Aircraft&)> action{};
+  Textures::ID texture{};
+  sf::IntRect m_texture_rect{};
+};
 
-  struct ParticleData
-  {
-    sf::Color m_color;
-    sf::Time m_lifetime;
-  };
+struct ParticleData
+{
+  sf::Color m_color{};
+  sf::Time m_lifetime{};
+};
 
-  std::unordered_map<Aircraft::Type, AircraftData> initializeAircraftData();
-  std::unordered_map<Projectile::Type, ProjectileData> initializeProjectileData();
-  std::unordered_map<Pickup::Type, PickupData> initializePickupData();
-  std::unordered_map<Particle::Type, ParticleData> initializeParticleData();
-}
+std::unordered_map<Aircraft::Type, AircraftData> initializeAircraftData();
+std::unordered_map<Projectile::Type, ProjectileData> initializeProjectileData();
+std::unordered_map<Pickup::Type, PickupData> initializePickupData();
+std::unordered_map<Particle::Type, ParticleData> initializeParticleData();
+} // namespace FastSimDesign
 #endif

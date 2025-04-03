@@ -17,26 +17,24 @@
 #include <string>
 
 namespace FastSimDesign {
-  class CoreException : public std::exception
-  {
-  private:
-    using Parent = std::exception;
+class CoreException final : public std::exception
+{
+private:
+  using Parent = std::exception;
 
-  public:
-    explicit CoreException() = default; // Default constructor
-    explicit CoreException(std::string what) noexcept; // Default constructor
-    CoreException(CoreException const&) = default; // Copy constructor
-    CoreException(CoreException&&) = default; // Move constructor
-    CoreException& operator=(CoreException const&) = default; // Copy assignment operator
-    CoreException& operator=(CoreException&&) = default; // Move assignment operator
-    virtual ~CoreException() = default; // Destructor
+public:
+  explicit CoreException() = default;
+  explicit CoreException(std::string what) noexcept;
+  CoreException(CoreException const&) = default;
+  CoreException(CoreException&&) = default;
+  CoreException& operator=(CoreException const&) = default;
+  CoreException& operator=(CoreException&&) = default;
+  virtual ~CoreException() = default;
 
-    virtual char const* what() const noexcept override;
+  virtual char const* what() const noexcept override;
 
-  public:
-  protected:
-  private:
-    std::string m_message;
-  };
-}
+private:
+  std::string m_message{""};
+};
+} // namespace FastSimDesign
 #endif

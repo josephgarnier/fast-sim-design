@@ -17,20 +17,20 @@
 #include <string>
 
 namespace FastSimDesign {
-  struct Configuration
-  {
-    explicit Configuration() = default; // Default constructor
-    Configuration(Configuration const&) = default; // Copy constructor
-    Configuration(Configuration&&) = default; // Move constructor
-    Configuration& operator=(Configuration const&) = default; // Copy assignment operator
-    Configuration& operator=(Configuration&&) = default; // Move assignment operator
-    virtual ~Configuration() = default; // Destructor
+struct Configuration
+{
+  explicit Configuration() = default;
+  Configuration(Configuration const&) = default;
+  Configuration(Configuration&&) = default;
+  Configuration& operator=(Configuration const&) = default;
+  Configuration& operator=(Configuration&&) = default;
+  virtual ~Configuration() = default;
 
-    std::string title = "Fast-Sim-Design";
-    uint32_t width = 1280;
-    uint32_t height = 720;
-    bool fullscreen = false;
-    bool use_custom_style = false;
-  };
-}
+  std::string title{"Fast-Sim-Design"};
+  uint32_t width{1280};
+  uint32_t height{720};
+  bool fullscreen{false};
+  bool use_custom_style{false};
+};
+} // namespace FastSimDesign
 #endif

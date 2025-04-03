@@ -16,26 +16,27 @@
 #include <SFML/System/NonCopyable.hpp>
 
 namespace sf {
-  class Shader;
-  class RenderTarget;
-  class RenderTexture;
-}
+class Shader;
+class RenderTarget;
+class RenderTexture;
+} // namespace sf
 
 namespace FastSimDesign {
-  class PostEffect : public sf::NonCopyable
-  {
-  public:
-    static bool isSupported() noexcept;
+class PostEffect : public sf::NonCopyable
+{
+public:
+  static bool isSupported() noexcept;
 
-  protected:
-    static void applyShader(sf::Shader const& shader, sf::RenderTarget& output) noexcept;
+protected:
+  static void applyShader(
+      sf::Shader const& shader, sf::RenderTarget& output) noexcept;
 
-  private:
-  public:
-    explicit PostEffect() = default; // Default constructor
-    virtual ~PostEffect() = default; // Destructor
+public:
+  explicit PostEffect() = default;
+  virtual ~PostEffect() = default;
 
-    virtual void apply(const sf::RenderTexture& input, sf::RenderTarget& output) = 0;
-  };
-}
+  virtual void apply(
+      const sf::RenderTexture& input, sf::RenderTarget& output) = 0;
+};
+} // namespace FastSimDesign
 #endif

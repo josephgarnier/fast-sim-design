@@ -15,39 +15,37 @@
 
 #include "../gui/scene_node.h"
 
-#include <SFML/System/Time.hpp>
-#include <SFML/System/Vector2.hpp>
-
 namespace FastSimDesign {
-  class Entity : public SceneNode
-  {
-  public:
-  private:
-    using Parent = SceneNode;
+class Entity : public SceneNode
+{
+public:
+private:
+  using Parent = SceneNode;
 
-  public:
-    explicit Entity(int hitpoints) noexcept; // Default constructor
-    virtual ~Entity() = default; // Destructor
+public:
+  explicit Entity(int hitpoints) noexcept;
+  virtual ~Entity() = default;
 
-    void setVelocity(sf::Vector2f velocity) noexcept;
-    void setVelocity(float vx, float vy) noexcept;
-    sf::Vector2f const & getVelocity() const noexcept;
+  void setVelocity(sf::Vector2f velocity) noexcept;
+  void setVelocity(float vx, float vy) noexcept;
+  sf::Vector2f const& getVelocity() const noexcept;
 
-    void accelerate(sf::Vector2f const& velocity) noexcept;
-    void accelerate(float vx, float vy) noexcept;
+  void accelerate(sf::Vector2f const& velocity) noexcept;
+  void accelerate(float vx, float vy) noexcept;
 
-    int getHitpoints() const noexcept;
-    void repair(int points);
-    void damage(int points);
-    void destroy();
-    virtual bool isDestroyed() const noexcept override;
+  int getHitpoints() const noexcept;
+  void repair(int points);
+  void damage(int points);
+  void destroy();
+  virtual bool isDestroyed() const noexcept override;
 
-  protected:
-    virtual void updateCurrent(sf::Time const& dt, CommandQueue& commands) override;
+protected:
+  virtual void updateCurrent(
+      sf::Time const& dt, CommandQueue& commands) override;
 
-  private:
-    sf::Vector2f m_velocity;
-    int m_hitpoints;
-  };
-}
+private:
+  sf::Vector2f m_velocity{};
+  int m_hitpoints{0};
+};
+} // namespace FastSimDesign
 #endif

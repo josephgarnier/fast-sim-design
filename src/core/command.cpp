@@ -9,13 +9,6 @@
 ////////////////////////////////////////////////////////////
 
 #include "command.h"
-#include "../entity/category.h"
 
 namespace FastSimDesign {
-  Command::Command() noexcept
-    : name{""}
-    , category{Category::Type::NONE}
-    , action{}
-  {
-  }
-}
+} // namespace FastSimDesign

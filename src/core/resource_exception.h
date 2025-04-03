@@ -17,26 +17,24 @@
 #include <string>
 
 namespace FastSimDesign {
-  class ResourceException : public std::exception
-  {
-  private:
-    using Parent = std::exception;
+class ResourceException final : public std::exception
+{
+private:
+  using Parent = std::exception;
 
-  public:
-    explicit ResourceException() = default; // Default constructor
-    explicit ResourceException(std::string what) noexcept; // Default constructor
-    ResourceException(ResourceException const&) = default; // Copy constructor
-    ResourceException(ResourceException&&) = default; // Move constructor
-    ResourceException& operator=(ResourceException const&) = default; // Copy assignment operator
-    ResourceException& operator=(ResourceException&&) = default; // Move assignment operator
-    virtual ~ResourceException() = default; // Destructor
+public:
+  explicit ResourceException() = default;
+  explicit ResourceException(std::string what) noexcept;
+  ResourceException(ResourceException const&) = default;
+  ResourceException(ResourceException&&) = default;
+  ResourceException& operator=(ResourceException const&) = default;
+  ResourceException& operator=(ResourceException&&) = default;
+  virtual ~ResourceException() = default;
 
-    virtual char const* what() const noexcept override;
+  virtual char const* what() const noexcept override;
 
-  public:
-  protected:
-  private:
-    std::string m_message;
-  };
-}
+private:
+  std::string m_message{""};
+};
+} // namespace FastSimDesign
 #endif

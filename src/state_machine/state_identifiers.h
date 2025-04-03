@@ -16,18 +16,18 @@
 #include <cstdint>
 
 namespace FastSimDesign {
-  namespace States {
-    enum class ID : uint16_t
-    {
-      NONE,
-      TITLE,
-      MENU,
-      GAME,
-      LOADING,
-      PAUSE,
-      SETTINGS,
-      GAME_OVER
-    };
-  }
+namespace States {
+enum class ID : uint16_t
+{
+  NONE,
+  TITLE,
+  MENU,
+  GAME,
+  LOADING,
+  PAUSE,
+  SETTINGS,
+  GAME_OVER
+};
 }
+} // namespace FastSimDesign
 #endif

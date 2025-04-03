@@ -19,31 +19,31 @@
 #include <string>
 
 namespace FastSimDesign {
-  class ModalDialog
-  {
-  public:
-    using Ptr = std::unique_ptr<ModalDialog>;
+class ModalDialog
+{
+public:
+  using Ptr = std::unique_ptr<ModalDialog>;
 
-  public:
-    explicit ModalDialog(std::string title) noexcept; // Default constructor
-    ModalDialog(ModalDialog const&) = default; // Copy constructor
-    ModalDialog(ModalDialog&&) = default; // Move constructor
-    ModalDialog& operator=(ModalDialog const&) = default; // Copy assignment operator
-    ModalDialog& operator=(ModalDialog&&) = default; // Move assignment operator
-    virtual ~ModalDialog() = default; // Destructor
+public:
+  explicit ModalDialog(std::string title) noexcept;
+  ModalDialog(ModalDialog const&) = default;
+  ModalDialog(ModalDialog&&) = default;
+  ModalDialog& operator=(ModalDialog const&) = default;
+  ModalDialog& operator=(ModalDialog&&) = default;
+  virtual ~ModalDialog() = default;
 
-    bool isOpen() const noexcept { return m_open; }
-    void close();
-    std::string const& getTitle() const noexcept { return m_title; }
+  bool isOpen() const noexcept { return m_open; }
+  void close();
+  std::string const& getTitle() const noexcept { return m_title; }
 
-    void updateModal(sf::Time const& dt);
+  void updateModal(sf::Time const& dt);
 
-  private:
-    virtual void draw(sf::Time const& dt) = 0;
+private:
+  virtual void draw(sf::Time const& dt) = 0;
 
-  protected:
-    std::string m_title;
-    bool m_open = true;
-  };
-}
+protected:
+  std::string m_title{};
+  bool m_open{true};
+};
+} // namespace FastSimDesign
 #endif

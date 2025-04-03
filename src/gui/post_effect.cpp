@@ -18,33 +18,34 @@
 #include <SFML/System/Vector2.hpp>
 
 namespace FastSimDesign {
-  ////////////////////////////////////////////////////////////
-  /// Statics
-  ////////////////////////////////////////////////////////////
-  bool PostEffect::isSupported() noexcept
-  {
-    return sf::Shader::isAvailable();
-  }
-
-  void PostEffect::applyShader(sf::Shader const& shader, sf::RenderTarget& output) noexcept
-  {
-    sf::Vector2f outside_size = static_cast<sf::Vector2f>(output.getSize());
-
-    sf::VertexArray vertices{sf::TrianglesStrip, 4};
-    vertices[0] = sf::Vertex{sf::Vector2f{0, 0}, sf::Vector2f{0, 1}};
-    vertices[1] = sf::Vertex{sf::Vector2f{outside_size.x, 0}, sf::Vector2f{1, 1}};
-    vertices[2] = sf::Vertex{sf::Vector2f{0, outside_size.y}, sf::Vector2f{0, 0}};
-    vertices[3] = sf::Vertex{sf::Vector2f{outside_size}, sf::Vector2f{1, 0}};
-
-    sf::RenderStates states;
-    states.shader = &shader;
-    states.blendMode = sf::BlendNone;
-
-    output.draw(vertices, states);
-  }
-
-  ////////////////////////////////////////////////////////////
-  /// Methods
-  ////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////////////////////
+/// Statics
+////////////////////////////////////////////////////////////
+bool PostEffect::isSupported() noexcept
+{
+  return sf::Shader::isAvailable();
 }
+
+void PostEffect::applyShader(
+    sf::Shader const& shader, sf::RenderTarget& output) noexcept
+{
+  sf::Vector2f outside_size = static_cast<sf::Vector2f>(output.getSize());
+
+  sf::VertexArray vertices{sf::TrianglesStrip, 4};
+  vertices[0] = sf::Vertex{sf::Vector2f{0, 0}, sf::Vector2f{0, 1}};
+  vertices[1] = sf::Vertex{sf::Vector2f{outside_size.x, 0}, sf::Vector2f{1, 1}};
+  vertices[2] = sf::Vertex{sf::Vector2f{0, outside_size.y}, sf::Vector2f{0, 0}};
+  vertices[3] = sf::Vertex{sf::Vector2f{outside_size}, sf::Vector2f{1, 0}};
+
+  sf::RenderStates states;
+  states.shader = &shader;
+  states.blendMode = sf::BlendNone;
+
+  output.draw(vertices, states);
+}
+
+////////////////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////////////////
+
+} // namespace FastSimDesign

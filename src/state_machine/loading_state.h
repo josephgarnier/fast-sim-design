@@ -13,37 +13,35 @@
 #ifndef FAST_SIM_DESIGN_LOADING_STATE_H
 #define FAST_SIM_DESIGN_LOADING_STATE_H
 
-#include "state.h"
 #include "parallel_task.h"
+#include "state.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
 namespace FastSimDesign {
-  class LoadingState final : public State
-  {
-  private:
-    using Parent = State;
+class LoadingState final : public State
+{
+private:
+  using Parent = State;
 
-  public:
-    explicit LoadingState(StateStack* stack, Context context); // Default constructor
-    virtual ~LoadingState() = default; // Destructor
+public:
+  explicit LoadingState(StateStack* stack, Context context);
+  virtual ~LoadingState() = default;
 
-    virtual bool handleEvent(sf::Event const& event) override;
-    virtual bool update(sf::Time const& dt) noexcept override;
-    virtual void draw() override;
+  virtual bool handleEvent(sf::Event const& event) override;
+  virtual bool update(sf::Time const& dt) noexcept override;
+  virtual void draw() override;
 
-  private:
-    void setCompletion(float percent) noexcept;
+private:
+  void setCompletion(float percent) noexcept;
 
-  public:
-  protected:
-  private:
-    sf::Text m_loading_text;
-    sf::RectangleShape m_progress_bar_background;
-    sf::RectangleShape m_progress_bar;
+private:
+  sf::Text m_loading_text{};
+  sf::RectangleShape m_progress_bar_background{};
+  sf::RectangleShape m_progress_bar{};
 
-    ParallelTask m_loading_task;
-  };
-}
+  ParallelTask m_loading_task{};
+};
+} // namespace FastSimDesign
 #endif
