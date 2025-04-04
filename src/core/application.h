@@ -16,7 +16,9 @@
 #include "../entity/player.h"
 #include "../monitor/monitor.h"
 #include "../state_machine/state_stack.h"
+#include "music_player.h"
 #include "resource_identifiers.h"
+#include "sound_player.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -148,6 +150,9 @@ private:
   FontHolder m_fonts{};
   Player m_player{};
   SimMonitor::Monitor m_monitor{};
+
+  MusicPlayer m_music{};
+  SoundPlayer m_sounds{};
 
   StateStack m_state_stack;
 

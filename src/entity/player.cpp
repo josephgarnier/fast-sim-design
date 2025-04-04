@@ -127,11 +127,14 @@ void Player::initializeActions()
   m_action_binding[Player::Action::MOVE_DOWN].action =
       derivedAction<Aircraft>(AircraftMover{0.f, +player_speed});
   m_action_binding[Player::Action::FIRE].name = "Fire";
-  m_action_binding[Player::Action::FIRE].action = derivedAction<Aircraft>(
-      [](Aircraft& aircraft, sf::Time) { aircraft.fire(); });
+  m_action_binding[Player::Action::FIRE].action =
+      derivedAction<Aircraft>([](Aircraft& aircraft, sf::Time) {
+        aircraft.fire();
+      });
   m_action_binding[Player::Action::LAUNCH_MISSILE].name = "LaunchMissile";
   m_action_binding[Player::Action::LAUNCH_MISSILE].action =
-      derivedAction<Aircraft>(
-          [](Aircraft& aircraft, sf::Time) { aircraft.launchMissile(); });
+      derivedAction<Aircraft>([](Aircraft& aircraft, sf::Time) {
+        aircraft.launchMissile();
+      });
 }
 } // namespace FastSimDesign

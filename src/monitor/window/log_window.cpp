@@ -50,9 +50,15 @@ void LogWindow::updateContentArea(sf::Time const&)
   }
 
   // Draw main window.
-  drawButton("Options", [] { ImGui::OpenPopup("Options"); });
-  drawButton("Copy", [] { ImGui::LogToClipboard(); });
-  drawButton("Clear", [this] { clearLogBuffers(); });
+  drawButton("Options", [] {
+    ImGui::OpenPopup("Options");
+  });
+  drawButton("Copy", [] {
+    ImGui::LogToClipboard();
+  });
+  drawButton("Clear", [this] {
+    clearLogBuffers();
+  });
   drawLogFilter();
   ImGui::Separator();
 

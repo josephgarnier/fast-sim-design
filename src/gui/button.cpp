@@ -11,6 +11,8 @@
 #include "button.h"
 
 #include "../core/resource_identifiers.h"
+#include "../core/sound_player.h"
+#include "../state_machine/state.h"
 #include "../utils/generic_utility.h"
 #include "../utils/sfml_util.h"
 
@@ -25,10 +27,11 @@ namespace GUI {
 ////////////////////////////////////////////////////////////
 /// Methods
 ////////////////////////////////////////////////////////////
-Button::Button(FontHolder const& fonts, TextureHolder const& textures)
-  : m_sprite{textures.get(Textures::ID::BUTTONS)}
-  , m_text{"", fonts.get(Fonts::ID::MAIN), 16}
+Button::Button(State::Context context)
+  : m_sprite{context.textures->get(Textures::ID::BUTTONS)}
+  , m_text{"", context.fonts->get(Fonts::ID::MAIN), 16}
   , m_is_toggle{false}
+  , m_sounds{context.sounds}
 {
   changeTexture(Button::Type::NORMAL);
 
@@ -85,6 +88,8 @@ void Button::activate() noexcept
   // momentarily activated.
   if (!m_is_toggle)
     deactivate();
+
+  m_sounds->play(SoundEffect::ID::BUTTON);
 }
 
 void Button::deactivate() noexcept

@@ -14,6 +14,7 @@
 #include "../entity/category.h"
 #include "../entity/particle_node.h"
 #include "../entity/pickup.h"
+#include "../entity/sound_node.h"
 #include "../gui/sprite_node.h"
 #include "../monitor/frame.h"
 #include "../monitor/monitor.h"
@@ -47,11 +48,15 @@ World::SpawnPoint::SpawnPoint(Aircraft::Type type_, float x_, float y_) noexcept
 /// World::Methods
 ////////////////////////////////////////////////////////////
 World::World(
-    SimMonitor::Monitor& monitor, sf::RenderWindow& windows, FontHolder& fonts)
+    SimMonitor::Monitor& monitor,
+    sf::RenderWindow& windows,
+    FontHolder& fonts,
+    SoundPlayer& sounds)
   : SimMonitor::Monitorable{}
   , m_window{windows}
   , m_world_view{m_window.getDefaultView()}
   , m_fonts{fonts}
+  , m_sounds(sounds)
   , m_monitor{monitor}
   , m_world_bounds{0.f, 0.f, m_world_view.getSize().x, 5000.f}
   , m_spawn_position{
@@ -150,6 +155,10 @@ void World::buildScene()
   m_scene_layers[static_cast<std::size_t>(World::Layer::LOWER_AIR)]
       ->attachChild(std::move(propellant_node));
 
+  // Add sound effect node.
+  std::unique_ptr<SoundNode> sound_node = std::make_unique<SoundNode>(m_sounds);
+  m_scene_graph.attachChild(std::move(sound_node));
+
   // Add player's aircraft
   std::unique_ptr<Aircraft> leader =
       std::make_unique<Aircraft>(Aircraft::Type::EAGLE, m_textures, m_fonts);
@@ -179,7 +188,9 @@ void World::addEnemies() noexcept
   std::sort(
       m_enemy_spawn_points.begin(),
       m_enemy_spawn_points.end(),
-      [](SpawnPoint left, SpawnPoint right) { return left.y < right.y; });
+      [](SpawnPoint left, SpawnPoint right) {
+        return left.y < right.y;
+      });
 }
 
 void World::addEnemy(Aircraft::Type type, float rel_x, float rel_y) noexcept
@@ -217,6 +228,8 @@ void World::update(sf::Time const& dt)
   // Regular update step, adapt position (correct if outside view)
   m_scene_graph.update(dt, m_command_queue);
   adaptPlayerPosition();
+
+  updateSounds();
 }
 
 void World::draw()
@@ -318,6 +331,7 @@ void World::handleCollisions() noexcept
       // Apply pickup effect to player, destroy projectile.
       pickup.apply(player);
       pickup.destroy();
+      player.playLocalSound(m_command_queue, SoundEffect::ID::COLLECT_PICKUP);
     }
     else if (
         matchesCategories(
@@ -337,6 +351,15 @@ void World::handleCollisions() noexcept
       projectile.destroy();
     }
   }
+}
+
+void World::updateSounds() noexcept
+{
+  // Set Listener's position to player position.
+  m_sounds.setListenerPosition(m_player_aircraft->getWorldPosition());
+
+  // Remove unused sounds.
+  m_sounds.removeStoppedSounds();
 }
 
 bool World::matchesCategories(

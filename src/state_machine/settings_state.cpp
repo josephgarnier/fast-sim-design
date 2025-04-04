@@ -37,11 +37,12 @@ SettingsState::SettingsState(StateStack* stack, Context context)
 
   updateLabels();
 
-  auto back_button =
-      std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+  auto back_button = std::make_shared<GUI::Button>(context);
   back_button->setPosition(80.f, 620.f);
   back_button->setText("Back");
-  back_button->setCallback([this]() { requestStackPop(); });
+  back_button->setCallback([this]() {
+    requestStackPop();
+  });
 
   m_gui_container.pack(back_button);
 }
@@ -111,7 +112,7 @@ void SettingsState::addButtonLabel(
     Player::Action action, float y, std::string text, Context context) noexcept
 {
   m_binding_buttons[toUnderlyingType(action)] =
-      std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+      std::make_shared<GUI::Button>(context);
   m_binding_buttons[toUnderlyingType(action)]->setPosition(80.f, y);
   m_binding_buttons[toUnderlyingType(action)]->setText(std::move(text));
   m_binding_buttons[toUnderlyingType(action)]->setToggle(true);

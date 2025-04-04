@@ -77,6 +77,6 @@ enum class ID : uint16_t
 using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
 using FontHolder = ResourceHolder<sf::Font, Fonts::ID>;
 using ShaderHolder = ResourceHolder<sf::Shader, Shaders::ID>;
-// using SoundBufferHolder = ResourceHolder<sf::Font, Fonts::ID>;
+using SoundBufferHolder = ResourceHolder<sf::SoundBuffer, SoundEffect::ID>;
 } // namespace FastSimDesign
 #endif

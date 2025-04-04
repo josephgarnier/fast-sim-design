@@ -10,6 +10,7 @@
 
 #include "pause_state.h"
 
+#include "../core/music_player.h"
 #include "../core/resource_identifiers.h"
 #include "../utils/sfml_util.h"
 
@@ -36,6 +37,11 @@ PauseState::PauseState(StateStack* stack, Context context)
   m_instruction_text.setString("(Press Backspace to return to the main menu)");
   SFML::centerOrigin(m_instruction_text);
   m_instruction_text.setPosition(0.5f * view_size.x, 0.6f * view_size.y);
+}
+
+PauseState::~PauseState() noexcept
+{
+  getContext().music->setPaused(false);
 }
 
 bool PauseState::handleEvent(sf::Event const& event)

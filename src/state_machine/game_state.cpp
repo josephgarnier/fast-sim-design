@@ -10,6 +10,7 @@
 
 #include "game_state.h"
 
+#include "../core/music_player.h"
 #include "../entity/player.h"
 
 #include <SFML/Graphics/Shader.hpp>
@@ -19,10 +20,13 @@
 namespace FastSimDesign {
 GameState::GameState(StateStack* stack, Context context) noexcept
   : Parent{stack, context, "GAME"}
-  , m_world{*context.monitor, *context.window, *context.fonts}
+  , m_world{*context.monitor, *context.window, *context.fonts, *context.sounds}
   , m_player{context.player}
 {
   m_player->setMissionStatus(Player::MissionStatus::MISSION_RUNNING);
+
+  // Play menu theme.
+  context.music->play(Music::ID::MISSION_THEME);
 }
 
 bool GameState::handleEvent(sf::Event const& event)

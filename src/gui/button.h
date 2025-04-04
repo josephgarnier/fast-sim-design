@@ -10,11 +10,10 @@
 
 #pragma once
 
-#include <cstdint>
 #ifndef FAST_SIM_DESIGN_BUTTON_H
 #define FAST_SIM_DESIGN_BUTTON_H
 
-#include "../core/resource_identifiers.h"
+#include "../state_machine/state.h"
 #include "component.h"
 
 #include <SFML/Graphics/RenderStates.hpp>
@@ -23,12 +22,14 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include <cstdint>
 #include <functional>
 #include <memory>
 
 namespace FastSimDesign {
+class SoundPlayer;
 namespace GUI {
-class Button : public Component
+class Button final : public Component
 {
 public:
   enum class Type : uint16_t
@@ -47,7 +48,7 @@ private:
   using Callback = std::function<void()>;
 
 public:
-  explicit Button(FontHolder const& fonts, TextureHolder const& textures);
+  explicit Button(State::Context context);
   virtual ~Button() = default;
 
   void setCallback(Button::Callback callback) noexcept;
@@ -73,6 +74,7 @@ private:
   sf::Sprite m_sprite{};
   sf::Text m_text{};
   bool m_is_toggle{false};
+  SoundPlayer* m_sounds{nullptr};
 };
 } // namespace GUI
 } // namespace FastSimDesign

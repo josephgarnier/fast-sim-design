@@ -28,7 +28,7 @@ StateStack::PendingChange::PendingChange(
 /// StateStack::Methods
 ////////////////////////////////////////////////////////////
 StateStack::StateStack(State::Context context) noexcept
-  : m_context{context}
+  : m_context{std::move(context)}
 {
 }
 void StateStack::handleEvent(sf::Event const& event)

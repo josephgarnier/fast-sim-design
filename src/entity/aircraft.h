@@ -55,6 +55,7 @@ public:
 
   void fire() noexcept;
   void launchMissile() noexcept;
+  void playLocalSound(CommandQueue& commands, SoundEffect::ID effect) noexcept;
 
 private:
   void createBullets(
@@ -92,6 +93,8 @@ private:
   bool m_is_firing{false};
   bool m_is_launching_missile{false};
   bool m_show_explosion{true};
+  bool m_played_explosion_sound{false};
+  bool m_spawned_pickup{false};
 
   int m_fire_rate_level{1};
   int m_spread_level{1};

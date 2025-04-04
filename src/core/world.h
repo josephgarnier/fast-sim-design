@@ -19,6 +19,7 @@
 #include "../monitor/monitorable.h"
 #include "command_queue.h"
 #include "resource_identifiers.h"
+#include "sound_player.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -66,7 +67,8 @@ public:
   explicit World(
       SimMonitor::Monitor& monitor,
       sf::RenderWindow& windows,
-      FontHolder& fonts);
+      FontHolder& fonts,
+      SoundPlayer& sounds);
   virtual ~World();
 
   void update(sf::Time const& dt);
@@ -87,6 +89,7 @@ private:
   void adaptPlayerPosition();
   void adaptPlayerVelocity() noexcept;
   void handleCollisions() noexcept;
+  void updateSounds() noexcept;
   bool matchesCategories(
       SceneNode::Pair& colliders,
       BitFlags<Category::Type> type_1,
@@ -108,6 +111,7 @@ private:
   sf::View m_world_view{};
   TextureHolder m_textures{};
   FontHolder& m_fonts;
+  SoundPlayer& m_sounds;
   SimMonitor::Monitor& m_monitor;
 
   SceneNode m_scene_graph{};

@@ -10,6 +10,7 @@
 
 #include "menu_state.h"
 
+#include "../core/music_player.h"
 #include "../gui/button.h"
 
 #include <SFML/Graphics/Font.hpp>
@@ -30,7 +31,7 @@ MenuState::MenuState(StateStack* stack, Context context)
   m_background_sprite.setTexture(texture);
 
   auto play_button =
-      std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+      std::make_shared<GUI::Button>(context);
   play_button->setPosition(100, 250);
   play_button->setText("Play");
   play_button->setCallback([this]() {
@@ -39,21 +40,27 @@ MenuState::MenuState(StateStack* stack, Context context)
   });
 
   auto settings_button =
-      std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+      std::make_shared<GUI::Button>(context);
   settings_button->setPosition(100, 300);
   settings_button->setText("Settings");
-  settings_button->setCallback(
-      [this]() { requestStackPush(States::ID::SETTINGS); });
+  settings_button->setCallback([this]() {
+    requestStackPush(States::ID::SETTINGS);
+  });
 
   auto exit_button =
-      std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+      std::make_shared<GUI::Button>(context);
   exit_button->setPosition(100, 350);
   exit_button->setText("Exit");
-  exit_button->setCallback([this]() { requestStackPop(); });
+  exit_button->setCallback([this]() {
+    requestStackPop();
+  });
 
   m_gui_container.pack(play_button);
   m_gui_container.pack(settings_button);
   m_gui_container.pack(exit_button);
+
+  // Play menu theme.
+  context.music->play(Music::ID::MENU_THEME);
 }
 
 bool MenuState::handleEvent(sf::Event const& event)

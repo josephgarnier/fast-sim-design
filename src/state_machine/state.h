@@ -28,6 +28,8 @@ class Event;
 namespace FastSimDesign {
 class StateStack;
 class Player;
+class MusicPlayer;
+class SoundPlayer;
 class State : public SimMonitor::Monitorable
 {
 public:
@@ -38,7 +40,9 @@ public:
         sf::RenderWindow* window_,
         TextureHolder* textures_,
         FontHolder* fonts_,
-        Player* player_) noexcept;
+        Player* player_,
+        MusicPlayer* music_,
+        SoundPlayer* sounds_) noexcept;
     Context(Context const&) = default;
     Context(Context&&) = default;
     Context& operator=(Context const&) = default;
@@ -50,6 +54,8 @@ public:
     TextureHolder* textures;
     FontHolder* fonts;
     Player* player;
+    MusicPlayer* music;
+    SoundPlayer* sounds;
   };
 
 public:

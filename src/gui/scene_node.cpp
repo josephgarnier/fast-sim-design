@@ -159,14 +159,18 @@ void SceneNode::removeWrecks() noexcept
   auto erase_begin = std::remove_if(
       std::begin(m_children),
       std::end(m_children),
-      [](Ptr const& child) { return child->isMarkedForRemoval(); });
+      [](Ptr const& child) {
+        return child->isMarkedForRemoval();
+      });
   m_children.erase(erase_begin, std::end(m_children));
 
   // Call function recursively for all remaining children.
   std::for_each(
       std::begin(m_children),
       std::end(m_children),
-      [](Ptr const& child) { child->removeWrecks(); });
+      [](Ptr const& child) {
+        child->removeWrecks();
+      });
 }
 
 void SceneNode::updateCurrent(sf::Time const&, CommandQueue&)

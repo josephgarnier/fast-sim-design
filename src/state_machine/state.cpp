@@ -21,12 +21,16 @@ State::Context::Context(
     sf::RenderWindow* window_,
     TextureHolder* textures_,
     FontHolder* fonts_,
-    Player* player_) noexcept
+    Player* player_,
+    MusicPlayer* music_,
+    SoundPlayer* sounds_) noexcept
   : monitor{monitor_}
   , window{window_}
   , textures{textures_}
   , fonts{fonts_}
   , player{player_}
+  , music{music_}
+  , sounds{sounds_}
 {
 }
 

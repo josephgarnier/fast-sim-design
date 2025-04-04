@@ -8,12 +8,12 @@
 ///
 ////////////////////////////////////////////////////////////
 
-#include "frame.h"
+#include "sound_node.h"
 
-#include <algorithm>
+#include "../core/sound_player.h"
+#include "../entity/category.h"
 
 namespace FastSimDesign {
-namespace SimMonitor {
 ////////////////////////////////////////////////////////////
 /// Statics
 ////////////////////////////////////////////////////////////
@@ -21,27 +21,19 @@ namespace SimMonitor {
 ////////////////////////////////////////////////////////////
 /// Methods
 ////////////////////////////////////////////////////////////
-void Frame::SceneNode::attachChild(Ptr child)
+SoundNode::SoundNode(SoundPlayer& player) noexcept
+  : Parent{}
+  , m_sounds{player}
 {
-  child->m_parent = this;
-  m_children.push_back(std::move(child));
 }
 
-Frame::SceneNode::Ptr Frame::SceneNode::detachChild(SceneNode const& child)
+void SoundNode::playSound(SoundEffect::ID sound, sf::Vector2f position)
 {
-  auto found = std::find_if(
-      std::begin(m_children),
-      std::end(m_children),
-      [&child](Ptr& node) {
-        return node.get() == &child;
-      });
-  assert(found != std::end(m_children));
-
-  Ptr result = std::move(*found);
-  result->m_parent = nullptr;
-  m_children.erase(found);
-  return result;
+  m_sounds.play(sound, std::move(position));
 }
 
-} // namespace SimMonitor
+BitFlags<Category::Type> SoundNode::getCategory() const noexcept
+{
+  return BitFlags<Category::Type>{Category::Type::SOUND_EFFECT};
+}
 } // namespace FastSimDesign
